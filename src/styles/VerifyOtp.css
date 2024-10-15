@@ -16,14 +16,14 @@ body {
     align-items: center;
 }
 
-.login-page {
+.verify-page {
     display: flex;
     justify-content: center;
     align-items: flex-start; /* Slightly top-centered */
     margin-top: -60%; /* Push the form slightly towards the top */
 }
 
-.login-form-container {
+.verify-form-container {
     width: 100%; /* Set to 100% for responsiveness */
     max-width: 480px; /* Max width to maintain layout */
     height: auto; /* Hug content */
@@ -40,7 +40,7 @@ body {
 }
 
 /* Title */
-.login-title {
+.verify-title {
     width: 100%; /* Make it full width */
     font-size: 24px;
     font-weight: bold;
@@ -170,16 +170,16 @@ body {
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
-    .login-page {
+    .verify-page {
         margin-top: 0; /* Remove top margin for smaller screens */
     }
 
-    .login-form-container {
+    .verify-form-container {
         padding: 24px; /* Reduce padding on smaller screens */
         margin-bottom: -60px; /* Adjust margin */
     }
 
-    .login-title {
+    .verify-title {
         font-size: 20px; /* Slightly smaller title */
     }
 
@@ -213,11 +213,11 @@ body {
 }
 
 @media (max-width: 480px) {
-    .login-form-container {
+    .verify-form-container {
         padding: 16px; /* Further reduce padding on very small screens */
     }
 
-    .login-title {
+    .verify-title {
         font-size: 18px; /* Even smaller title */
     }
 

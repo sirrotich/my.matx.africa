@@ -54,9 +54,9 @@ const VerifyOtp = () => {
     const isNextButtonDisabled = otp.filter(val => val !== '').length < 6;
 
     return (
-        <div className="login-page">
-            <div className="login-form-container">
-                <h1 className="login-title">Verify your identity</h1>
+        <div className="verify-page">
+            <div className="verify-form-container">
+                <h1 className="verify-title">Verify your identity</h1>
                 <p className="otp-sent-message">
                     An authentication code has been sent to {email}
                 </p>
