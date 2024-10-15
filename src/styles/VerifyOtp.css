@@ -1,0 +1,237 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%; /* Ensures full height of the page */
+    background-color: #fff; /* White background for the whole page */
+    font-family: 'Bai Jamjuree'; /* Set font */
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Slightly top-centered */
+    margin-top: -60%; /* Push the form slightly towards the top */
+}
+
+.login-form-container {
+    width: 100%; /* Set to 100% for responsiveness */
+    max-width: 480px; /* Max width to maintain layout */
+    height: auto; /* Hug content */
+    padding: 32px; /* Spacing around the form */
+    background-color: #EBEBE6; /* Subtle background for the form */
+    border-radius: 32px; /* Smooth, rounded corners */
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    text-align: left; /* Align text to the left */
+    gap: 16px; /* Adjust gap between items */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start (left) */
+    margin-bottom: -80px;
+}
+
+/* Title */
+.login-title {
+    width: 100%; /* Make it full width */
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px; /* Reduced spacing */
+    color: #000; /* Change to black for better contrast */
+}
+
+/* OTP Sent Message */
+.otp-sent-message {
+    width: 100%; /* Make it full width */
+    opacity: 0.75;
+    font-size: 13px;
+    color: #000;
+    margin-bottom: 16px; /* Adjust spacing */
+    font-weight: 400;
+}
+
+/* OTP Input Container */
+.otp-input-container {
+    display: flex;
+    gap: 4px; /* Adjust the gap between OTP inputs */
+}
+
+.otp-input-container input {
+    width: 59.33px; /* Fixed width for OTP inputs */
+    height: 88px; /* Fixed height for OTP inputs */
+    padding: 16px; /* Adjust padding */
+    border-radius: 16px; /* Rounded corners */
+    border: 2px solid #ccc; /* Light gray border */
+    background-color: white; /* White background */
+    color: black; /* Text color for input */
+    font-size: 24px; /* Increase font size for better visibility */
+    text-align: center; /* Center the text */
+    margin-left: 5px;
+}
+
+/* Tiny placeholder styles */
+.otp-input-container input::placeholder {
+    font-size: 12px; /* Tiny placeholder size */
+    color: #bbb; /* Placeholder color */
+}
+
+/* Focus effect for OTP input */
+.otp-input-container input:focus {
+    outline: none; /* Remove default outline */
+    border-color: #53D5FF; /* Change border color on focus */
+}
+
+/* Next Button */
+.send-code-button {
+    width: 100%; /* Set to 100% for responsiveness */
+    max-width: 305px; /* Max width to maintain layout */
+    height: 56px; /* Fixed height */
+    padding: 16px 24px; /* Adjust padding */
+    gap: 12px; /* Space between icon and text */
+    border-radius: 360px; /* Fully rounded */
+    background: rgba(0, 74, 76, 1); /* Background color */
+    display: flex; /* Ensure flex properties for centering */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    margin: 4px auto; /* Center the button and give some space above and below */
+    color: #fff; /* Text color for button */
+    border: none; /* Remove default border */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-top: 10px;
+}
+
+.send-code-button:hover {
+    background-color: #083f34; /* Darker shade on hover */
+}
+
+/* Footer Text */
+.footer-text {
+    display: flex;
+    flex-direction: column; /* Stack terms and conditions */
+    align-items: flex-start; /* Align to the left */
+    width: 100%; /* Full width for footer */
+    margin-left: 20%;
+    color: black; /* Black color for the text */
+    text-align: center; /* Center the text */
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.terms-text {
+    color: #6e6e6e; /* Gray color for terms */
+    opacity: 0.75; /* Slight opacity for terms text */
+    margin-left: 8%;
+    color: #000;
+    font-weight: 600;
+}
+
+/* Resend Code Text */
+.resend-code-text {
+    margin-top: 20px; /* Space above the text */
+    font-size: 14px; /* Font size */
+    font-weight: 200;
+    margin-left: 20%;
+    color: black; /* Black color for the text */
+    text-align: center; /* Center the text */
+}
+
+.resend-link {
+    color: black; /* Darker shade for the link */
+    font-weight: 400;
+    cursor: pointer; /* Pointer cursor for hover */
+}
+
+.resend-link:hover {
+    color: #001a33; /* Darker shade on hover */
+}
+
+.send-code-button:hover {
+    background-color: rgba(100, 100, 95, 1);
+}
+
+/* Style for the disabled button */
+.send-code-button.disabled {
+    background-color: rgba(226, 225, 218, 1);
+    color: rgba(82, 82, 77, 1);
+    cursor: not-allowed;
+}
+
+.send-code-button.disabled:hover {
+    background-color: rgba(226, 225, 218, 1); /* Ensure no hover effect when disabled */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .login-page {
+        margin-top: 0; /* Remove top margin for smaller screens */
+    }
+
+    .login-form-container {
+        padding: 24px; /* Reduce padding on smaller screens */
+        margin-bottom: -60px; /* Adjust margin */
+    }
+
+    .login-title {
+        font-size: 20px; /* Slightly smaller title */
+    }
+
+    .otp-sent-message {
+        font-size: 12px; /* Smaller font size */
+    }
+
+    .otp-input-container input {
+        width: 50px; /* Adjust OTP input size for smaller screens */
+        height: 70px; /* Adjust height */
+        font-size: 20px; /* Smaller font size for input */
+    }
+
+    .send-code-button {
+        width: 100%; /* Full width button */
+        max-width: 100%; /* Ensure it scales down */
+    }
+
+    .footer-text {
+        margin-left: 0; /* Center footer text on smaller screens */
+        font-size: 14px; /* Smaller footer text */
+    }
+
+    .terms-text {
+        margin-left: 0; /* Center terms text on smaller screens */
+    }
+
+    .resend-code-text {
+        margin-left: 0; /* Center resend text on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .login-form-container {
+        padding: 16px; /* Further reduce padding on very small screens */
+    }
+
+    .login-title {
+        font-size: 18px; /* Even smaller title */
+    }
+
+    .otp-sent-message {
+        font-size: 11px; /* Further decrease font size */
+    }
+
+    .otp-input-container input {
+        width: 45px; /* Further adjust OTP input size */
+        height: 60px; /* Further adjust height */
+        font-size: 18px; /* Further reduce font size for input */
+    }
+
+    .send-code-button {
+        height: 50px; /* Adjust button height */
+    }
+}

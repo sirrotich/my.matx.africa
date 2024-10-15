@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%; /* Ensures full height of the page */
+    background-color: #fff; /* White background for the whole page */
+    font-family: 'Bai Jamjuree'; /* Set font */
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Slightly top-centered */
+    margin-top: -60%; /* Push the form slightly towards the top */
+}
+
+.login-form-container {
+    width: 480px;
+    height: auto; /* Hug content */
+    padding: 32px; /* Spacing around the form */
+    background-color: #EBEBE6; /* Subtle background for the form */
+    border-radius: 32px; /* Smooth, rounded corners */
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    text-align: left; /* Align text to the left */
+    gap: 16px; /* Adjust gap between items */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start (left) */
+}
+
+/* Title */
+.login-title {
+    width: 100%; /* Make it full width */
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px; /* Reduced spacing */
+    color: #000; /* Change to black for better contrast */
+}
+
+/* Email Label */
+.email-label {
+    width: 100%; /* Make it full width */
+    opacity: 0.75;
+    font-size: 14px;
+    color:#000; /* Gray color for better visibility */
+    margin-bottom: 8px; /* Reduced spacing */
+    font-weight: 500;
+}
+
+/* Email Input Container */
+.email-input-container {
+    position: relative;
+    width: 416px;
+    margin-bottom: 16px; /* Adjusted margin for closer spacing */
+}
+
+
+
+.email-input-container input {
+    width: 100%;
+    height: 56px;
+    padding: 16px;
+    border-radius: 16px;
+    background: #fafaf9;
+    border: 2px solid transparent; /* Initial border color */
+    border-image-source: linear-gradient(0deg, var(--Colors-Semantic-Info-Focus, #53D5FF), var(--Colors-Semantic-Info-Focus, #53D5FF)),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)); /* Updated border style */
+    border-image-slice: 1; /* Ensure border image is visible */
+    font-size: 14px;
+    outline: none;
+    color: black; /* Text color when typed */
+}
+/* Email icon */
+.email-input-container .email-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.send-code-button {
+    width: 305px; /* Fixed width */
+    height: 56px; /* Fixed height */
+    padding: 16px 24px; /* Adjust padding */
+    gap: 12px; /* Space between icon and text */
+    border-radius: 360px; /* Fully rounded */
+    opacity: 1; /* Set opacity to 1 for visibility */
+    background: rgba(0, 74, 76, 1); /* Background color */
+    display: flex; /* Ensure flex properties for centering */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    margin: 4px auto; /* Center the button and give some space above and below */
+}
+
+.send-code-button:hover {
+    background-color: #083f34; /* Darker shade on hover */
+}
+
+
+.send-code-button:hover {
+    background-color: #083f34; /* Darker shade on hover */
+}
+
+.send-code-button.disabled {
+    background: rgba(226, 225, 218, 1);
+    cursor: not-allowed; /* Prevent hovering */
+    color: rgba(82, 82, 77, 1);
+
+  }
+  
+  .send-code-button.disabled:hover {
+    background: rgba(226, 225, 218, 1);
+
+}

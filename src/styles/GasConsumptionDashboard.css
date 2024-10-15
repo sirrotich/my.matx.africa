@@ -1,0 +1,243 @@
+
+  
+  .min-h-screen {
+    min-height: 100vh;
+  }
+  
+  .p-4 {
+    padding: 1rem;
+  }
+  
+  .max-w-lg {
+    max-width: 32rem;
+  }
+  
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .bg-white {
+    background-color: #ffffff;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  .shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .overflow-hidden {
+    overflow: hidden;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .justify-between {
+    justify-content: space-between;
+  }
+  
+  .items-center {
+    align-items: center;
+  }
+  
+  .mb-4 {
+    margin-bottom: 1rem;
+  }
+  
+  .text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+  
+  .font-semibold {
+    font-weight: 600;
+  }
+  
+  .border {
+    border-width: 1px;
+  }
+  
+  .rounded {
+    border-radius: 0.25rem;
+  }
+  
+  .px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .py-1 {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+  
+  .text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  .text-right {
+    text-align: right;
+  }
+  
+  .text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  
+  .font-medium {
+    font-weight: 500;
+  }
+  
+  .mt-4 {
+    margin-top: 1rem;
+  }
+  
+  .bg-teal-700 {
+    background-color: #0f766e;
+  }
+  
+  .text-white {
+    color: #ffffff;
+  }
+  
+  .text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+  
+  .font-bold {
+    font-weight: 700;
+  }
+  
+  .justify-around {
+    justify-content: space-around;
+  }
+  
+  .text-gray-600 {
+    color: #4b5563;
+  }
+  
+  .h-6 {
+    height: 1.5rem;
+  }
+  
+  .w-6 {
+    width: 1.5rem;
+  }
+  
+  .bg-orange-300 {
+    background-color: #fcd34d;
+  }
+  
+  .rounded-full {
+    border-radius: 9999px;
+  }
+  
+  .p-2 {
+    padding: 0.5rem;
+  }
+  
+  /* Additional styles for the chart */
+  .chart-container {
+    max-width: 1200px;
+   
+    background: var(--surface-surface-neutral-2, #EBEBE6);
+    border-radius: 30px;
+  }
+  
+  .recharts-wrapper {
+    margin: 0 auto;
+  }
+  
+  .recharts-surface {
+    overflow: visible;
+  }
+  
+  .recharts-xAxis .recharts-cartesian-axis-tick-value {
+    font-size: 10px;
+  }
+  
+  /* Ensure SVG buttons are clickable */
+  button svg {
+    pointer-events: none;
+  }
+  
+  /* Style for the select dropdown */
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234B5563'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+  
+  /* Ensure buttons don't have default styles */
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  .main-analytics-container {
+    width: 100vw;
+    max-width: 1200px;
+  }
+
+  .total-remaining-gas {
+    width: 188.33px;
+height: 25px;
+gap: 0px;
+opacity: 0px;
+font-family: Bai Jamjuree;
+font-size: 17.78px;
+font-weight: 500;
+line-height: 24.89px;
+letter-spacing: -0.04em;
+text-align: left;
+color: var(--text-text-neutral-9, #292927);
+margin-left: 20px;
+margin-top: 20px;
+  }
+
+.consumption-total {
+    font-family: Bai Jamjuree;
+font-size: 42.67px;
+font-weight: 500;
+line-height: 51.2px;
+letter-spacing: -0.05em;
+text-align: left;
+width: 146px;
+height: 51px;
+gap: 0px;
+opacity: 0px;
+color: var(--text-text-neutral-05, #FAFAF9);
+
+}
+
+.consumption-text {
+    width: 280px;
+    height: 19px;
+    
+    font-family: Bai Jamjuree;
+    font-size: 12.44px;
+    font-weight: 500;
+    line-height: 18.67px;
+    letter-spacing: -0.025em;
+    text-align: left;
+    color: var(--text-text-neutral-2, #EBEBE6);
+
+}
+
+.duration-filter {
+  border-radius: 329px;
+  height: 28.44px;
+  margin-top: 20px;
+  margin-right: 30px;
+}
