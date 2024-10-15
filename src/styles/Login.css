@@ -120,7 +120,7 @@ body {
 /* Media Queries for Responsiveness */
 @media (max-width: 1024px) {
     .login-form-container {
-        width: 400px; /* Reduce form width for smaller tablets */
+        width: 450px; /* Reduce form width for smaller tablets */
     }
 
     .email-input-container {
@@ -135,7 +135,7 @@ body {
 
     .login-form-container {
         padding: 24px; /* Reduce padding on smaller screens */
-        width: 320px; /* Adjust form width for tablets */
+        width: 400px; /* Adjust form width for tablets */
     }
 
     .login-title {
@@ -150,9 +150,7 @@ body {
 
 @media (max-width: 480px) {
     .login-form-container {
-        padding: 16px; /* Further reduce padding on very small screens */
-        width: 100%; /* Full-width form */
-    }
+padding: 16px;    }
 
     .login-title {
         font-size: 18px; /* Even smaller title */
