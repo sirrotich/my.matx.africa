@@ -25,7 +25,7 @@ const VerifyOtp = () => {
         console.log(`OTP Entered: ${otpString}`);
         if (otpString.length === 6) {
             try {
-                const response = await axios.post(`http://apis.gasmat.africa/users/verify-otp`, { email, otp: otpString });
+                const response = await axios.post(`https://apis.gasmat.africa/users/verify-otp`, { email, otp: otpString });
                 
                 // Handle successful OTP verification
                 const { access_token, user_info } = response.data;

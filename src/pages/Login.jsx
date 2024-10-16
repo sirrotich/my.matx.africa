@@ -16,7 +16,7 @@ const Login = () => {
     }
     try {
       // Make API request to send the OTP
-      const response = await axios.post('http://apis.gasmat.africa/users/login', { email });
+      const response = await axios.post('https://apis.gasmat.africa/users/login', { email });
       toast.success(`OTP sent successfully to ${email}`); // Success notification
       navigate('/verify-otp', { state: { email } }); // Navigate to verify OTP page
     } catch (error) {
