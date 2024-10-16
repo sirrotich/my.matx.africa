@@ -12,9 +12,9 @@ const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/analytics" element={<GasConsumptionDashboard />} />
         <Route path="/profile" element={<Profile />} />
 

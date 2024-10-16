@@ -25,7 +25,7 @@ const VerifyOtp = () => {
         console.log(`OTP Entered: ${otpString}`);
         if (otpString.length === 6) {
             try {
-                const response = await axios.post(`https://apis.gasmat.africa/users/verify-otp`, { email, otp: otpString });
+                const response = await axios.post(`http://apis.gasmat.africa/users/verify-otp`, { email, otp: otpString });
                 
                 // Handle successful OTP verification
                 const { access_token, user_info } = response.data;
@@ -80,10 +80,10 @@ const VerifyOtp = () => {
                 >
                     Next <span className="arrow-icon">→</span>
                 </button>
-                <div className="footer-text">
+                {/* <div className="footer-text">
                     <div>By Signing In, you agree to our?</div>
                     <div className="terms-text">Terms and Conditions</div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

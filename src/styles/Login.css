@@ -78,6 +78,11 @@ body {
     color: black; /* Text color when typed */
 }
 
+.email-input-container input:focus {
+    outline: none; /* Remove default outline */
+    border-color: #53D5FF; /* Change border color on focus */
+}
+
 /* Email icon */
 .email-input-container .email-icon {
     position: absolute;
@@ -86,6 +91,7 @@ body {
     transform: translateY(-50%);
     pointer-events: none;
 }
+
 
 /* Send Code Button */
 .send-code-button {

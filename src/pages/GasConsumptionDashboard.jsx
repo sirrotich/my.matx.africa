@@ -15,12 +15,26 @@ const CustomShape = (props) => {
   );
 };
 
+
+
 const GasConsumptionDashboard = () => {
   const [selectedView, setSelectedView] = useState('This Year');
   const [data, setData] = useState({});
   const [totalConsumption, setTotalConsumption] = useState({});
   const navItems = document.querySelectorAll('.nav-item');
   const navigate = useNavigate();
+
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const options = ["This Year", "Week 1", "August"];
+
+  const handleSelect = (value) => {
+    setSelectedView(value);
+    setIsOpen(false);
+  };
+
+
+
 
   navItems.forEach(item => {
     item.addEventListener('click', () => {
@@ -44,16 +58,16 @@ const GasConsumptionDashboard = () => {
         { period: 'Jun', consumption: 2.1 },
         { period: 'Jul', consumption: 2.4 },
         { period: 'Aug', consumption: 2.7 },
-        { period: 'Sep', consumption: 3.0 },
+        { period: 'Sep', consumption: 6.0 },
         { period: 'Oct', consumption: 0.1 },
         { period: 'Nov', consumption: 0.1 },
-        { period: 'Dec', consumption: 0 },
+        { period: 'Dec', consumption: 3.0 },
       ],
       'Week 1': [
         { period: 'Sun', consumption: 0 },
         { period: 'Mon', consumption: 0 },
         { period: 'Tue', consumption: 0 },
-        { period: 'Wed', consumption: 0 },
+        { period: 'Wed', consumption: 0.11 },
         { period: 'Thu', consumption: 0.23 },
         { period: 'Fri', consumption: 0.03 },
         { period: 'Sat', consumption: 0 },
@@ -117,10 +131,11 @@ const GasConsumptionDashboard = () => {
               dataKey="period" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 10 }}
+              tick={{ fontSize: 10,  }}
               interval={0}
               height={50}
               tickMargin={10}
+              
             />
             <Bar dataKey="consumption" fill="#EA760C" radius={[15, 15, 15, 15]} barSize={barWidth}>
               {data[selectedView].map((entry, index) => (
@@ -129,7 +144,7 @@ const GasConsumptionDashboard = () => {
                   fill={entry.consumption > 0 ? "#EA760C" : "transparent"}
                 />
               ))}
-              <LabelList dataKey="consumption" position="top" content={renderCustomLabel} />
+              <LabelList dataKey="consumption" position="top" content={renderCustomLabel}  />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
@@ -140,29 +155,50 @@ const GasConsumptionDashboard = () => {
   const renderCustomLabel = (props) => {
     const { x, y, width, value } = props;
     return (
-      <text x={x + width / 2} y={y - 10} fill="#000" textAnchor="middle" dominantBaseline="middle" fontSize="10">
-        {value > 0 ? value.toFixed(2) : ''}
+      <text x={x + width / 2} y={y - 10} fill="#000" textAnchor="middle" dominantBaseline="middle"   fontSize="10">
+        {value > 0 ? value.toFixed(2) : '' }
       </text>
     );
   };
 
   return (
+    
     <div className="main-analytics-container">
+        <div className="top-div">
+          <div className="top-header">History</div>
+          <button className='top-btn'><span className='top-btn-text'>Home Gas</span></button>
+
+        </div>
       <div className="max-w">
         <div className="p-4">
          
           <div className="chart-container">
           <div className="flex justify-between">
             <h2 className="total-remaining-gas">13kg Gas</h2>
-            <select
-              value={selectedView}
-              onChange={(e) => setSelectedView(e.target.value)}
-              className="border rounded px-2 py-1 text-sm"
-            >
-              <option value="This Year">This Year</option>
-              <option value="Week 1">Week 1</option>
-              <option value="August">August</option>
-            </select>
+            <div className="dropdown">
+      <button 
+        onClick={() => setIsOpen(!isOpen)} 
+        className="dropdown-button"
+      >
+        {selectedView}
+      </button>
+
+      {isOpen && (
+        <div className="dropdown-options-container">
+          <ul className="dropdown-options">
+            {options.map((option, index) => (
+              <li 
+                key={index} 
+                onClick={() => handleSelect(option)} 
+                className="dropdown-option"
+              >
+                {option}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
           </div>
             {renderChart()}
           </div>
