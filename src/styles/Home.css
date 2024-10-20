@@ -18,19 +18,35 @@
     padding-top: 20px;
     width: 100%;
     height: 100vh;
+    width: 360px;
+    height: 639px;
+    gap: 0px;
+    border-radius: 20px;
+    border: 10px;
+    opacity: 0px;
+    border: 2px solid var(--Colors-Brand-Primary-100, #004A4C)
+
   }
   .main-top-card{
-    width: 100vw;
-    max-width: 1200px;
-    height: 248px;
-    border-radius: 30px;
     background-color: #004A4C;
     padding: 0 20px;
     gap: 0px;
     opacity: 0px;
     background: var(--surface-surface-primary-100, #004A4C);
-    margin-top: -30px;
-    margin-top: 10px;
+  
+    border: 2px 0px 0px 0px;
+    border-radius: 20px;
+    opacity: 0px;
+    width: 328px;
+  height: 300px;
+  top: 318px;
+  left: 346px;
+  gap: 0px;
+  opacity: 0px;
+  angle: 180 deg;
+
+
+    
     
   }
 
@@ -150,6 +166,13 @@
     margin-right: 5px;
     border-radius: 15px;
     box-sizing: border-box;
+    width: 328px;
+  height: 85px;
+  top: 346px;
+  left: 18px;
+  gap: 0px;
+  opacity: 0px;
+
 }
 
 .hometoday, .homeweek, .homeaverage {
@@ -173,25 +196,22 @@
 
 }
 
-.navigation {
-    display: flex;  
-    height: 64px;
-    gap: 0px;
-    opacity: 0px;
-    bottom: 0;
-    display: flex;  
+.navigation-home {
+  display: flex;
+  height: 77px;
+  top: 561px;
+  gap: 0px;
+  border-radius: var(--Spacingnone0) 0px 20px 20px;
+  border: 2px 0px 0px 0px;
+  opacity: 0px;
+  background: var(--surface-surface-neutral-2, #EBEBE6);
+  margin-top: 200px;
+  width: 356px;
+  display: flex;  
     flex-direction: row;  
     align-items: center;  
     justify-content: space-between;  
-    width: 100vw;  
-    left: 0;  
-    background: #EBEBE6;  
-    padding: 0 20px;   
-    box-sizing: border-box;
-    bottom: 0;
-    position: fixed; 
-    overflow: hidden; 
-    width: 100vw;
+    border-radius: 0 0 20px 20px; 
 }
 
 .nav-item {
@@ -207,19 +227,41 @@
 
 
 
+ /* small screens */
+@media screen and (max-width: 480px) {
+
+  .home-container{
+    border: none;
+  }
+  
+  .navigation-home {
+    display: flex;
+    height: 64px;
+    gap: 0px;
+    opacity: 1; /* Ensure it is visible */
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100vw; /* Full width on small screens */
+    left: 0; 
+    background: #EBEBE6;
+    padding: 0 20px;
+    box-sizing: border-box;
+    margin-top: 310px;
+}
+
+}
 
   /* Tablet styles */
 @media (min-width: 768px) {
+
     .main-top-card {
       max-width: 90vw; /* Slightly narrower on tablets */
       height: 260px;
       padding: 0 20px; /* More padding on tablets */
     }
-    .navigation {
-        height: 60px;
-        width: calc(100vw - 20px); /* Adjust width calculation */
-        /* Adjust height for tablets */
-      }
+    
+    
   }
   
   /* Desktop styles */
