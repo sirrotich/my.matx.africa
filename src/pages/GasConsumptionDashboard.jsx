@@ -22,7 +22,7 @@ const GasConsumptionDashboard = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   
-  const options = ["This Year", "Week 1", "August"];
+  const options = ["This Year", "2023"];
 
   const handleSelect = (value) => {
     setSelectedView(value);
