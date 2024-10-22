@@ -165,6 +165,8 @@
         padding: 0 20px;
         box-sizing: border-box;
         margin-top: 390px;
+        bottom: 0;
+
     }
 
     .version-card{

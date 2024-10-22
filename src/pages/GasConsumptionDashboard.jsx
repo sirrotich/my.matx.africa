@@ -15,15 +15,11 @@ const CustomShape = (props) => {
   );
 };
 
-
-
 const GasConsumptionDashboard = () => {
   const [selectedView, setSelectedView] = useState('This Year');
   const [data, setData] = useState({});
   const [totalConsumption, setTotalConsumption] = useState({});
-  const navItems = document.querySelectorAll('.nav-item');
   const navigate = useNavigate();
-
   const [isOpen, setIsOpen] = useState(false);
   
   const options = ["This Year", "Week 1", "August"];
@@ -33,21 +29,8 @@ const GasConsumptionDashboard = () => {
     setIsOpen(false);
   };
 
-
-
-
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-        // Remove active class from all items
-        navItems.forEach(nav => nav.classList.remove('active'));
-        
-        // Add active class to the clicked item
-        item.classList.add('active');
-    });
-});
   // Simulated API call
   const fetchData = async (view) => {
-    // In a real scenario, this would be an API call
     const dummyData = {
       'This Year': [
         { period: 'Jan', consumption: 0.5 },
@@ -87,7 +70,6 @@ const GasConsumptionDashboard = () => {
       'August': 0.62
     };
 
-    // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 500));
 
     setData(dummyData);
@@ -98,32 +80,38 @@ const GasConsumptionDashboard = () => {
     fetchData(selectedView);
   }, [selectedView]);
 
+  const handleBarClick = (entry) => {
+    if (selectedView === 'This Year') {
+      navigate(`/months/${entry.period}`);
+    }
+  };
+
   const renderChart = () => {
     if (!data[selectedView]) return null;
 
     if (selectedView === 'This Year') {
-      const alternatedData = data[selectedView].map((item, index) => ({
-        ...item,
-        consumption: index % 2 === 0 ? item.consumption : item.consumption * 0.8
-      }));
-
       return (
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={alternatedData} margin={{ top: 0, right: 10, left: 10, bottom: 20 }}>
+          <BarChart data={data[selectedView]} margin={{ top: 0, right: 10, left: 10, bottom: 20 }}>
             <XAxis 
               dataKey="period" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 10, angle: -90, textAnchor: 'end' }}              interval={0}
+              tick={{ fontSize: 10, angle: -90, textAnchor: 'end' }}
+              interval={0}
               height={50}
               tickMargin={10}
             />
-            <Bar dataKey="consumption" shape={<CustomShape />} />
+            <Bar 
+              dataKey="consumption" 
+              shape={<CustomShape />} 
+              onClick={handleBarClick}
+              cursor="pointer"
+            />
           </BarChart>
         </ResponsiveContainer>
       );
     } else {
-      const barWidth = selectedView === 'Week 1' ? 20 : 40;
       return (
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data[selectedView]} margin={{ top: 40, right: 10, left: 10, bottom: 20 }}>
@@ -131,20 +119,19 @@ const GasConsumptionDashboard = () => {
               dataKey="period" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 10,  }}
+              tick={{ fontSize: 10 }}
               interval={0}
               height={50}
               tickMargin={10}
-              
             />
-            <Bar dataKey="consumption" fill="#EA760C" radius={[15, 15, 15, 15]} barSize={barWidth}>
+            <Bar dataKey="consumption" fill="#EA760C" radius={[15, 15, 15, 15]} barSize={40}>
               {data[selectedView].map((entry, index) => (
                 <Cell 
                   key={`cell-${index}`} 
                   fill={entry.consumption > 0 ? "#EA760C" : "transparent"}
                 />
               ))}
-              <LabelList dataKey="consumption" position="top" content={renderCustomLabel}  />
+              <LabelList dataKey="consumption" position="top" content={renderCustomLabel} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
@@ -155,64 +142,63 @@ const GasConsumptionDashboard = () => {
   const renderCustomLabel = (props) => {
     const { x, y, width, value } = props;
     return (
-      <text x={x + width / 2} y={y - 10} fill="#000" textAnchor="middle" dominantBaseline="middle"   fontSize="10">
-        {value > 0 ? value.toFixed(2) : '' }
+      <text x={x + width / 2} y={y - 10} fill="#000" textAnchor="middle" dominantBaseline="middle" fontSize="10">
+        {value > 0 ? value.toFixed(2) : ''}
       </text>
     );
   };
 
   return (
-    
     <div className="main-analytics-container">
-        <div className="top-div">
-          <div className="top-header">History</div>
-          <button className='top-btn'><span className='top-btn-text'>Home Gas</span></button>
-
-        </div>
+      <div className="top-div">
+        <div className="top-header">History</div>
+        <button className='top-btn'><span className='top-btn-text'>Home Gas</span></button>
+      </div>
       <div className="max-w">
         <div className="p-4">
-         
           <div className="chart-container">
-          <div className="flex justify-between">
-            <h2 className="total-remaining-gas">13kg Gas</h2>
-            <div className="dropdown">
-      <button 
-        onClick={() => setIsOpen(!isOpen)} 
-        className="dropdown-button"
-      >
-        {selectedView}
-      </button>
-
-      {isOpen && (
-        <div className="dropdown-options-container">
-          <ul className="dropdown-options">
-            {options.map((option, index) => (
-              <li 
-                key={index} 
-                onClick={() => handleSelect(option)} 
-                className="dropdown-option"
-              >
-                {option}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-          </div>
+            <div className="flex justify-between">
+              <h2 className="total-remaining-gas">13kg Gas</h2>
+              <div className="dropdown">
+                <button 
+                  onClick={() => setIsOpen(!isOpen)} 
+                  className="dropdown-button"
+                >
+                  {selectedView}
+                </button>
+                {isOpen && (
+                  <div className="dropdown-options-container">
+                    <ul className="dropdown-options">
+                      {options.map((option, index) => (
+                        <li 
+                          key={index} 
+                          onClick={() => handleSelect(option)} 
+                          className="dropdown-option"
+                        >
+                          {option}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
             {renderChart()}
           </div>
           <div className="mt-4 text-white p-4 rounded" style={{ background: 'var(--surface-surface-primary-100, #004A4C)' }}>
-          <p className="consumption-text">{selectedView === 'This Year' ? 'This Year Total Consumption' : 
-                                    selectedView === 'Week 1' ? 'Week 1 August 2024' :
-                                    'August 2024'}</p>
+            <p className="consumption-text">
+              {selectedView === 'This Year' ? 'This Year Total Consumption' : 
+               selectedView === 'Week 1' ? 'Week 1 August 2024' :
+               'August 2024'}
+            </p>
             <p className="consumption-total">{totalConsumption[selectedView]} kg</p>
-            <p className="text-sm" style={{ color: 'var(--text-text-neutral-2, #EBEBE6)'
-}}>{selectedView !== 'This Year' ? 'Total Consumption' : ''}</p>
+            <p className="text-sm" style={{ color: 'var(--text-text-neutral-2, #EBEBE6)' }}>
+              {selectedView !== 'This Year' ? 'Total Consumption' : ''}
+            </p>
           </div>
         </div>
         <div className="bottom-nav">
-      <div className="navigation-analytics">
+        <div className="navigation">
         <div className="nav-item" id="home-icon" onClick={() => navigate('/home')}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd" d="M1.66463 7.32904C1.29415 7.51428 1.14398 7.96479 1.32922 8.33527C1.51446 8.70575 1.96497 8.85592 2.33545 8.67068L12 3.83838L21.6646 8.67068C22.0351 8.85592 22.4856 8.70575 22.6709 8.33527C22.8561 7.96479 22.7059 7.51428 22.3355 7.32904L12.6038 2.4632C12.2237 2.27317 11.7764 2.27317 11.3963 2.4632L1.66463 7.32904ZM4.75003 11C4.75003 10.5858 4.41424 10.25 4.00003 10.25C3.58582 10.25 3.25003 10.5858 3.25003 11V19C3.25003 20.5188 4.48125 21.75 6.00003 21.75H18C19.5188 21.75 20.75 20.5188 20.75 19V11C20.75 10.5858 20.4142 10.25 20 10.25C19.5858 10.25 19.25 10.5858 19.25 11V19C19.25 19.6904 18.6904 20.25 18 20.25H6.00003C5.30967 20.25 4.75003 19.6904 4.75003 19V11Z" fill="#292927"/>
@@ -231,7 +217,7 @@ const GasConsumptionDashboard = () => {
           </svg>
         </div>
       </div>
-    </div>
+        </div>
       </div>
     </div>
   );
