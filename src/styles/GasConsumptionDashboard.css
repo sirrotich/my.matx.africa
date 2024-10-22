@@ -401,6 +401,8 @@ color: var(--text-text-neutral-05, #FAFAF9);
       background: #EBEBE6;
       box-sizing: border-box;
       position: fixed;
+     bottom: 0;
+
     }
     
     }
