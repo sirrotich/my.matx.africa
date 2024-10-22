@@ -382,10 +382,9 @@ color: var(--text-text-neutral-05, #FAFAF9);
     /* small screens */
     @media screen and (max-width: 480px) {
       .main-analytics-container {
-        padding: 10px;
-        border-radius: 10px;
-        margin-top: 200px; /* Adjust margins on smaller screens */
+        border: none;
       }
+      
     
     .home-container{
       border: none;
