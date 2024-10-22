@@ -3,13 +3,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow: hidden;
   }
   
   body {
     font-family: Arial, sans-serif;
     background-color: #f8f8f8;
-    overflow: hidden;
   }
   
   .home-container {
@@ -26,7 +24,9 @@
     border-radius: 20px;
     border: 10px;
     opacity: 0px;
-    border: 2px solid var(--Colors-Brand-Primary-100, #004A4C)
+    border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
+    overflow: hidden;
+
 
   }
   .main-top-card{

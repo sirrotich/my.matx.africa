@@ -21,6 +21,8 @@ body {
     justify-content: center;
     align-items: flex-start; /* Slightly top-centered */
     margin-top: -60%; /* Push the form slightly towards the top */
+    overflow: hidden;
+
 }
 
 .login-form-container {
@@ -35,6 +37,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Align items to the start (left) */
+    
 }
 
 /* Title */
