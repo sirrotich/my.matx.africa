@@ -245,6 +245,8 @@ display: flex;
   padding: 0 20px;
   box-sizing: border-box;
   margin-top: 310px;
+  bottom: 0;
+
 }
 
 }
