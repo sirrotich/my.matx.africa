@@ -2,11 +2,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow: hidden;
   }
   
   body {
     font-family: Arial, sans-serif;
     background-color: #f8f8f8;
+    overflow: hidden;
+    
   }
   
   .profile-page {
@@ -148,7 +151,8 @@
 
   @media screen and (max-width: 480px) {
     .profile-page {
-        border: none; /* Remove the border on smaller screens */
+        border: none;
+        
     }
 
     .navigation-profile {
@@ -165,7 +169,7 @@
         padding: 0 20px;
         box-sizing: border-box;
         margin-top: 390px;
-        bottom: 0;
+    bottom: 0;
 
     }
 

@@ -1,5 +1,8 @@
 
-  
+html, body {
+    overflow: hidden;
+}
+ 
   .min-h-screen {
     min-height: 100vh;
   }
@@ -250,7 +253,7 @@ margin-top: 20px;
 
 .consumption-total {
     font-family: Bai Jamjuree;
-font-size: 42.67px;
+font-size: 38.67px;
 font-weight: 500;
 line-height: 51.2px;
 letter-spacing: -0.05em;
