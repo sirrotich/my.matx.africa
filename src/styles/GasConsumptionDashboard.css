@@ -391,6 +391,11 @@ color: var(--text-text-neutral-05, #FAFAF9);
         height: calc(100% - 64px); /* Account for the height of the navigation bar */
     overflow-y: auto; /* Allow inner scrolling for content */
       }
+
+      .chart-container {
+       margin-top: -100px;
+     
+      }
       
     
     .home-container{
