@@ -392,10 +392,7 @@ color: var(--text-text-neutral-05, #FAFAF9);
     overflow-y: auto; /* Allow inner scrolling for content */
       }
 
-      .chart-container {
-       margin-top: -0px;
-     
-      }
+      
       
     
     .home-container{
