@@ -130,6 +130,7 @@
 
 .navigation-profile {
     display: flex;
+    bottom: 0;
     height: 77px;
     top: 561px;
     gap: 0px;
@@ -137,14 +138,14 @@
     border: 2px 0px 0px 0px;
     opacity: 0px;
     background: var(--surface-surface-neutral-2, #EBEBE6);
-    margin-top: 200px;
     width: 356px;
     display: flex;  
-      flex-direction: row;  
-      align-items: center;  
-      justify-content: space-between;  
-      border-radius: 0 0 20px 20px; 
-      margin-bottom: -10px;
+    flex-direction: row;  
+    align-items: center;  
+    justify-content: space-between;  
+    border-radius: 0 0 20px 20px; 
+    margin-top: 265px;
+    bottom: 0%;
   }
 
 
