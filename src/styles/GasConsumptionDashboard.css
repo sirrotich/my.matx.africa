@@ -412,7 +412,6 @@ color: var(--text-text-neutral-05, #FAFAF9);
       position: fixed;
       bottom: 0;
       opacity: 1; /* Ensure visibility */
-      margin-bottom: 3px;
     }
     
     }
