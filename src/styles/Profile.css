@@ -145,7 +145,6 @@
     justify-content: space-between;  
     border-radius: 0 0 20px 20px; 
     margin-top: 265px;
-    bottom: 0%;
   }
 
 
@@ -168,9 +167,7 @@
         background: #EBEBE6;
         padding: 0 20px;
         box-sizing: border-box;
-        position: fixed;
-        bottom: 0;
-        opacity: 1; /* Ensure visibility */
+        margin-top: 210px;
 
     }
 
