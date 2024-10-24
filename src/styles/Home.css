@@ -246,9 +246,7 @@
     background: #EBEBE6;
     padding: 0 20px;
     box-sizing: border-box;
-    position: fixed;
-    bottom: 0;
-    opacity: 1; /* Ensure visibility */
+    margin-top: 165px;
 
 }
 
