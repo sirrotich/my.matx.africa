@@ -231,6 +231,7 @@
 
   .home-container{
     border: none;
+    margin-bottom: -10px;
   }
   
   .navigation-home {
@@ -244,9 +245,7 @@
     width: 100vw; /* Full width on small screens */
     left: 0; 
     background: #EBEBE6;
-    padding: 0 20px;
     box-sizing: border-box;
-    bottom: 0;
     margin-top: 173px;
 
 }
