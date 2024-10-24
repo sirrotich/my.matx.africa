@@ -168,7 +168,9 @@
         background: #EBEBE6;
         padding: 0 20px;
         box-sizing: border-box;
-        margin-top: 220px;
+        position: fixed;
+        bottom: 0;
+        opacity: 1; /* Ensure visibility */
 
     }
 
