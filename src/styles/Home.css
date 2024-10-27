@@ -249,6 +249,7 @@
     justify-content: space-between;
     width: 100vw; /* Full width on small screens */
     left: 0; 
+    padding: 0 20px;
     background: #EBEBE6;
     box-sizing: border-box;
 }

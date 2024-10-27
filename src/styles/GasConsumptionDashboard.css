@@ -414,6 +414,7 @@ color: var(--text-text-neutral-05, #FAFAF9);
       box-sizing: border-box;
       position: fixed;
       bottom: 0;
+      padding: 0 20px;
       opacity: 1; /* Ensure visibility */
     }
     
