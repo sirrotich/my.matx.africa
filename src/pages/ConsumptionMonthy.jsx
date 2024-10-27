@@ -23,11 +23,46 @@ const ConsumptionMonthly = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   
-  const options = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", month];
+  const options = ["Week 1", "Week 2", "Week 3", "Week 4", month];
 
   const handleSelect = (value) => {
     setSelectedView(value);
     setIsOpen(false);
+  };
+
+  const CustomTick = (props) => {
+    const { x, y, payload } = props;
+    if (selectedView === month) {
+      const [week, number] = payload.value.split('_');
+      return (
+        <g transform={`translate(${x},${y})`}>
+          <text
+            x={0}
+            y={0}
+            dy={0}
+            textAnchor="middle"
+            fill="#666"
+            fontSize="10"
+          >
+            Week
+          </text>
+          <text
+            x={0}
+            y={20}
+            textAnchor="middle"
+            fill="#666"
+            fontSize="10"
+          >
+            {number.padStart(2, '0')}
+          </text>
+        </g>
+      );
+    }
+    return (
+      <text x={x} y={y} dy={16} textAnchor="middle" fill="#666" fontSize="10">
+        {payload.value}
+      </text>
+    );
   };
 
   // Simulated API call
@@ -43,12 +78,11 @@ const ConsumptionMonthly = () => {
         { period: 'Sat', consumption: 0 },
       ],
       // Add additional weeks and month data
-      'August': [
-        { period: 'Week 1', consumption: 0.28 },
-        { period: 'Week 2', consumption: 0.31 },
-        { period: 'Week 3', consumption: 0.03 },
-        { period: 'Week 4', consumption: 0 },
-        { period: 'Week 5', consumption: 0 },
+      [month]: [
+        { period: 'Week_1', consumption: 0.26 },
+        { period: 'Week_2', consumption: 0.33 },
+        { period: 'Week_3', consumption: 0.03 },
+        { period: 'Week_4', consumption: 0 },
       ]
     };
 
@@ -57,7 +91,6 @@ const ConsumptionMonthly = () => {
       'Week 2': 0.26,
       'Week 3': 0.26,
       'Week 4': 0.26,
-      'Week 5': 0.26,
       [month]: 0.62
     };
 
@@ -79,7 +112,7 @@ const ConsumptionMonthly = () => {
   const renderChart = () => {
     if (!data[selectedView]) return null;
 
-    const barWidth = selectedView.startsWith('Week') ? 20 : 40;
+    const barWidth = selectedView.startsWith('Week') ? 20 : 31.4;
 
     return (
       <ResponsiveContainer width="100%" height={300}>
@@ -88,7 +121,7 @@ const ConsumptionMonthly = () => {
             dataKey="period" 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fontSize: 10 }}
+            tick={<CustomTick />}
             interval={0}
             height={50}
             tickMargin={10}
@@ -109,12 +142,43 @@ const ConsumptionMonthly = () => {
 
   const renderCustomLabel = (props) => {
     const { x, y, width, value } = props;
-    return (
-      <text x={x + width / 2} y={y - 10} fill="#000" textAnchor="middle" dominantBaseline="middle" fontSize="10">
-        {value > 0 ? value.toFixed(2) : ''}
-      </text>
-    );
+  
+    if (value > 0) {
+      return (
+        <text
+          x={x + width / 2}
+          y={y - 30} // Increased spacing between label and bar for non-zero values
+          fill="#000"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontSize="10"
+          transform={`rotate(-90, ${x + width / 2}, ${y - 30})`} // Adjusted rotation anchor for non-zero values
+        >
+          {`${value.toFixed(2)} kg`}
+        </text>
+      );
+    } else {
+      return (
+        <g>
+          <circle cx={x + width / 2} cy={y} r="5" fill="#ccc" /> {/* Circle at bottom */}
+          <text
+            x={x + width / 2}
+            y={y - 25} // Position label higher up, above the circle
+            fill="#000"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="8"
+            transform={`rotate(-90, ${x + width / 2}, ${y - 25})`} // Adjusted rotation anchor for zero values
+          >
+            0 kg
+          </text>
+        </g>
+      );
+    }
   };
+  
+  
+  
 
   return (
     <div className="main-analytics-container">
@@ -136,6 +200,10 @@ const ConsumptionMonthly = () => {
                   className="dropdown-button"
                 >
                   {selectedView}
+                  <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.00208 7.17373C5.2197 6.95611 5.57253 6.95611 5.79015 7.17373L9.85411 11.2377L13.9181 7.17373C14.1357 6.95611 14.4885 6.95611 14.7061 7.17373C14.9238 7.39135 14.9238 7.74418 14.7061 7.9618L10.2481 12.4198C10.0305 12.6374 9.6777 12.6374 9.46008 12.4198L5.00208 7.9618C4.78446 7.74418 4.78446 7.39135 5.00208 7.17373Z" fill="#292927"/>
+</svg>
+
                 </button>
 
                 {isOpen && (
@@ -157,10 +225,10 @@ const ConsumptionMonthly = () => {
             </div>
             {renderChart()}
           </div>
-          <div className="mt-4 text-white p-4 rounded" style={{ background: 'var(--surface-surface-primary-100, #004A4C)' }}>
+          <div className="mt-4 text-white p-4 rounded" style={{ background: 'var(--surface-surface-primary-100, #004A4C)',borderRadius: '25px !important'}}>
             <p className="consumption-text">
-              {selectedView === 'Week 1' ? `Week 1 ${month} 2024` :
-               selectedView.startsWith('Week') ? `${selectedView} ${month} 2024` : `${month} 2024`}
+            {selectedView === month ? `${month} 2024` : `${selectedView} ${month} 2024`}
+
             </p>
             <p className="consumption-total">{totalConsumption[selectedView]} kg</p>
             <p className="text-sm" style={{ color: 'var(--text-text-neutral-2, #EBEBE6)' }}>
