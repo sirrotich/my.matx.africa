@@ -390,6 +390,8 @@ color: var(--text-text-neutral-05, #FAFAF9);
         border: none;
         height: calc(100% - 64px); /* Account for the height of the navigation bar */
     overflow-y: auto; /* Allow inner scrolling for content */
+    margin-top: -120px;
+
       }
 
       

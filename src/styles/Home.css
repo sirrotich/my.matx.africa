@@ -43,9 +43,6 @@
   gap: 0px;
   opacity: 0px;
   angle: 180 deg;
-
-
-    
     
   }
 
@@ -231,6 +228,8 @@
 
   .home-container{
     border: none;
+    margin-top: -80px;
+
   }
   .bottom-nav {
     position: fixed;
@@ -253,6 +252,7 @@
     background: #EBEBE6;
     box-sizing: border-box;
 }
+
 
 }
 
