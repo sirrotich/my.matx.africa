@@ -151,7 +151,6 @@
   @media screen and (max-width: 480px) {
     .profile-page {
         border: none;
-            margin-bottom: -8px;
 
         
     }
@@ -169,8 +168,8 @@
         background: #EBEBE6;
         padding: 0 20px;
         box-sizing: border-box;
-        margin-top: 210px;
-
+        bottom: 0;
+        margin-top: 390px;
     }
 
     .version-card{
