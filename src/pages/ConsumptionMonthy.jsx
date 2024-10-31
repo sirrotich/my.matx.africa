@@ -225,8 +225,10 @@ const ConsumptionMonthly = () => {
             </div>
             {renderChart()}
           </div>
-          <div className="mt-4 text-white p-4 rounded" style={{ background: 'var(--surface-surface-primary-100, #004A4C)',borderRadius: '25px !important'}}>
-            <p className="consumption-text">
+          <div 
+  className="mt-4 text-white p-4" 
+  style={{ background: 'var(--surface-surface-primary-100, #004A4C)', borderRadius: '15px' }}
+>            <p className="consumption-text">
             {selectedView === month ? `${month} 2024` : `${selectedView} ${month} 2024`}
 
             </p>
