@@ -210,6 +210,8 @@ html, body {
     text-align: left;
     margin-left: 25px;
     margin-top: 6px;
+    margin-top: 25px;
+
 
   }
   .top-btn {
@@ -222,6 +224,7 @@ html, body {
     background: var(--surface-surface-primary-100, #004A4C);
     margin-left: auto;
     margin-right: 25px;
+    margin-top: 20px;
 }
 .top-btn-text {
     font-family: Bai Jamjuree;
