@@ -4,7 +4,12 @@
     padding: 0;
     box-sizing: border-box;
   }
-  
+  *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
   body {
     font-family: Arial, sans-serif;
     background-color: #f8f8f8;
@@ -37,12 +42,12 @@
     border-radius: 20px;
     opacity: 0px;
     width: 328px;
-  height: 300px;
-  top: 318px;
-  left: 346px;
-  gap: 0px;
-  opacity: 0px;
-  angle: 180 deg;
+    height: 300px;
+    top: 318px;
+    left: 346px;
+    gap: 0px;
+    opacity: 0px;
+    angle: 180 deg;
     
   }
 
@@ -219,6 +224,7 @@
 .nav-item.active {
     background-color: var(--surface-surface-secondary-100, #F7AB61);
     border-radius: 12px;
+    
 }
 
 
@@ -226,9 +232,11 @@
  /* small screens */
 @media screen and (max-width: 480px) {
 
+
   .home-container{
     border: none;
     margin-top: -60px;
+  
 
   }
   .bottom-nav {

@@ -21,7 +21,17 @@ const GasConsumptionDashboard = () => {
   const [totalConsumption, setTotalConsumption] = useState({});
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  
+  const navItems = document.querySelectorAll('.nav-item');
+
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        // Remove active class from all items
+        navItems.forEach(nav => nav.classList.remove('active'));
+        
+        // Add active class to the clicked item
+        item.classList.add('active');
+    });
+});
   const options = ["This Year", "2023"];
 
   const handleSelect = (value) => {
@@ -199,7 +209,7 @@ const GasConsumptionDashboard = () => {
         </div>
         <div className="bottom-nav">
         <div className="navigation">
-        <div className="nav-item" id="home-icon" onClick={() => navigate('/home')}>
+        <div className="nav-item" id="home-icon" onClick={() => navigate('/')}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd" d="M1.66463 7.32904C1.29415 7.51428 1.14398 7.96479 1.32922 8.33527C1.51446 8.70575 1.96497 8.85592 2.33545 8.67068L12 3.83838L21.6646 8.67068C22.0351 8.85592 22.4856 8.70575 22.6709 8.33527C22.8561 7.96479 22.7059 7.51428 22.3355 7.32904L12.6038 2.4632C12.2237 2.27317 11.7764 2.27317 11.3963 2.4632L1.66463 7.32904ZM4.75003 11C4.75003 10.5858 4.41424 10.25 4.00003 10.25C3.58582 10.25 3.25003 10.5858 3.25003 11V19C3.25003 20.5188 4.48125 21.75 6.00003 21.75H18C19.5188 21.75 20.75 20.5188 20.75 19V11C20.75 10.5858 20.4142 10.25 20 10.25C19.5858 10.25 19.25 10.5858 19.25 11V19C19.25 19.6904 18.6904 20.25 18 20.25H6.00003C5.30967 20.25 4.75003 19.6904 4.75003 19V11Z" fill="#292927"/>
           </svg>
