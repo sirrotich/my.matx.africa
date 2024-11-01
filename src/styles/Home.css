@@ -218,16 +218,16 @@
 }
 
 .nav-item {
-    padding: 10px;
-    border-radius: 30px;
-    transition: background-color 0.3s ease;
+  border-radius: 9999px; /* or 50px - both will work */
+  padding: 8px 16px;
+    transition: background-color 0.2s ease;
 
 }
 
 .nav-item.active {
     background-color: var(--surface-surface-secondary-100, #F7AB61);
-    width: 45px;
-    height: 45px;
+    /* width: 45px;
+    height: 45px; */
     
 }
 
