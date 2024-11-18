@@ -38,7 +38,7 @@ const App = () => {
 
         <div className="home-gas-data">
             <div className="total-gas-weight">  
-                <h2>13kg Gas</h2>  
+                13kg Gas
                 
             </div>  
             <div className="home-gas">

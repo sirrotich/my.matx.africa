@@ -269,6 +269,18 @@
 
 }
 
+ /* Mobile styles */
+ @media (max-width: 480px) {
+
+  .main-top-card {
+    max-width: 90vw; /* Slightly narrower on tablets */
+    height: 240px;
+    padding: 0 20px; /* More padding on tablets */
+  }
+  
+  
+}
+
   /* Tablet styles */
 @media (min-width: 768px) {
 
@@ -285,8 +297,8 @@
   @media (min-width: 1024px) {
     .main-top-card {
       max-width: 70vw; /* Even more narrow on desktops */
-      height: 280px;
-      padding: 0 60px; /* Larger padding on desktop */
+      height: 260px;
+      padding: 0 20px; /* Larger padding on desktop */
     }
 
       /* Bottom navigation */
