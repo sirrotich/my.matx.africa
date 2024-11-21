@@ -20,12 +20,29 @@ const VerifyOtp = () => {
             inputRefs.current[index - 1].focus();
         }
     };
+
+    const handlePaste = (e) => {
+        e.preventDefault();
+        const pastedData = e.clipboardData.getData('Text').slice(0, 6); 
+        if (/^\d+$/.test(pastedData)) {
+            const newOtp = pastedData.split('');
+            setOtp([...newOtp, '', '', '', '', ''].slice(0, 6));
+            newOtp.forEach((digit, idx) => {
+                if (inputRefs.current[idx]) {
+                    inputRefs.current[idx].value = digit;
+                }
+            });
+            if (inputRefs.current[pastedData.length - 1]) {
+                inputRefs.current[pastedData.length - 1].focus();
+            }
+        }
+    };
     const handleNext = async () => {
         const otpString = otp.join('');
         console.log(`OTP Entered: ${otpString}`);
         if (otpString.length === 6) {
             try {
-                const response = await axios.post(`http://apis.gasmat.africa/users/verify-otp`, { email, otp: otpString });
+                const response = await axios.post(`https://apis.gasmat.africa/users/verify-otp`, { email, otp: otpString });
                 
                 // Handle successful OTP verification
                 const { access_token, user_info } = response.data;
@@ -35,7 +52,7 @@ const VerifyOtp = () => {
                 localStorage.setItem('access_token', access_token);
                 
                 toast.success('OTP verified successfully!'); // Success notification
-                navigate('/home'); // Navigate to home or wherever needed
+                navigate('/'); // Navigate to home or wherever needed
             } catch (error) {
                 console.error('Error verifying OTP:', error);
                 toast.error('Failed to verify OTP. Please try again.'); // Error notification
@@ -52,7 +69,7 @@ const VerifyOtp = () => {
                 <p className="otp-sent-message">
                     An authentication code has been sent to {email}
                 </p>
-                <div className="otp-input-container">
+                <div className="otp-input-container" onPaste={handlePaste}>
                     {otp.map((value, index) => (
                         <input
                             key={index}
