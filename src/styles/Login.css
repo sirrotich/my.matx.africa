@@ -31,7 +31,6 @@ body {
     padding: 32px; /* Spacing around the form */
     background-color: #EBEBE6; /* Subtle background for the form */
     border-radius: 32px; /* Smooth, rounded corners */
-    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     text-align: left; /* Align text to the left */
     gap: 16px; /* Adjust gap between items */
     display: flex;
@@ -159,7 +158,8 @@ body {
 
 @media (max-width: 480px) {
     .login-form-container {
-padding: 16px;    }
+padding: 16px;   
+width: 350px; }
 
     .login-title {
         font-size: 18px; /* Even smaller title */
