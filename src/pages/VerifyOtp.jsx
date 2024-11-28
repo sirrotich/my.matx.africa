@@ -6,7 +6,8 @@ import '../styles/VerifyOtp.css';
 const VerifyOtp = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { email } = location.state || {};
+
+  const { contactInfo, loginMethod } = location.state || {};  // Destructure contactInfo and loginMethod
     const [otp, setOtp] = useState(['', '', '', '', '', '']);
     const inputRefs = useRef([]);
     const handleOtpChange = (value, index) => {
@@ -42,7 +43,7 @@ const VerifyOtp = () => {
         console.log(`OTP Entered: ${otpString}`);
         if (otpString.length === 6) {
             try {
-                const response = await axios.post(`https://apis.gasmat.africa/users/verify-otp`, { email, otp: otpString });
+                const response = await axios.post(`https://apis.gasmat.africa/users/verify-otp`, { [loginMethod]: contactInfo, otp: otpString });
                 
                 // Handle successful OTP verification
                 const { access_token, user_info } = response.data;
@@ -63,11 +64,13 @@ const VerifyOtp = () => {
     };
     const isNextButtonDisabled = otp.filter(val => val !== '').length < 6;
     return (
-        <div className="login-page">
-            <div className="login-form-container">
-                <h1 className="login-title">Verify your identity</h1>
+        <div className="verify-page">
+            <div className="verify-form-container">
+                <h1 className="verify-title">Verify your identity</h1>
                 <p className="otp-sent-message">
-                    An authentication code has been sent to {email}
+                {loginMethod === 'email'
+                    ? `An authentication code has been sent to ${contactInfo}`
+                    : `An authentication code SMS has been sent to ${contactInfo}`}
                 </p>
                 <div className="otp-input-container" onPaste={handlePaste}>
                     {otp.map((value, index) => (
