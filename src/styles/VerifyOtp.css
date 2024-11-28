@@ -19,24 +19,29 @@ body {
 .verify-page {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Slightly top-centered */
-    margin-top: -60%; /* Push the form slightly towards the top */
+    align-items: center;
+    /* min-height: 100vh; */
+    background-color: white;
+    width: 100%;
+    border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
+    border-radius: 20px; /* Optional: For rounded corners */
+    padding: 15px; /* Optional: Add padding inside the border */
+    width: 360px;
+    height: 639px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
 }
 
 .verify-form-container {
-    width: 100%; /* Set to 100% for responsiveness */
-    max-width: 480px; /* Max width to maintain layout */
-    height: auto; /* Hug content */
-    padding: 32px; /* Spacing around the form */
-    background-color: #EBEBE6; /* Subtle background for the form */
-    border-radius: 32px; /* Smooth, rounded corners */
-    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-    text-align: left; /* Align text to the left */
-    gap: 16px; /* Adjust gap between items */
+    width: 332px;
+    padding: 22.13px;
+    background: var(--surface-surface-neutral-2, #EBEBE6);
+    border-radius: 24px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align items to the start (left) */
-    margin-bottom: -80px;
+    gap: 6px;
+    height: 317px;
+
 }
 
 /* Title */
@@ -61,26 +66,28 @@ body {
 /* OTP Input Container */
 .otp-input-container {
     display: flex;
-    gap: 4px; /* Adjust the gap between OTP inputs */
+    gap: 2px; /* Adjust the gap between OTP inputs */
 }
 
 .otp-input-container input {
-    width: 59.33px; /* Fixed width for OTP inputs */
-    height: 88px; /* Fixed height for OTP inputs */
+    width: 41.04px; /* Fixed width for OTP inputs */
+    height: 60.87px; /* Fixed height for OTP inputs */
     padding: 16px; /* Adjust padding */
     border-radius: 16px; /* Rounded corners */
     border: 2px solid #ccc; /* Light gray border */
     background-color: white; /* White background */
     color: black; /* Text color for input */
-    font-size: 24px; /* Increase font size for better visibility */
     text-align: center; /* Center the text */
     margin-left: 5px;
+    padding: var(--SpacingSpacing-md16);
+    
 }
 
 /* Tiny placeholder styles */
 .otp-input-container input::placeholder {
     font-size: 12px; /* Tiny placeholder size */
     color: #bbb; /* Placeholder color */
+    gap: 8.3px;
 }
 
 /* Focus effect for OTP input */
@@ -92,10 +99,8 @@ body {
 /* Next Button */
 .send-code-button {
     width: 100%; /* Set to 100% for responsiveness */
-    max-width: 305px; /* Max width to maintain layout */
-    height: 56px; /* Fixed height */
-    padding: 16px 24px; /* Adjust padding */
-    gap: 12px; /* Space between icon and text */
+    max-width: 210px; /* Max width to maintain layout */
+    height: 50px; /* Fixed height */
     border-radius: 360px; /* Fully rounded */
     background: rgba(0, 74, 76, 1); /* Background color */
     display: flex; /* Ensure flex properties for centering */
@@ -105,7 +110,7 @@ body {
     color: #fff; /* Text color for button */
     border: none; /* Remove default border */
     cursor: pointer; /* Pointer cursor on hover */
-    margin-top: 10px;
+    margin-top: -5px;
 }
 
 .send-code-button:hover {
@@ -138,7 +143,6 @@ body {
     margin-top: 20px; /* Space above the text */
     font-size: 14px; /* Font size */
     font-weight: 200;
-    margin-left: 20%;
     color: black; /* Black color for the text */
     text-align: center; /* Center the text */
 }
@@ -174,10 +178,7 @@ body {
         margin-top: 0; /* Remove top margin for smaller screens */
     }
 
-    .verify-form-container {
-        padding: 24px; /* Reduce padding on smaller screens */
-        margin-bottom: -60px; /* Adjust margin */
-    }
+
 
     .verify-title {
         font-size: 20px; /* Slightly smaller title */
@@ -187,11 +188,6 @@ body {
         font-size: 12px; /* Smaller font size */
     }
 
-    .otp-input-container input {
-        width: 50px; /* Adjust OTP input size for smaller screens */
-        height: 70px; /* Adjust height */
-        font-size: 20px; /* Smaller font size for input */
-    }
 
     .send-code-button {
         width: 100%; /* Full width button */
@@ -234,6 +230,12 @@ body {
     }
 
     .send-code-button {
-        height: 50px; /* Adjust button height */
+        height: 38.73px; /* Adjust button height */
+        margin-top: 15px;
+        width: 210.96px;
+    }
+
+    .verify-page {
+        border: none;
     }
 }
