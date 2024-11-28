@@ -1,129 +1,157 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    height: 100%; /* Ensures full height of the page */
-    background-color: #fff; /* White background for the whole page */
-    font-family: 'Bai Jamjuree'; /* Set font */
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .login-page {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Slightly top-centered */
-    margin-top: -60%; /* Push the form slightly towards the top */
-    overflow: hidden;
-
-}
-
-.login-form-container {
-    width: 480px;
-    height: auto; /* Hug content */
-    padding: 32px; /* Spacing around the form */
-    background-color: #EBEBE6; /* Subtle background for the form */
-    border-radius: 32px; /* Smooth, rounded corners */
-    text-align: left; /* Align text to the left */
-    gap: 16px; /* Adjust gap between items */
+    align-items: center;
+    /* min-height: 100vh; */
+    background-color: white;
+    width: 100%;
+    border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
+    border-radius: 20px; /* Optional: For rounded corners */
+    padding: 15px; /* Optional: Add padding inside the border */
+    width: 360px;
+    height: 639px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
+  }
+  
+  .form-container {
+    width: 400px;
+    padding: 32px;
+    background: var(--surface-surface-neutral-2, #EBEBE6);
+    border-radius: 24px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align items to the start (left) */
-    
-}
-
-/* Title */
-.login-title {
-    width: 100%; /* Make it full width */
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 8px; /* Reduced spacing */
-    color: #000; /* Change to black for better contrast */
-}
-
-/* Email Label */
-.email-label {
-    width: 100%; /* Make it full width */
-    opacity: 0.75;
-    font-size: 14px;
-    color:#000; /* Gray color for better visibility */
-    margin-bottom: 8px; /* Reduced spacing */
+    gap: 24px;
+    height: 317px;
+    margin-top: -100px;
+  }
+  
+  .toggle-container {
+    display: flex;
+    background: #F5F5F2;
+    border-radius: 360px;
+    padding: 8px;
+    margin-bottom: 8px;
+    height: 43px;
+  }
+  
+  .toggle-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding: 8px 16px;
+    border: none;
+    background: none;
+    border-radius: 360px;
+    cursor: pointer;
+    font-size: 12.6px;
+    color: #00191A;
+    transition: all 0.3s ease;
+  }
+  
+  
+  .toggle-btn.active {
+    background: var(--surface-surface-primary-120, #00191A);
+    color: white;
+  }
+  
+  .welcome-text {
+    font-family: Bai Jamjuree;
+    font-size: 17.99px;
     font-weight: 500;
-}
+    line-height: 25.19px;
+    letter-spacing: -0.04em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: var(--text-text-neutral-9, #292927);
+    width: 200px;
+    height: 25px;
+    gap: 0px;
+    opacity: var(--TextText-Opacity75);
 
-/* Email Input Container */
-.email-input-container {
+
+
+  }
+  
+  .input-container {
     position: relative;
-    width: 416px;
-    margin-bottom: 16px; /* Adjusted margin for closer spacing */
-}
-
-.email-input-container input {
     width: 100%;
-    height: 56px;
-    padding: 16px;
+    background: #F5F5F2;
     border-radius: 16px;
-    background: #fafaf9;
-    border: 2px solid transparent; /* Initial border color */
-    border-image-source: linear-gradient(0deg, var(--Colors-Semantic-Info-Focus, #53D5FF), var(--Colors-Semantic-Info-Focus, #53D5FF)),
-      linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)); /* Updated border style */
-    border-image-slice: 1; /* Ensure border image is visible */
-    font-size: 14px;
+    padding: 4px;
+    margin-top: -10px;
+  }
+  
+  .input-container input {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: #292927;
     outline: none;
-    color: black; /* Text color when typed */
-}
-
-.email-input-container input:focus {
-    outline: none; /* Remove default outline */
-    border-color: #53D5FF; /* Change border color on focus */
-}
-
-/* Email icon */
-.email-input-container .email-icon {
+  }
+  
+  .input-container .icon {
     position: absolute;
     right: 16px;
     top: 50%;
     transform: translateY(-50%);
-    pointer-events: none;
-}
+  }
+  
+  .login-btn {
+    width: 100%;
+    padding: 16px;
+    background: #004A4C;
+    color: white;
+    border: none;
+    border-radius: 360px;
+    font-size: 16px;
+    height: 50px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .login-btn.disabled {
+    background: #E2E1DA;
+    color: #52524D;
+    cursor: not-allowed;
+  }
+  
+  .terms-text {
+    text-align: center;
+    font-size: 14px;
+    color: #292927;
+    width: 215px;
+    height: 23px;
+    gap: 0px;
+    opacity: var(--TextText-Opacity75);
+    margin-top: 30px;
+    opacity: 0.75;
 
+  }
+  .terms-text-terms {
+    text-align: center;
+    font-size: 14px;
+    color: #292927;
+    width: 215px;
+    height: 23px;
+    gap: 0px;
+    opacity: var(--TextText-Opacity75);
+    margin-top: 30px;
+    opacity: 0.75;
 
-/* Send Code Button */
-.send-code-button {
-    width: 305px; /* Fixed width */
-    height: 56px; /* Fixed height */
-    padding: 16px 24px; /* Adjust padding */
-    gap: 12px; /* Space between icon and text */
-    border-radius: 360px; /* Fully rounded */
-    opacity: 1; /* Set opacity to 1 for visibility */
-    background: rgba(0, 74, 76, 1); /* Background color */
-    display: flex; /* Ensure flex properties for centering */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    margin: 4px auto; /* Center the button and give some space above and below */
-}
-
-.send-code-button:hover {
-    background-color: #083f34; /* Darker shade on hover */
-}
-
-/* Disabled Button */
-.send-code-button.disabled {
-    background: rgba(226, 225, 218, 1);
-    cursor: not-allowed; /* Prevent hovering */
-    color: rgba(82, 82, 77, 1);
-}
-
-.send-code-button.disabled:hover {
-    background: rgba(226, 225, 218, 1);
-}
+  }
+  
+  @media (max-width: 520px) {
+    .form-container {
+      width: 100%;
+      margin: 16px;
+      padding: 24px;
+    }
+  }
 
 /* Media Queries for Responsiveness */
 @media (max-width: 1024px) {
@@ -172,5 +200,8 @@ width: 350px; }
 
     .send-code-button {
         height: 50px; /* Adjust button height */
+    }
+    .login-page {
+        border: none;
     }
 }
