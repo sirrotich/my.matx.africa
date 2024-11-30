@@ -8,6 +8,8 @@ const Login = () => {
   const [loginMethod, setLoginMethod] = useState('mobile');
   const [contactInfo, setContactInfo] = useState('');
   const [isValid, setIsValid] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false); // State to track if the code is being sent
+
   const navigate = useNavigate();
 
   const validateInput = (value) => {
@@ -32,6 +34,10 @@ const Login = () => {
       return;
     }
 
+    if (isProcessing) return; // Prevent multiple clicks while processing
+
+    setIsProcessing(true); // Set the processing state to true (disables button)
+
     try {
       const response = await axios.post('https://apis.gasmat.africa/users/authenticate', { 
         [loginMethod]: contactInfo 
@@ -43,6 +49,8 @@ const Login = () => {
       toast.error(error.response?.status === 400 
         ? `${loginMethod === 'email' ? 'Email' : 'Mobile number'} not found` 
         : 'Failed to send OTP. Please try again.');
+    } finally {
+      setIsProcessing(false); // Reset the processing state after the API call completes
     }
   };
 
@@ -88,13 +96,14 @@ const Login = () => {
           </span>
         </div>
 <div>
-        <button 
+    <button
           className={`login-btn ${!isValid ? 'disabled' : ''}`}
           onClick={handleSendCode}
-          disabled={!isValid}
+          disabled={!isValid || isProcessing} // Disable the button if form is invalid or processing
         >
-          Get Login Code →
+          {isProcessing ? 'Sending...' : 'Get Login Code →'}
         </button>
+
         </div>
 
         <div className="agreement-container">
