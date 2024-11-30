@@ -7,7 +7,7 @@
     width: 100%;
     border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
     border-radius: 20px; /* Optional: For rounded corners */
-    padding: 15px; /* Optional: Add padding inside the border */
+    padding: 20px; /* Optional: Add padding inside the border */
     width: 360px;
     height: 639px;
     border: 2px 0px 0px 0px;
@@ -16,14 +16,17 @@
   
   .form-container {
     width: 400px;
-    padding: 32px;
+    padding: 20px;
     background: var(--surface-surface-neutral-2, #EBEBE6);
     border-radius: 24px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    height: 317px;
+    gap: 20px;
+    height: 308px;
     margin-top: -100px;
+    padding-bottom: 30px;
+    padding-top: 30px;
+
   }
   
   .toggle-container {
@@ -72,7 +75,6 @@
     opacity: var(--TextText-Opacity75);
 
 
-
   }
   
   .input-container {
@@ -103,7 +105,6 @@
   
   .login-btn {
     width: 100%;
-    padding: 16px;
     background: #004A4C;
     color: white;
     border: none;
@@ -112,6 +113,9 @@
     height: 50px;
     cursor: pointer;
     transition: background 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .login-btn.disabled {
@@ -120,88 +124,116 @@
     cursor: not-allowed;
   }
   
-  .terms-text {
+  .agreement-container {
     text-align: center;
-    font-size: 14px;
-    color: #292927;
-    width: 215px;
-    height: 23px;
-    gap: 0px;
-    opacity: var(--TextText-Opacity75);
-    margin-top: 30px;
-    opacity: 0.75;
-
+    padding: 24px 16px;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px;
   }
-  .terms-text-terms {
-    text-align: center;
-    font-size: 14px;
-    color: #292927;
-    width: 215px;
-    height: 23px;
-    gap: 0px;
-    opacity: var(--TextText-Opacity75);
-    margin-top: 30px;
-    opacity: 0.75;
+  
+  .agreement-text {
+    font-family: Bai Jamjuree;
+    font-size: 15.59px;
+    font-weight: 400;
+    line-height: 23.39px;
+    letter-spacing: -0.025em;
+    text-align: right;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    padding: 5px;
 
   }
   
-  @media (max-width: 520px) {
+  .agreement-links {
+    font-family: Bai Jamjuree;
+    font-size: 15.59px;
+    font-weight: 600;
+    line-height: 23.39px;
+    letter-spacing: -0.025em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+  }
+  
+  .agreement-link {
+    color: #2563eb;
+    text-decoration: none;
+    transition: text-decoration 0.2s ease;
+  }
+  
+  .agreement-link:hover {
+    text-decoration: underline;
+  }
+  
+  
+  /* @media (max-width: 520px) {
     .form-container {
       width: 100%;
       margin: 16px;
       padding: 24px;
     }
-  }
+  } */
 
 /* Media Queries for Responsiveness */
 @media (max-width: 1024px) {
-    .login-form-container {
-        width: 450px; /* Reduce form width for smaller tablets */
+    /* .login-form-container {
+        width: 450px; 
     }
 
     .email-input-container {
-        width: 90%; /* Ensure input is responsive */
-    }
+        width: 90%; 
+    } */
 }
 
 @media (max-width: 768px) {
-    .login-page {
-        margin-top: 0; /* Remove top margin for smaller screens */
-    }
+    
+    /* .form-container {
+        width: 400px;
+        padding: 32px;
+        background: var(--surface-surface-neutral-2, #EBEBE6);
+        border-radius: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        height: 317px;
+        margin-top: -100px;
+      }
 
-    .login-form-container {
-        padding: 24px; /* Reduce padding on smaller screens */
-        width: 400px; /* Adjust form width for tablets */
-    }
 
     .login-title {
-        font-size: 20px; /* Slightly smaller title */
+        font-size: 20px; 
     }
 
     .send-code-button {
-        width: 100%; /* Full width button */
-        max-width: 100%; /* Ensure it scales down */
-    }
+        width: 100%; 
+        max-width: 100%; 
+    } */
 }
 
 @media (max-width: 480px) {
-    .login-form-container {
+    /* .login-form-container {
 padding: 16px;   
 width: 350px; }
 
     .login-title {
-        font-size: 18px; /* Even smaller title */
+        font-size: 18px; 
     }
 
     .email-input-container input {
-        height: 50px; /* Adjust input height */
-        font-size: 16px; /* Adjust font size */
+        height: 50px; 
+        font-size: 16px;
     }
 
     .send-code-button {
-        height: 50px; /* Adjust button height */
+        height: 50px; 
     }
     .login-page {
         border: none;
-    }
+    } */
+
+    .login-page {
+        border: none;
+    } 
 }
