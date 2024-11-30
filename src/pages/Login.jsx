@@ -87,7 +87,7 @@ const Login = () => {
             )}
           </span>
         </div>
-
+<div>
         <button 
           className={`login-btn ${!isValid ? 'disabled' : ''}`}
           onClick={handleSendCode}
@@ -95,10 +95,18 @@ const Login = () => {
         >
           Get Login Code →
         </button>
-
-        <div className="terms-text">
-          By Logging In, you agree to our <span>Term of Use and Privacy Policy</span>
         </div>
+
+        <div className="agreement-container">
+      <div className="agreement-text">
+        By logging in, you agree to our
+      </div>
+      <div className="agreement-links">
+        <a href="#" className="agreement-link">Terms of Use</a>
+        {' '}and{' '}
+        <a href="#" className="agreement-link">Privacy Policy</a>
+      </div>
+    </div>
       </div>
     </div>
   );
