@@ -34,30 +34,36 @@ body {
 
 .verify-form-container {
     width: 332px;
-    padding: 22.13px;
+    padding: 20px;
     background: var(--surface-surface-neutral-2, #EBEBE6);
     border-radius: 24px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
     height: 317px;
+    gap: 16.6px;
+    padding-bottom: 30px;
 
 }
 
 /* Title */
 .verify-title {
     width: 100%; /* Make it full width */
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 8px; /* Reduced spacing */
-    color: #000; /* Change to black for better contrast */
+    font-family: Bai Jamjuree;
+    font-size: 16.6px;
+    font-weight: 500;
+    line-height: 23.24px;
+    letter-spacing: -0.04em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
 }
 
 /* OTP Sent Message */
 .otp-sent-message {
     width: 100%; /* Make it full width */
     opacity: 0.75;
-    font-size: 13px;
+    font-size: 9.68px;
     color: #000;
     margin-bottom: 16px; /* Adjust spacing */
     font-weight: 400;
@@ -140,7 +146,7 @@ body {
 
 /* Resend Code Text */
 .resend-code-text {
-    margin-top: 20px; /* Space above the text */
+    /* margin-top: 20px;  */
     font-size: 14px; /* Font size */
     font-weight: 200;
     color: black; /* Black color for the text */
@@ -181,18 +187,13 @@ body {
 
 
     .verify-title {
-        font-size: 20px; /* Slightly smaller title */
+        font-size: 16.6px; /* Slightly smaller title */
     }
 
-    .otp-sent-message {
-        font-size: 12px; /* Smaller font size */
-    }
+  
 
 
-    .send-code-button {
-        width: 100%; /* Full width button */
-        max-width: 100%; /* Ensure it scales down */
-    }
+ 
 
     .footer-text {
         margin-left: 0; /* Center footer text on smaller screens */
@@ -210,18 +211,15 @@ body {
 
 @media (max-width: 480px) {
     .verify-form-container {
-        padding: 16px;
+        padding: 20px;
         width: 350px;
          /* Further reduce padding on very small screens */
     }
 
     .verify-title {
-        font-size: 18px; /* Even smaller title */
+        font-size: 16.6px; /* Even smaller title */
     }
 
-    .otp-sent-message {
-        font-size: 11px; /* Further decrease font size */
-    }
 
     .otp-input-container input {
         width: 45px; /* Further adjust OTP input size */
@@ -229,11 +227,7 @@ body {
         font-size: 18px; /* Further reduce font size for input */
     }
 
-    .send-code-button {
-        height: 38.73px; /* Adjust button height */
-        margin-top: 15px;
-        width: 210.96px;
-    }
+ 
 
     .verify-page {
         border: none;
