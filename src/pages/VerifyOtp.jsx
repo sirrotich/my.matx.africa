@@ -98,7 +98,7 @@ const VerifyOtp = () => {
                     onClick={handleNext}
                     disabled={isNextButtonDisabled}
                 >
-                    Next <span className="arrow-icon">→</span>
+                    Login <span className="arrow-icon">→</span>
                 </button>
                 {/* <div className="footer-text">
                     <div>By Signing In, you agree to our?</div>
