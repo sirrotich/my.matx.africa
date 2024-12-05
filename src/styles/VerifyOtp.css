@@ -1,282 +1,241 @@
-/* Base styles (mobile-first approach) */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
+html, body {
+    height: 100%; /* Ensures full height of the page */
+    background-color: #fff; /* White background for the whole page */
+    font-family: 'Bai Jamjuree'; /* Set font */
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f8f8;
-}
-
-.home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 20px;
-  width: 100%;
-  height: 100vh;
-  width: 360px;
-  height: 639px;
-  gap: 0px;
-  border-radius: 20px;
-  border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
-}
-
-/* Main top card with minimum height */
-.main-top-card {
-  background-color: #004A4C;
-  padding: 0 20px;
-  gap: 0px;
-  background: var(--surface-surface-primary-100, #004A4C);
-  border: 2px 0px 0px 0px;
-  border-radius: 20px;
-  width: 328px;
-  min-height: 280px; /* Ensure a minimum height of 300px */
-  margin-bottom: 5px; 
-}
-
-.home-gas-data {
-  width: 100%; /* Make sure the parent div takes full width */
-  height: 30.64px;
-  display: flex;
-  align-items: center; /* Vertically centers the elements */
-  margin-top: 40px;
-}
-
-.total-gas-weight {
-  font-family: Bai Jamjuree;
-  font-size: 19.15px;
-  font-weight: 500;
-  line-height: 26.81px;
-  letter-spacing: -0.04em;
-  color: var(--text-text-neutral-05, #FAFAF9);
-  width: auto; /* Allows the text to take up as much space as needed */
-  height: 27px;
-  margin-right: auto;
-}
-
-.home-gas-btn {
-  width: 76.98px;
-  height: 30.64px;
-  padding: var(--SpacingSpacing-xxs4) var(--SpacingSpacing-sm12) var(--SpacingSpacing-xxs4) var(--SpacingSpacing-sm12);
-  gap: var(--SpacingSpacing-xs8);
-  border-radius: 48px;
-  background: var(--surface-surface-neutral-2, #EBEBE6);
-  margin-left: auto; /* Pushes the button to the right */
-}
-
-.home-gas-text {
-  width: 54px;
-  height: 17px;
-  gap: 0px;
-  opacity: 0px;
-  font-family: Bai Jamjuree;
-  font-size: 11.49px;
-  font-weight: 600;
-  line-height: 17.23px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  color: var(--text-text-neutral-9, #292927);
-  top: 10px;
-}
-
-.todays-date {
-  font-family: Bai Jamjuree;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 17.23px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  color: var(--text-text-neutral-05, #FAFAF9);
-  gap: 30.64px;
-  opacity: 0px;
-  margin-top: 20px;
-}
-
-.current-weight {  
-  display: flex;  
-  flex-direction: column;  
-  justify-content: center;  
-  align-items: center;  
-  color: white;  
-}
-
-.current-weight-text {  
-  font-family: Bai Jamjuree;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 18px;
-  letter-spacing: -0.02em;
-  text-align: center;
-  color: var(--text-text-neutral-05, #FAFAF9);
-  opacity: 0.75;
-  margin-top: 30px;
-} 
-
-.current-weight-kgs {
-  font-family: Bai Jamjuree;
-  font-size: 42.74px;
-  font-weight: 500;
-  line-height: 46.48px;
-  letter-spacing: -0.045em;
-  text-align: center;
-  margin-top: 5px;
-
-}
-
-.days-remaining {
-  font-family: Bai Jamjuree;
-  font-size: 21px;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: -0.025em;
-  text-align: center;
-  color: var(--text-text-neutral-05, #FAFAF9);
-  opacity: 0.75;
-  margin-top: 10px;
-
-}
-
-/* Responsive analytic section */
-.home-analytic {
-  display: flex;
-  height: 95px; /* Allow automatic height */
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 15px;
-  background: rgba(247, 171, 97, 1);
-  margin-top: 20px; /* Ensure space from the card */
-  margin-left: 5px;
-  margin-right: 5px;
-  border-radius: 15px;
-  box-sizing: border-box;
-  width: 328px;
-  height: 85px;
-  top: 346px;
-  left: 18px;
-  gap: 0px;
-  opacity: 0px;
-}
-
-.hometoday, .homeweek, .homeaverage {
-  width: 33%;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  color: var(--text-text-primary-100, #004A4C);
-}
-
-.sizing {
-  font-family: Bai Jamjuree;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 34.62px;
-  letter-spacing: -0.025em;
-  text-align: center;
-  color: var(--text-text-primary-100, #004A4C);
-}
-
-.highlight {
-  font-size: 14px;
-}
-
-.navigation-home {
-  display: flex;
-  height: 77px;
-  top: 561px;
-  gap: 0px;
-  border-radius: var(--Spacingnone0) 0px 20px 20px;
-  border: 2px 0px 0px 0px;
-  opacity: 0px;
-  background: var(--surface-surface-neutral-2, #EBEBE6);
-  margin-top: 148px;
-  width: 356px;
-  display: flex;  
-  flex-direction: row;  
-  align-items: center;  
-  justify-content: space-between;  
-  border-radius: 0 0 20px 20px; 
-  padding: 30px;
-}
-
-.nav-item {
-  border-radius: 9999px; /* or 50px - both will work */
-  padding: 8px 16px;
-  transition: background-color 0.2s ease;
-}
-
-.nav-item.active {
-  background-color: var(--surface-surface-secondary-100, #F7AB61);
-}
-
-/* small screens */
-@media screen and (max-width: 480px) {
-  .home-container {
-    border: none;
-    margin-top: -60px;
-  }
-
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 10;
-  }
-
-  .navigation-home {
     display: flex;
-    height: 64px;
-    gap: 0px;
-    opacity: 1; /* Ensure it is visible */
-    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    width: 100vw; /* Full width on small screens */
-    left: 0; 
-    padding: 0 20px;
-    background: #EBEBE6;
-    box-sizing: border-box;
-  }
 }
 
-/* Mobile styles */
+.verify-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh; */
+    background-color: white;
+    width: 100%;
+    border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
+    border-radius: 20px; /* Optional: For rounded corners */
+    padding: 15px; /* Optional: Add padding inside the border */
+    width: 360px;
+    height: 639px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
+}
+
+.verify-form-container {
+    width: 332px;
+    padding: 10px;
+    background: var(--surface-surface-neutral-2, #EBEBE6);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 317px;
+    gap: 16.6px;
+    padding-bottom: 30px;
+    
+}
+
+/* Title */
+.verify-title {
+    width: 100%; /* Make it full width */
+    font-family: Bai Jamjuree;
+    font-size: 16.6px;
+    font-weight: 500;
+    line-height: 23.24px;
+    letter-spacing: -0.04em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-top: 10px;
+    margin-left: 7px;
+
+}
+
+/* OTP Sent Message */
+.otp-sent-message {
+    width: 100%; /* Make it full width */
+    opacity: 0.75;
+    font-size: 9.68px;
+    color: #000;
+    margin-bottom: 16px; /* Adjust spacing */
+    font-weight: 400;
+    margin-left: 7px;
+
+}
+
+/* OTP Input Container */
+.otp-input-container {
+    display: flex;
+    gap: 2px; /* Adjust the gap between OTP inputs */
+}
+
+.otp-input-container input {
+    width: 41.04px; /* Fixed width for OTP inputs */
+    height: 60.87px; /* Fixed height for OTP inputs */
+    padding: 16px; /* Adjust padding */
+    border-radius: 16px; /* Rounded corners */
+    border: 2px solid #ccc; /* Light gray border */
+    background-color: white; /* White background */
+    color: black; /* Text color for input */
+    text-align: center; /* Center the text */
+    margin-left: 7px;
+    padding: var(--SpacingSpacing-md16);
+    
+}
+
+/* Tiny placeholder styles */
+.otp-input-container input::placeholder {
+    font-size: 12px; /* Tiny placeholder size */
+    color: #bbb; /* Placeholder color */
+    gap: 8.3px;
+}
+
+/* Focus effect for OTP input */
+.otp-input-container input:focus {
+    outline: none; /* Remove default outline */
+    border-color: #53D5FF; /* Change border color on focus */
+}
+
+/* Next Button */
+.send-code-button {
+    width: 100%; /* Set to 100% for responsiveness */
+    max-width: 210px; /* Max width to maintain layout */
+    height: 50px; /* Fixed height */
+    border-radius: 360px; /* Fully rounded */
+    background: rgba(0, 74, 76, 1); /* Background color */
+    display: flex; /* Ensure flex properties for centering */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    margin: 4px auto; /* Center the button and give some space above and below */
+    color: #fff; /* Text color for button */
+    border: none; /* Remove default border */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-top: -5px;
+}
+
+.send-code-button:hover {
+    background-color: #083f34; /* Darker shade on hover */
+}
+
+/* Footer Text */
+.footer-text {
+    display: flex;
+    flex-direction: column; /* Stack terms and conditions */
+    align-items: flex-start; /* Align to the left */
+    width: 100%; /* Full width for footer */
+    margin-left: 20%;
+    color: black; /* Black color for the text */
+    text-align: center; /* Center the text */
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.terms-text {
+    color: #6e6e6e; /* Gray color for terms */
+    opacity: 0.75; /* Slight opacity for terms text */
+    margin-left: 8%;
+    color: #000;
+    font-weight: 600;
+}
+
+/* Resend Code Text */
+.resend-code-text {
+    /* margin-top: 20px;  */
+    font-size: 14px; /* Font size */
+    font-weight: 200;
+    color: black; /* Black color for the text */
+    text-align: center; /* Center the text */
+}
+
+.resend-link {
+    color: black; /* Darker shade for the link */
+    font-weight: 400;
+    cursor: pointer; /* Pointer cursor for hover */
+}
+
+.resend-link:hover {
+    color: #001a33; /* Darker shade on hover */
+}
+
+.send-code-button:hover {
+    background-color: rgba(100, 100, 95, 1);
+}
+
+/* Style for the disabled button */
+.send-code-button.disabled {
+    background-color: rgba(226, 225, 218, 1);
+    color: rgba(82, 82, 77, 1);
+    cursor: not-allowed;
+}
+
+.send-code-button.disabled:hover {
+    background-color: rgba(226, 225, 218, 1); /* Ensure no hover effect when disabled */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .verify-page {
+        margin-top: 0; /* Remove top margin for smaller screens */
+    }
+
+
+
+    .verify-title {
+        font-size: 16.6px; /* Slightly smaller title */
+    }
+
+  
+
+
+ 
+
+    .footer-text {
+        margin-left: 0; /* Center footer text on smaller screens */
+        font-size: 14px; /* Smaller footer text */
+    }
+
+    .terms-text {
+        margin-left: 0; /* Center terms text on smaller screens */
+    }
+
+    .resend-code-text {
+        margin-left: 0; /* Center resend text on smaller screens */
+    }
+}
+
 @media (max-width: 480px) {
-  .main-top-card {
-    max-width: 90vw; /* Slightly narrower on tablets */
-    height: 240px;
-    padding: 0 20px; /* More padding on tablets */
-  }
+    .verify-form-container {
+        /* padding: 20px; */
+        width: 350px;
+         /* Further reduce padding on very small screens */
+    }
 
-  .home-analytic {
-    max-width: 90vw; /* Slightly narrower on tablets */
-  }
-}
+    .verify-title {
+        font-size: 16.6px; /* Even smaller title */
+    }
 
-/* Tablet styles */
-@media (min-width: 768px) {
-  .main-top-card {
-    max-width: 90vw; /* Slightly narrower on tablets */
-    height: 260px;
-    padding: 0 20px; /* More padding on tablets */
-  }
-}
 
-/* Desktop styles */
-@media (min-width: 1024px) {
-  .main-top-card {
-    max-width: 70vw; /* Even more narrow on desktops */
-    height: 260px;
-    padding: 0 20px; /* Larger padding on desktop */
-  }
+    .otp-input-container input {
+        width: 45px; /* Further adjust OTP input size */
+        height: 60px; /* Further adjust height */
+        font-size: 18px;
+        margin-left: 4px;
+        /* Further reduce font size for input */
+    }
 
-  /* Bottom navigation */
+
+
+    .verify-page {
+        border: none;
+    }
 }
