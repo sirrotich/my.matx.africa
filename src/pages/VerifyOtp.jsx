@@ -84,7 +84,7 @@ const VerifyOtp = () => {
                                     handleOtpChange(inputValue, index);
                                 }
                             }}
-                            placeholder="--"
+                            placeholder="-"
                             maxLength="1"
                             ref={(el) => inputRefs.current[index] = el}
                         />
