@@ -13,11 +13,11 @@ const VerifyOtp = () => {
   const inputRefs = useRef([]);
   const [isResending, setIsResending] = useState(false);
   const [countdown, setCountdown] = useState(60);
-  const [isCountdownActive, setIsCountdownActive] = useState(true);
+  const [isCountdownActive, setIsCountdownActive] = useState(loginMethod === 'mobile');
 
   useEffect(() => {
     let timer;
-    if (isCountdownActive && countdown > 0) {
+    if (loginMethod === 'mobile' && isCountdownActive && countdown > 0) {
       timer = setInterval(() => {
         setCountdown((prev) => prev - 1);
       }, 1000);
@@ -26,7 +26,7 @@ const VerifyOtp = () => {
     }
 
     return () => clearInterval(timer);
-  }, [countdown, isCountdownActive]);
+  }, [countdown, isCountdownActive, loginMethod]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -92,7 +92,7 @@ const VerifyOtp = () => {
   };
 
   const handleResendCode = async () => {
-    if (isResending || isCountdownActive) return;
+    if (loginMethod === 'mobile' && (isResending || isCountdownActive)) return;
     setIsResending(true);
 
     const requestBody = {
@@ -105,8 +105,10 @@ const VerifyOtp = () => {
     try {
       await axios.post('https://apis.gasmat.africa/users/authenticate', requestBody);
       toast.success(`New OTP sent successfully to ${contactInfo}`);
-      setCountdown(60);
-      setIsCountdownActive(true);
+      if (loginMethod === 'mobile') {
+        setCountdown(60);
+        setIsCountdownActive(true);
+      }
       setOtp(['', '', '', '', '', '']);
     } catch (error) {
       console.error('Error resending OTP:', error);
@@ -118,14 +120,52 @@ const VerifyOtp = () => {
 
   const isNextButtonDisabled = otp.filter(val => val !== '').length < 6;
 
+  const renderResendCode = () => {
+    if (loginMethod === 'mobile') {
+      return isCountdownActive ? (
+        `Resend code in ${formatTime(countdown)}`
+      ) : (
+        <>
+          I didn't receive code?{' '}
+          <span 
+            className="resend-link" 
+            onClick={handleResendCode}
+            style={{ 
+              cursor: isResending ? 'not-allowed' : 'pointer',
+              opacity: isResending ? 0.7 : 1 
+            }}
+          >
+            {isResending ? 'Sending...' : 'Resend Code'}
+          </span>
+        </>
+      );
+    } else {
+      return (
+        <>
+          I didn't receive code?{' '}
+          <span 
+            className="resend-link" 
+            onClick={handleResendCode}
+            style={{ 
+              cursor: isResending ? 'not-allowed' : 'pointer',
+              opacity: isResending ? 0.7 : 1 
+            }}
+          >
+            {isResending ? 'Sending...' : 'Resend Code'}
+          </span>
+        </>
+      );
+    }
+  };
+
   return (
     <div className="verify-page">
       <div className="verify-form-container">
         <h1 className="verify-title">Verify your identity</h1>
         <p className="otp-sent-message">
           {loginMethod === 'email'
-            ? `An authentication code has been sent to ${contactInfo}`
-            : `An authentication code SMS has been sent to ${contactInfo}`}
+            ? `An login code has been sent to ${contactInfo}`
+            : `An login code SMS has been sent to ${contactInfo}`}
         </p>
         <div className="otp-input-container" onPaste={handlePaste}>
           {otp.map((value, index) => (
@@ -146,23 +186,7 @@ const VerifyOtp = () => {
           ))}
         </div>
         <p className="resend-code-text">
-          {isCountdownActive ? (
-            `Resend code in ${formatTime(countdown)}`
-          ) : (
-            <>
-              I didn't receive code?{' '}
-              <span 
-                className="resend-link" 
-                onClick={handleResendCode}
-                style={{ 
-                  cursor: isResending ? 'not-allowed' : 'pointer',
-                  opacity: isResending ? 0.7 : 1 
-                }}
-              >
-                {isResending ? 'Sending...' : 'Resend Code'}
-              </span>
-            </>
-          )}
+          {renderResendCode()}
         </p>
         <button
           className={`send-code-button ${isNextButtonDisabled ? 'disabled' : ''}`}
