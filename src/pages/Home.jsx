@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify'; // Import toast
 import '../styles/Home.css';
-
+import DynamicGasDropdown from '../components/DynamicGasDropdown';
 const App = () => {
 
     const currentWeight = 10.23;  
@@ -41,9 +41,13 @@ const App = () => {
                 13kg Gas
                 
             </div>  
-            <div className="home-gas">
+
+            <div className="home-gasias">
+  <DynamicGasDropdown />
+</div>   
+            {/* <div className="home-gas">
                 <button className='home-gas-btn'><span className='home-gas-text'>Home Gas</span></button>
-            </div> 
+            </div>  */}
         </div> 
             
 
