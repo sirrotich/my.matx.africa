@@ -7,7 +7,6 @@ const DynamicGasDropdown = () => {
   const { locations, selectedLocation, setSelectedLocation } = useGas();
   const location = useLocation();
   
-  // Check if we're on analytics or monthly consumption page
   const isAnalyticsPage = location.pathname === '/analytics';
   const isMonthlyPage = location.pathname.includes('/months/');
 
@@ -21,6 +20,9 @@ const DynamicGasDropdown = () => {
     setSelectedLocation(location);
     setIsOpen(false);
   };
+
+  // Filter out the currently selected location from dropdown options
+  const dropdownLocations = locations.filter(loc => loc.matx_id !== selectedLocation?.matx_id);
 
   const getStyles = () => {
     const baseButtonStyles = {
@@ -133,13 +135,16 @@ const DynamicGasDropdown = () => {
 
   const styles = getStyles();
 
+  // Don't show dropdown button if there are no other locations to select
+  const showDropdownButton = dropdownLocations.length > 0;
+
   return (
     <div style={styles.container}>
       <button onClick={toggleDropdown} style={styles.button}>
         <span style={styles.text}>
           {selectedLocation?.name}
         </span>
-        {locations.length > 1 && (
+        {showDropdownButton && (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <svg 
               width="20" 
@@ -155,7 +160,7 @@ const DynamicGasDropdown = () => {
               <path 
                 fillRule="evenodd" 
                 clipRule="evenodd" 
-                d="M4.61953 13.3165C4.85321 13.5502 5.23207 13.5502 5.46574 13.3165L9.82952 8.95275L14.1933 13.3165C14.427 13.5502 14.8058 13.5502 15.0395 13.3165C15.2732 13.0829 15.2732 12.704 15.0395 12.4703L10.2526 7.68343C10.019 7.44976 9.64009 7.44976 9.40642 7.68343L4.61953 12.4703C4.38586 12.704 4.38586 13.0829 4.61953 13.3165Z" 
+                d="M4.61953 7.68343C4.85321 7.44976 5.23207 7.44976 5.46574 7.68343L9.82952 12.0472L14.1933 7.68343C14.427 7.44976 14.8058 7.44976 15.0395 7.68343C15.2732 7.91711 15.2732 8.29596 15.0395 8.52964L10.2526 13.3165C10.019 13.5502 9.64009 13.5502 9.40642 13.3165L4.61953 8.52964C4.38586 8.29596 4.38586 7.91711 4.61953 7.68343Z"
                 fill={styles.chevron}
               />
             </svg>
@@ -163,25 +168,21 @@ const DynamicGasDropdown = () => {
         )}
       </button>
 
-      {isOpen && locations.length > 1 && (
+      {isOpen && showDropdownButton && (
         <div style={styles.dropdown}>
-          {locations.map((location) => (
+          {dropdownLocations.map((location) => (
             <button
               key={location.matx_id}
               onClick={() => handleSelect(location)}
               style={{
                 ...styles.dropdownItem,
-                backgroundColor: location.name === selectedLocation?.name 
-                  ? (isAnalyticsPage || isMonthlyPage ? '#E5E5E5' : '#292927')
-                  : 'transparent',
+                backgroundColor: 'transparent'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = isAnalyticsPage || isMonthlyPage ? '#E5E5E5' : '#292927';
               }}
               onMouseLeave={(e) => {
-                if (location.name !== selectedLocation?.name) {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }
+                e.currentTarget.style.backgroundColor = 'transparent';
               }}
             >
               {location.name}
