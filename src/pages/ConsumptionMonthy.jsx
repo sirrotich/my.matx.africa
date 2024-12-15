@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, ResponsiveContainer, Cell, LabelList } from 'recharts';
 import '../styles/GasConsumptionDashboard.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import DynamicGasDropdown from '../components/DynamicGasDropdown';
 
 const CustomShape = (props) => {
   const { x, y, width, height, value } = props;
@@ -187,8 +188,10 @@ const ConsumptionMonthly = () => {
 <path fill-rule="evenodd" clip-rule="evenodd" d="M7.81404 14.3501C8.08234 14.6184 8.08234 15.0534 7.81404 15.3217L5.32274 17.813H18.7786C19.1581 17.813 19.4657 18.1206 19.4657 18.5C19.4657 18.8794 19.1581 19.187 18.7786 19.187H5.32274L7.81404 21.6783C8.08234 21.9466 8.08234 22.3816 7.81404 22.6499C7.54574 22.9182 7.11075 22.9182 6.84245 22.6499L3.17832 18.9858C2.91003 18.7175 2.91003 18.2825 3.17832 18.0142L6.84245 14.3501C7.11075 14.0818 7.54574 14.0818 7.81404 14.3501Z" fill="#292927"/>
 </svg>
 {month} 2024</div>
-        <button className='top-btn'><span className='top-btn-text'>Home Gas</span></button>
-      </div>
+<div className="top-btn-cmp">
+  <DynamicGasDropdown />
+  
+</div>         </div>
       <div className="max-w">
         <div className="p-4">
           <div className="chart-container">
