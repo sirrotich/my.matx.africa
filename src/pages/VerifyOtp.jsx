@@ -158,14 +158,24 @@ const VerifyOtp = () => {
     }
   };
 
+  const renderContactMessage = () => {
+    if (loginMethod === 'email') {
+      return `An login code has been sent to ${contactInfo}`;
+    } else {
+      return (
+        <>
+          An login code SMS has been sent to <span style={{ fontWeight: 700 }}>{contactInfo}</span>
+        </>
+      );
+    }
+  };
+
   return (
     <div className="verify-page">
       <div className="verify-form-container">
         <h1 className="verify-title">Verify your login code</h1>
         <p className="otp-sent-message">
-          {loginMethod === 'email'
-            ? `An login code has been sent to ${contactInfo}`
-            : `An login code SMS has been sent to ${contactInfo}`}
+          {renderContactMessage()}
         </p>
         <div className="otp-input-container" onPaste={handlePaste}>
           {otp.map((value, index) => (
