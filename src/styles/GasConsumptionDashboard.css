@@ -202,7 +202,7 @@ html, body {
 
   }
   .top-header {
-    font-family: Bai Jamjuree;
+    /* font-family: 'Bai Jamjuree'; */
     font-size: 18.32px;
     font-weight: 500;
     line-height: 25.65px;
@@ -215,8 +215,8 @@ html, body {
 
   }
   .top-btn {
-    width: 89.31px;
-    height: 36.64px;
+    /* width: 89.31px;
+    height: 36.64px; */
     padding: var(--SpacingSpacing-xs8) var(--SpacingSpacing-md16) var(--SpacingSpacing-xs8) var(--SpacingSpacing-md16);
     gap: var(--SpacingSpacing-sm12);
     border-radius: 328.93px;
@@ -226,9 +226,21 @@ html, body {
     margin-right: 25px;
     margin-top: 20px;
 }
+.top-btn-cmp {
+  /* width: 89.31px; */
+  height: 32.64px;
+  padding: var(--SpacingSpacing-xs8) var(--SpacingSpacing-md16) var(--SpacingSpacing-xs8) var(--SpacingSpacing-md16);
+  gap: var(--SpacingSpacing-sm12);
+  border-radius: 328.93px;
+  opacity: 0px;
+  background: var(--surface-surface-primary-100, #004A4C);
+  margin-left: auto;
+  margin-right: 25px;
+  margin-top: 20px;
+}
 .top-btn-text {
-    font-family: Bai Jamjuree;
-    font-size: 12.82px;
+  /* font-family: 'Bai Jamjuree'; */
+  font-size: 12.82px;
     font-weight: 600;
     line-height: 19.24px;
     letter-spacing: -0.025em;
@@ -245,7 +257,7 @@ html, body {
 height: 25px;
 gap: 0px;
 opacity: 0px;
-font-family: Bai Jamjuree;
+/* font-family: 'Bai Jamjuree'; */
 font-size: 17.78px;
 font-weight: 500;
 line-height: 24.89px;
@@ -257,8 +269,8 @@ margin-top: 20px;
   }
 
 .consumption-total {
-    font-family: Bai Jamjuree;
-font-size: 38.67px;
+  /* font-family: 'Bai Jamjuree'; */
+  font-size: 38.67px;
 font-weight: 500;
 line-height: 51.2px;
 letter-spacing: -0.05em;
@@ -275,7 +287,7 @@ color: var(--text-text-neutral-05, #FAFAF9);
     width: 280px;
     height: 19px;
     
-    font-family: Bai Jamjuree;
+    /* font-family: 'Bai Jamjuree'; */
     font-size: 12.44px;
     font-weight: 500;
     line-height: 18.67px;
@@ -308,7 +320,7 @@ color: var(--text-text-neutral-05, #FAFAF9);
     cursor: pointer;
     margin-top: 15px;
     margin-right: 20px;
-    font-family: Bai Jamjuree;
+    /* font-family: 'Bai Jamjuree'; */
     font-size: 10.67px;
     font-weight: 600;
     line-height: 16px;
@@ -347,7 +359,7 @@ color: var(--text-text-neutral-05, #FAFAF9);
     padding: 3px;
     color: white;
     cursor: pointer;
-    font-family: Bai Jamjuree;
+    /* font-family: 'Bai Jamjuree'; */
     font-size: 10.65px;
     font-weight: 500;
     line-height: 15.98px;
