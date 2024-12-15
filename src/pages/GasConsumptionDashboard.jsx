@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, ResponsiveContainer, Cell, LabelList } from 'recharts';
 import '../styles/GasConsumptionDashboard.css';
 import { useNavigate } from 'react-router-dom';
+import DynamicGasDropdown from '../components/DynamicGasDropdown';
 
 const CustomShape = (props) => {
   const { x, y, width, height, value } = props;
@@ -157,7 +158,10 @@ const GasConsumptionDashboard = () => {
     <div className="main-analytics-container">
       <div className="top-div">
         <div className="top-header">History</div>
-        <button className='top-btn'><span className='top-btn-text'>Home Gas</span></button>
+        <div className="top-btn">
+  <DynamicGasDropdown />
+</div>   
+        
       </div>
       <div className="max-w">
         <div className="p-4">
