@@ -160,11 +160,11 @@ const VerifyOtp = () => {
 
   const renderContactMessage = () => {
     if (loginMethod === 'email') {
-      return `An login code has been sent to ${contactInfo}`;
+      return `A login code has been sent to ${contactInfo}`;
     } else {
       return (
         <>
-          An login code SMS has been sent to <span style={{ fontWeight: 700 }}>{contactInfo}</span>
+          A login code SMS has been sent to <span style={{ fontWeight: 700 }}>{contactInfo}</span>
         </>
       );
     }
