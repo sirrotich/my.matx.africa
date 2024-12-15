@@ -161,7 +161,7 @@ const VerifyOtp = () => {
   return (
     <div className="verify-page">
       <div className="verify-form-container">
-        <h1 className="verify-title">Verify your identity</h1>
+        <h1 className="verify-title">Verify your login code</h1>
         <p className="otp-sent-message">
           {loginMethod === 'email'
             ? `An login code has been sent to ${contactInfo}`
