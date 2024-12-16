@@ -21,7 +21,6 @@ const DynamicGasDropdown = () => {
     setIsOpen(false);
   };
 
-  // Filter out the currently selected location from dropdown options
   const dropdownLocations = locations.filter(loc => loc.matx_id !== selectedLocation?.matx_id);
 
   const getStyles = () => {
@@ -43,20 +42,21 @@ const DynamicGasDropdown = () => {
       letterSpacing: '-0.02em',
       textAlign: 'left',
       position: 'relative',
-      zIndex: 1000,
+      zIndex: 2,  // Updated to ensure button stays above dropdown
       padding: '4px 16px'
     };
 
     const baseDropdownStyles = {
       position: 'absolute',
-      top: '100%',
+      top: '0',  // Changed from 100% to 0
       right: 0,
-      marginTop: '2px',
+      paddingTop: '25px',  // Added to create space for the button
+      // marginTop: '-1px',  
       borderRadius: '15px',
       minWidth: '92px',
       overflow: 'hidden',
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-      zIndex: 9999
+      zIndex: 1  // Updated to ensure dropdown stays behind button
     };
 
     const containerStyles = {
@@ -135,7 +135,6 @@ const DynamicGasDropdown = () => {
 
   const styles = getStyles();
 
-  // Don't show dropdown button if there are no other locations to select
   const showDropdownButton = dropdownLocations.length > 0;
 
   return (
