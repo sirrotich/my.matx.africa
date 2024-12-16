@@ -12,19 +12,38 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  const formatPhoneNumber = (number) => {
+    // Remove all non-digit characters
+    let cleaned = number.replace(/\D/g, '');
+
+    // Convert to 0... format for consistency
+    if (cleaned.startsWith('254')) {
+      cleaned = '0' + cleaned.substring(3);
+    }
+    return cleaned;
+  };
+
   const validateInput = (value) => {
     if (loginMethod === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(value);
     } else {
-      // Validate phone number (Kenya format starting with 07 or 01)
+      // Clean and format the number first
+      const formatted = formatPhoneNumber(value);
+      // Only validate 07... or 01... format
       const phoneRegex = /^0[17]\d{8}$/;
-      return phoneRegex.test(value);
+      return phoneRegex.test(formatted);
     }
   };
 
   const handleInputChange = (e) => {
-    const value = e.target.value;
+    let value = e.target.value;
+    
+    if (loginMethod === 'mobile') {
+      // Allow +, digits, and spaces in input for user convenience
+      value = value.replace(/[^\d\s+]/g, '');
+    }
+    
     setContactInfo(value);
     setIsValid(validateInput(value));
   };
@@ -38,19 +57,25 @@ const Login = () => {
     if (isProcessing) return;
     setIsProcessing(true);
 
+    let formattedPhone = contactInfo;
+    if (loginMethod === 'mobile') {
+      // Format to 0... format first
+      formattedPhone = formatPhoneNumber(contactInfo);
+    }
+
     const requestBody = {
       email: loginMethod === 'email' ? contactInfo : '',
-      phone_number: loginMethod === 'mobile' ? contactInfo : '',
+      phone_number: loginMethod === 'mobile' ? formattedPhone : '',
       user_type: 'customer',
       channel: 'web'
     };
 
     try {
       const response = await axios.post('https://apis.gasmat.africa/users/authenticate', requestBody);
-      toast.success(`OTP sent successfully to ${contactInfo}`);
+      toast.success(`OTP sent successfully to ${formattedPhone}`);
       navigate('/verify-otp', { 
         state: { 
-          contactInfo,
+          contactInfo: formattedPhone, // Pass the formatted number
           loginMethod,
           email: requestBody.email,
           phone_number: requestBody.phone_number
