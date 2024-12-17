@@ -51,12 +51,13 @@ const DynamicGasDropdown = () => {
       top: '0',  // Changed from 100% to 0
       right: 0,
       paddingTop: '25px',  // Added to create space for the button
-      // marginTop: '-1px',  
       borderRadius: '15px',
       minWidth: '92px',
       overflow: 'hidden',
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-      zIndex: 1  // Updated to ensure dropdown stays behind button
+      zIndex: 1,  // Updated to ensure dropdown stays behind button
+      border: '1px solid #004A4C'  // Added border here
+
     };
 
     const containerStyles = {
