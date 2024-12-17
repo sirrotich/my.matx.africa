@@ -10,10 +10,25 @@ const VerifyOtp = () => {
   const { contactInfo, loginMethod, email, phone_number } = location.state || {};
 
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [isBackDisabled, setIsBackDisabled] = useState(false);
+
   const inputRefs = useRef([]);
   const [isResending, setIsResending] = useState(false);
   const [countdown, setCountdown] = useState(60);
   const [isCountdownActive, setIsCountdownActive] = useState(loginMethod === 'mobile');
+
+  useEffect(() => {
+    // Check if any OTP digit is entered
+    const hasAnyDigit = otp.some(digit => digit !== '');
+    setIsBackDisabled(hasAnyDigit);
+  }, [otp]);
+
+  const handleBack = () => {
+    if (!isBackDisabled) {
+      navigate(-1);
+    }
+  };
+
 
   useEffect(() => {
     let timer;
@@ -204,6 +219,13 @@ const VerifyOtp = () => {
           disabled={isNextButtonDisabled}
         >
           Login <span className="arrow-icon">→</span>
+        </button>
+        <button
+          className={`back-button ${isBackDisabled ? 'disabled' : ''}`}
+          onClick={handleBack}
+          disabled={isBackDisabled}
+        >
+          ← Back
         </button>
       </div>
     </div>
