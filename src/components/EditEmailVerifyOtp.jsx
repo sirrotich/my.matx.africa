@@ -149,7 +149,7 @@ const EditEmailVerifyOtp = ({ onClose, onUpdate }) => {
     } else {
       return (
         <>
-          A login code SMS has been sent to <span style={{ fontWeight: 700 }}>{contactNewEmailInfo}</span>
+          A verification code email has been sent to <span style={{ fontWeight: 700 }}>{contactNewEmailInfo}</span>
         </>
       );
     }
@@ -174,7 +174,7 @@ const EditEmailVerifyOtp = ({ onClose, onUpdate }) => {
   };
 
   return (
-    <div className="edit-mobile-verify-otp-container">
+    <div className="edit-email-verify-otp-container">
       {/* Header */}
       <div className="edit-mobile-verify-otp-header">
       <div className="back-buttn" onClick={handleBack}>
