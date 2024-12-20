@@ -9,8 +9,11 @@ import GasConsumptionDashboard from '../pages/GasConsumptionDashboard';
 import Profile from "../pages/Profile";
 import ConsumptionMonthly from "../pages/ConsumptionMonthy";
 import ProtectedRoute from '../components/ProtectedRoute'; // Import the new component
-
-
+import AccountInfo from "../pages/AccountInfo";
+import Notifications from "../pages/Notifications";
+import About from "../pages/About";
+import Terms from "../pages/Terms";
+import Privacy from "../pages/Privacy";
 const AppRouter = () => {
   return (
     <Router>
@@ -48,6 +51,53 @@ const AppRouter = () => {
           element={
             <ProtectedRoute>
               <ConsumptionMonthly />
+            </ProtectedRoute>
+          }
+        />
+
+      <Route
+          path="/account"
+          element={
+            <ProtectedRoute>
+              <AccountInfo />
+            </ProtectedRoute>
+          }
+        />
+
+
+      <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <Notifications />
+            </ProtectedRoute>
+          }
+        />
+
+<Route
+          path="/about"
+          element={
+            <ProtectedRoute>
+              <About />
+            </ProtectedRoute>
+          }
+        />
+
+
+      <Route
+          path="/terms"
+          element={
+            <ProtectedRoute>
+              <Terms />
+            </ProtectedRoute>
+          }
+        />
+
+<Route
+          path="/privacy"
+          element={
+            <ProtectedRoute>
+              <Privacy />
             </ProtectedRoute>
           }
         />
