@@ -27,10 +27,18 @@
 
   
   .privacy-container {
-    overflow-y:scroll;
+    overflow-y: scroll;
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
     padding: 0 15px;
     min-height: 400px;
   }
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .privacy-container::-webkit-scrollbar {
+    display: none;
+  }
+  
   
   
   .navigation-privacy {
@@ -146,7 +154,18 @@
     .privacy-page {
       border: none;
       border-radius: 0;
+      height: 100vh;
     }
+
+    .privacy-container {
+      overflow-y: scroll;
+      scrollbar-width: none;  /* Firefox */
+      -ms-overflow-style: none;  /* IE and Edge */
+      padding: 0 15px;
+      min-height: 630px;
+      
+    }
+    
   
     .bottom-nav {
         position: fixed;
