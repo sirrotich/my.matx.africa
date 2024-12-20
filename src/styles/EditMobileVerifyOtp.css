@@ -1,5 +1,5 @@
 
-.edit-email-verify-otp-container {
+.edit-mobile-verify-otp-container {
     display: flex;
     flex-direction: column;
     width: 360px;
@@ -9,7 +9,7 @@
     border-radius: 20px;
   }
   
-  .edit-email-verify-otp-header {
+  .edit-mobile-verify-otp-header {
     display: flex;
     align-items: center;
     padding: 20px 16px;
@@ -17,7 +17,7 @@
     font-family: 'Bai Jamjuree';
   }
   
-  .edit-email-verify-otp-header span {
+  .edit-mobile-verify-otp-header span {
     font-family: 'Bai Jamjuree';
     font-size: 16.49px;
     font-weight: 500;
@@ -31,9 +31,9 @@
   }
   
   
+
   
-  
-  .edit-email-verify-otp-form-container {
+  .edit-mobile-verify-otp-form-container {
     padding: 5px 16px;
     flex: 1;
     gap:21.32px;
@@ -41,7 +41,7 @@
 
   }
   
-  .edit-email-verify-otp-form {
+  .edit-mobile-verify-otp-form {
     background: #EBEBE6;
     border-radius: 24px;
     padding: 32px 24px;
@@ -55,7 +55,7 @@
 
 }
 
-.edit-email-verify-otp-text span {
+.edit-mobile-verify-otp-text span {
     font-family: 'Bai Jamjuree';
     font-size: 12.44px;
     font-weight: 500;
@@ -66,7 +66,7 @@
     text-decoration-skip-ink: none;
 
 }
-  .edit-email-verify-otp-verify-text span {
+  .edit-mobile-verify-otp-verify-text span {
     font-family: 'Bai Jamjuree';
     font-size: 10.67px;
     font-weight: 500;
@@ -212,7 +212,7 @@
   
   
 
-  .navigation-edit-email-verify-otp {
+  .navigation-edit-mobile-verify-otp {
     display: flex;
     bottom: 0;
     height: 77px;
@@ -235,7 +235,7 @@
   
   /* Media Queries */
   @media screen and (max-width: 480px) {
-    .edit-email-verify-otp-container {
+    .edit-mobile-verify-otp-container {
       border: none;
       border-radius: 0;
       height: 100vh;
@@ -249,7 +249,7 @@
         z-index: 10;
       }
   
-      .navigation-edit-email-verify-otp {
+      .navigation-edit-mobile-verify-otp {
           display: flex;
           height: 64px;
           gap: 0px;
