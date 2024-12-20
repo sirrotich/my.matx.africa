@@ -1,0 +1,174 @@
+.about-page {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    height: 639px;
+    background: #FFFFFF;
+    border: 2px solid #004A4C;
+    border-radius: 20px;
+    position: relative;
+    gap: 15px;
+   
+  }
+  
+  .about-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 16px;
+    gap: 16px;
+    font-family: 'Bai Jamjuree';
+  }
+  
+  .about-header span {
+    font-size: 16px;
+    font-weight: 500;
+    color: #292927;
+    margin-left: -10px;
+  }
+  
+  .back-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .about-container {
+    padding: 0 14px;
+    margin-top: -20px;
+  }
+  
+  .about-card {
+    width: 328px;
+    height: 160px;
+    background: #004A4C;
+    border-radius: 28.44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .logo-container {
+    margin-bottom: 24px;
+  }
+  
+  .logo-container svg {
+    width: 44px;
+    height: 44px;
+    margin-top: 20px;
+
+  }
+  
+  .brand-name {
+    font-family: 'Bai Jamjuree';
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 40px;
+    color: #FFFFFF;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.02em;
+    margin-top: -20px;
+
+  }
+  
+  .version {
+    font-family: 'Bai Jamjuree';
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #FAFAF9;
+    margin: 0;
+    opacity: 0.8;
+    margin-top: -10px;
+
+  }
+ 
+
+
+  .navigation-about {
+    display: flex;
+    bottom: 0;
+    height: 77px;
+    top: 561px;
+    gap: 0px;
+    border-radius: var(--Spacingnone0) 0px 20px 20px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
+    background: var(--surface-surface-neutral-2, #EBEBE6);
+    width: 356px;
+    display: flex;  
+    flex-direction: row;  
+    align-items: center;  
+    justify-content: space-between;  
+    border-radius: 0 0 20px 20px; 
+    margin-top: 97px;
+    padding: 30px;
+
+  }
+
+  .terms-menu-group {
+    width:328px;
+    height: 92px;
+    top: 31px;
+    left: 18px;
+    padding: 14.22px;
+    gap: 7.11px;
+    border-radius: 28.44px;
+    opacity: 0px;
+    background-color: #EBEBE6;
+    margin-left: 15px;
+  
+  }
+
+  .privacy-menu-group {
+    width:328px;
+    height: 92px;
+    top: 31px;
+    left: 18px;
+    padding: 14.22px;
+    gap: 7.11px;
+    border-radius: 28.44px;
+    opacity: 0px;
+    background-color: #EBEBE6;
+    margin-left: 15px;
+
+  
+  }
+  
+
+  
+  /* Media Queries */
+  @media screen and (max-width: 480px) {
+    .about-page {
+     
+      border: none;
+      border-radius: 0;
+    }
+  
+
+  
+  
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+      }
+  
+      .navigation-about {
+          display: flex;
+          height: 64px;
+          gap: 0px;
+          opacity: 1; /* Ensure it is visible */
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          width: 100vw; /* Full width on small screens */
+          left: 0; 
+          background: #EBEBE6;
+          padding: 0 20px;
+          box-sizing: border-box;
+          bottom: 0;
+      }
+  }

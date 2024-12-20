@@ -1,0 +1,133 @@
+.account-info-page {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    height: 639px;
+    background: #FFFFFF;
+    border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
+    border-radius: 20px;
+    position: relative;
+  }
+  
+  .account-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 16px;
+    gap: 16px;
+    font-family: 'Bai Jamjuree';
+  }
+  
+  .account-header span {
+    font-family: 'Bai Jamjuree';
+    font-size: 16.49px;
+    font-weight: 500;
+    line-height: 23.08px;
+    letter-spacing: -0.035em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color:  #292927;
+
+  }
+  
+
+  .info-container {
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .info-card {
+    background: #EBEBE6;
+    border-radius: 28.44px;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .info-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-left: 10px;
+  }
+  
+  .info-text .label {
+    font-family: 'Bai Jamjuree';
+    font-size: 14.22px;
+    font-weight: 600;
+    color: #292927;
+    letter-spacing: -0.25px;
+  }
+  
+  .info-text .value {
+    font-family: Bai Jamjuree;
+    font-size: 12.44px;
+    font-weight: 400;
+    line-height: 18.67px;
+    letter-spacing: -0.025em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    
+  }
+  .navigation-account {
+    display: flex;
+    bottom: 0;
+    height: 77px;
+    top: 561px;
+    gap: 0px;
+    border-radius: var(--Spacingnone0) 0px 20px 20px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
+    background: var(--surface-surface-neutral-2, #EBEBE6);
+    width: 356px;
+    display: flex;  
+    flex-direction: row;  
+    align-items: center;  
+    justify-content: space-between;  
+    border-radius: 0 0 20px 20px; 
+    margin-top: 184.5px;
+    padding: 30px;
+
+  }
+  
+  /* Media Queries */
+  @media screen and (max-width: 480px) {
+    .account-info-page {
+      border: none;
+      border-radius: 0;
+    }
+  
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+      }
+  
+      .navigation-account {
+          display: flex;
+          height: 64px;
+          gap: 0px;
+          opacity: 1; /* Ensure it is visible */
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          width: 100vw; /* Full width on small screens */
+          left: 0; 
+          background: #EBEBE6;
+          padding: 0 20px;
+          box-sizing: border-box;
+          bottom: 0;
+      }
+  }

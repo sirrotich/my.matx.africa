@@ -1,0 +1,266 @@
+
+.edit-email-verify-otp-container {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    height: 639px;
+    background: #FFFFFF;
+    border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
+    border-radius: 20px;
+  }
+  
+  .edit-email-verify-otp-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 16px;
+    gap: 16px;
+    font-family: 'Bai Jamjuree';
+  }
+  
+  .edit-email-verify-otp-header span {
+    font-family: 'Bai Jamjuree';
+    font-size: 16.49px;
+    font-weight: 500;
+    line-height: 23.08px;
+    letter-spacing: -0.035em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color:  #292927;
+
+  }
+  
+  
+  
+  
+  .edit-email-verify-otp-form-container {
+    padding: 5px 16px;
+    flex: 1;
+    gap:21.32px;
+    height: 262px;
+
+  }
+  
+  .edit-email-verify-otp-form {
+    background: #EBEBE6;
+    border-radius: 24px;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+.arrow-icon {
+   margin-left: 10px;
+
+}
+
+.edit-email-verify-otp-text span {
+    font-family: 'Bai Jamjuree';
+    font-size: 12.44px;
+    font-weight: 500;
+    line-height: 18.67px;
+    letter-spacing: -0.025em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+}
+  .edit-email-verify-otp-verify-text span {
+    font-family: 'Bai Jamjuree';
+    font-size: 10.67px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: -0.02em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+  }
+
+  .verify-new-mobile-form-container {
+    width: 332px;
+    padding: 10px;
+    background: var(--surface-surface-neutral-2, #EBEBE6);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    min-height: 312px;
+    height: auto;
+    gap: 5.6px;
+    padding-bottom: 10px;
+    padding: 22px;
+    margin-left: 12px;
+    
+}
+
+/* Title */
+.verify-new-mobile-title {
+  width: 100%; /* Make it full width */
+  /* font-family: 'Bai Jamjuree'; */
+  font-size: 16.6px;
+  font-weight: 500;
+  line-height: 23.24px;
+  letter-spacing: -0.04em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  margin-top: 10px;
+  margin-left: 4px;
+
+}
+
+/* OTP Sent Message */
+.new-mobile-otp-sent-message {
+  width: 100%; /* Make it full width */
+  opacity: 0.75;
+  font-size: 9.68px;
+  color: #000;
+  margin-bottom: 16px; /* Adjust spacing */
+  font-weight: 400;
+  margin-left: 7px;
+
+}
+
+/* OTP Input Container */
+.new-mobile-otp-input-container {
+  display: flex;
+  gap: 2px; /* Adjust the gap between OTP inputs */
+}
+
+.new-mobile-otp-input-container input {
+  width: 41.04px; /* Fixed width for OTP inputs */
+  height: 60.87px; /* Fixed height for OTP inputs */
+  padding: 16px; /* Adjust padding */
+  border-radius: 16px; /* Rounded corners */
+  border: 2px solid #ccc; /* Light gray border */
+  background-color: white; /* White background */
+  color: black; /* Text color for input */
+  text-align: center; /* Center the text */
+  margin-left: 7px;
+  padding: var(--SpacingSpacing-md16);
+  
+}
+
+/* Tiny placeholder styles */
+.new-mobile-otp-input-container input::placeholder {
+  font-size: 12px; /* Tiny placeholder size */
+  color: #bbb; /* Placeholder color */
+  gap: 8.3px;
+}
+
+/* Focus effect for OTP input */
+.new-mobile-otp-input-container input:focus {
+  outline: none; /* Remove default outline */
+  border-color: #53D5FF; /* Change border color on focus */
+}
+
+/* Resend Code Text */
+.new-mobile-resend-code-text {
+  margin-top: 20px; 
+  font-size: 14px; /* Font size */
+  font-weight: 200;
+  color: black; /* Black color for the text */
+  text-align: center; /* Center the text */
+}
+
+.new-mobile-resend-link {
+  color: black; /* Darker shade for the link */
+  font-weight: 400;
+  cursor: pointer; /* Pointer cursor for hover */
+}
+
+.new-mobile-resend-link:hover {
+  color: #001a33; /* Darker shade on hover */
+}
+.new-mobile-send-code-button:hover {
+  background-color: rgba(100, 100, 95, 1);
+}
+
+/* Style for the disabled button */
+.new-mobile-send-code-button.disabled {
+  background-color: rgba(226, 225, 218, 1);
+  color: rgba(82, 82, 77, 1);
+  cursor: not-allowed;
+}
+
+.new-mobile-send-code-button.disabled:hover {
+  background-color: rgba(226, 225, 218, 1); /* Ensure no hover effect when disabled */
+}
+
+/* Next Button */
+.new-mobile-send-code-button {
+  width: 100%; /* Set to 100% for responsiveness */
+  max-width: 210px; /* Max width to maintain layout */
+  height: 50px; /* Fixed height */
+  border-radius: 360px; /* Fully rounded */
+  background: rgba(0, 74, 76, 1); /* Background color */
+  display: flex; /* Ensure flex properties for centering */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  margin: 4px auto; /* Center the button and give some space above and below */
+  color: #fff; /* Text color for button */
+  border: none; /* Remove default border */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-top: -5px;
+}
+
+.new-mobile-send-code-button:hover {
+  background-color: #083f34; /* Darker shade on hover */
+}
+
+  
+  
+
+  .navigation-edit-email-verify-otp {
+    display: flex;
+    bottom: 0;
+    height: 77px;
+    top: 561px;
+    gap: 0px;
+    border-radius: var(--Spacingnone0) 0px 20px 20px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
+    background: var(--surface-surface-neutral-2, #EBEBE6);
+    width: 356px;
+    display: flex;  
+    flex-direction: row;  
+    align-items: center;  
+    justify-content: space-between;  
+    border-radius: 0 0 20px 20px; 
+    margin-top: 181px;
+    padding: 30px;
+
+  }
+  
+  /* Media Queries */
+  @media screen and (max-width: 480px) {
+    .edit-email-verify-otp-container {
+      border: none;
+      border-radius: 0;
+    }
+  
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+      }
+  
+      .navigation-edit-email-verify-otp {
+          display: flex;
+          height: 64px;
+          gap: 0px;
+          opacity: 1; /* Ensure it is visible */
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          width: 100vw; /* Full width on small screens */
+          left: 0; 
+          background: #EBEBE6;
+          padding: 0 20px;
+          box-sizing: border-box;
+          bottom: 0;
+      }
+  }
