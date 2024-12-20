@@ -1,5 +1,5 @@
 
-.edit-mobile-container {
+.edit-email-container {
     display: flex;
     flex-direction: column;
     width: 360px;
@@ -10,7 +10,7 @@
     position: relative;
   }
   
-  .edit-mobile-header {
+  .edit-email-header {
     display: flex;
     align-items: center;
     padding: 20px 16px;
@@ -18,7 +18,7 @@
     font-family: 'Bai Jamjuree';
   }
   
-  .edit-mobile-header span {
+  .edit-email-header span {
     font-family: 'Bai Jamjuree';
     font-size: 16.49px;
     font-weight: 500;
@@ -39,7 +39,7 @@
     padding: 0;
   }
   
-  .edit-mobile-form-container {
+  .edit-email-form-container {
     padding: 5px 16px;
     flex: 1;
     gap:21.32px;
@@ -47,7 +47,7 @@
 
   }
   
-  .edit-mobile-form {
+  .edit-email-form {
     background: #EBEBE6;
     border-radius: 24px;
     padding: 32px 24px;
@@ -61,7 +61,7 @@
 
 }
 
-.edit-mobile-text span {
+.edit-email-text span {
     font-family: 'Bai Jamjuree';
     font-size: 12.44px;
     font-weight: 500;
@@ -72,7 +72,7 @@
     text-decoration-skip-ink: none;
 
 }
-  .edit-mobile-verify-text span {
+  .edit-email-verify-text span {
     font-family: 'Bai Jamjuree';
     font-size: 10.67px;
     font-weight: 500;
@@ -98,7 +98,7 @@
   }
   
 
-  .navigation-edit-mobile {
+  .navigation-edit-email {
     display: flex;
     bottom: 0;
     height: 77px;
@@ -121,9 +121,11 @@
   
   /* Media Queries */
   @media screen and (max-width: 480px) {
-    .edit-mobile-container {
+    .edit-email-container {
       border: none;
       border-radius: 0;
+      height: 100vh;
+
     }
   
     .bottom-nav {
@@ -134,7 +136,7 @@
         z-index: 10;
       }
   
-      .navigation-edit-mobile {
+      .navigation-edit-email {
           display: flex;
           height: 64px;
           gap: 0px;
