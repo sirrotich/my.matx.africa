@@ -25,7 +25,7 @@ const VerifyOtp = () => {
 
   const handleBack = () => {
     if (!isBackDisabled) {
-      navigate(-1);
+      navigate('/login');
     }
   };
 
@@ -118,7 +118,7 @@ const VerifyOtp = () => {
     };
 
     try {
-      await axios.post('https://apis.gasmat.africa/users/authenticate', requestBody);
+      await axios.post('https://apis.gasmat.africa/users/resend-otp', requestBody);
       toast.success(`New OTP sent successfully to ${contactInfo}`);
       if (loginMethod === 'mobile') {
         setCountdown(60);
@@ -218,10 +218,13 @@ const VerifyOtp = () => {
           onClick={handleNext}
           disabled={isNextButtonDisabled}
         >
-          Login <span className="arrow-icon">→</span>
+          Login <span className="arrow-icon"><svg width="17" height="9" viewBox="0 0 17 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M11.8619 0.195277C11.6016 0.455627 11.6016 0.877737 11.8619 1.13809L14.2794 3.55557H1.22221C0.854019 3.55557 0.555542 3.85405 0.555542 4.22224C0.555542 4.59043 0.854019 4.8889 1.22221 4.8889H14.2794L11.8619 7.30639C11.6016 7.56674 11.6016 7.98885 11.8619 8.2492C12.1223 8.50955 12.5444 8.50955 12.8047 8.2492L16.3603 4.69364C16.6206 4.43329 16.6206 4.01118 16.3603 3.75083L12.8047 0.195277C12.5444 -0.0650721 12.1223 -0.0650721 11.8619 0.195277Z" fill="#FAFAF9"/>
+</svg>
+</span>
         </button>
         <button
-          className={`back-button ${isBackDisabled ? 'disabled' : ''}`}
+          className={`login-back-button ${isBackDisabled ? 'disabled' : ''}`}
           onClick={handleBack}
           disabled={isBackDisabled}
         >
