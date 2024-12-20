@@ -25,12 +25,19 @@
   }
   
 
-  
   .terms-container {
-    overflow-y:scroll;
+    overflow-y: scroll;
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
     padding: 0 15px;
     min-height: 400px;
   }
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .terms-container::-webkit-scrollbar {
+    display: none;
+  }
+  
   
   
   .navigation-terms {
@@ -146,6 +153,16 @@
     .terms-page {
       border: none;
       border-radius: 0;
+      height: 100vh;
+    }
+
+    .terms-container {
+      overflow-y: scroll;
+      scrollbar-width: none;  /* Firefox */
+      -ms-overflow-style: none;  /* IE and Edge */
+      padding: 0 15px;
+      min-height: 630px;
+      
     }
   
     .bottom-nav {
