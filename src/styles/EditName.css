@@ -138,6 +138,8 @@
     .edit-name-container {
       border: none;
       border-radius: 0;
+      height: 100vh;
+
     }
   
     .bottom-nav {
