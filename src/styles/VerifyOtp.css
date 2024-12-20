@@ -168,24 +168,19 @@ body {
     color: #001a33; /* Darker shade on hover */
 }
 
-.send-code-button:hover {
-    background-color: rgba(100, 100, 95, 1);
-}
 
 /* Style for the disabled button */
 .send-code-button.disabled {
-    background-color: rgba(226, 225, 218, 1);
-    color: rgba(82, 82, 77, 1);
+    background-color: #E2E1DA;
+    color: #52524D;
     cursor: not-allowed;
-}
-
-.send-code-button.disabled:hover {
-    background-color: rgba(226, 225, 218, 1); /* Ensure no hover effect when disabled */
+    opacity: 80%;
 }
 
 
 
-.back-button {
+
+.login-back-button {
     width: 100%;
     max-width: 210px;
     height: 50px;
@@ -195,21 +190,20 @@ body {
     justify-content: center;
     align-items: center;
     margin: 10px auto;
-    color: #fff;
+    color: #FAFAF9;
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
   }
   
-  .back-button.disabled {
-    background-color: rgba(226, 225, 218, 1);
-    color: rgba(82, 82, 77, 1);
+  .login-back-button.disabled {
+    background-color: #E2E1DA;
+    color: #52524D;
     cursor: not-allowed;
+    opacity: 80%;
   }
   
-  .back-button:hover:not(.disabled) {
-    background-color: #083f34;
-  }
+
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
     .verify-page {
