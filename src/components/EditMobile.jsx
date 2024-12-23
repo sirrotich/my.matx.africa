@@ -97,7 +97,7 @@ const EditMobile = ({ onClose, onUpdate, currentUserInfo }) => {
   const handleMobileUpdateVerifyOtp = (newMobileInfo) => {
     setMobileInfo(prev => ({
       ...prev,
-      mobile: newMobileInfo.fullName || prev.mobile
+      mobile: newMobileInfo.phone || prev.mobile
     }));
     setShowMobileName(false);
   };
@@ -109,6 +109,7 @@ const EditMobile = ({ onClose, onUpdate, currentUserInfo }) => {
         onClose={() => setShowEditMobileVerifyOtp(false)}
         newPhoneNumber={formatPhoneNumber(contactNewMobileInfo)}
         onUpdate={onUpdate}
+        currentUserInfo={currentUserInfo}
       />
     );
   }
@@ -129,15 +130,20 @@ const EditMobile = ({ onClose, onUpdate, currentUserInfo }) => {
         <div className="edit-mobile-form">
         
         <div className="edit-mobile-text">
-            <span>Please enter the new mobile number you’d like to update to…</span>
+        
+            {currentUserInfo?.phone ? (
+              <span>Enter a new mobile number to replace <span style={{ fontWeight: 700 }}>{currentUserInfo.phone}</span></span>
+            ) : (
+              <span>Add your mobile number for notifications and login.</span>
+            )}
         </div>
 
-        <div className="input-group">
-            <label>Mobile Number</label>
+        <div className="mobile-input-group">
             <input
               type="number"
               onChange={handleInputChange}
               value={contactNewMobileInfo}
+              placeholder='0722123456'
             />
         </div>
 
@@ -147,7 +153,7 @@ const EditMobile = ({ onClose, onUpdate, currentUserInfo }) => {
         <div onClick={() => setShowEditMobileVerifyOtp(true)} style={{ cursor: 'pointer' }}>
 
         <button 
-            className={`update-button ${!isValid || isLoading ? 'disabled' : ''}`}
+            className={`update-mobile-button ${!isValid || isLoading ? 'disabled' : ''}`}
             onClick={handleSubmit}
             disabled={!isValid || isLoading}
           >
