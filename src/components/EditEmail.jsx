@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getUserId } from '../utils/auth';
+import { toast } from 'react-toastify';
 import '../styles/EditEmail.css';
 import EditEmailVerifyOtp from './EditEmailVerifyOtp';
 
-const EditEmail = ({ onClose, onUpdate }) => {
+const EditEmail = ({ onClose, onUpdate, currentUserInfo }) => {
   const navigate = useNavigate();
   const [contactNewEmailInfo, setContactNewEmailInfo] = useState('');
   const [isValid, setIsValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [activeNav, setActiveNav] = useState('/profile');
   const [showEditEmailVerifyOtp, setShowEditEmailVerifyOtp] = useState(false);
@@ -24,9 +27,38 @@ const EditEmail = ({ onClose, onUpdate }) => {
     setIsValid(validateInput(value));
   };
 
-  const handleSubmit = () => {
-    onUpdate({ email });
-    onClose();
+  const handleSubmit = async () => {
+    if (!isValid) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const userId = getUserId();
+      const response = await fetch('https://apis.gasmat.africa/users/request-update-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          new_email: contactNewEmailInfo,
+          channel: 'web'
+        })
+      });
+
+      if (response.ok) {
+        setShowEditEmailVerifyOtp(true);
+      } else {
+        throw new Error('Failed to send verification code');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to send verification code. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleNavigate = (path) => {
@@ -51,13 +83,19 @@ const EditEmail = ({ onClose, onUpdate }) => {
   };
 
   if (showEditEmailVerifyOtp) {
-    return <EditEmailVerifyOtp onClose={() => setShowEditEmailVerifyOtp(false)} onUpdate={handleEmailUpdateVerifyOtp} />;
+    return (
+      <EditEmailVerifyOtp 
+        onClose={() => setShowEditEmailVerifyOtp(false)} 
+        onUpdate={onUpdate}
+        newEmail={contactNewEmailInfo}
+      />
+    );
   }
 
   return (
-    <div className="edit-mobile-container">
+    <div className="edit-email-container">
       {/* Header */}
-      <div className="edit-mobile-header">
+      <div className="edit-email-header">
       <div className="back-buttn" onClick={handleBack}>
         <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M7.81406 7.35009C8.08235 7.61839 8.08235 8.05339 7.81406 8.32169L5.32275 10.813H18.7786C19.1581 10.813 19.4657 11.1206 19.4657 11.5C19.4657 11.8794 19.1581 12.187 18.7786 12.187H5.32275L7.81406 14.6783C8.08235 14.9466 8.08235 15.3816 7.81406 15.6499C7.54576 15.9182 7.11076 15.9182 6.84246 15.6499L3.17834 11.9858C2.91004 11.7175 2.91004 11.2825 3.17834 11.0142L6.84246 7.35009C7.11076 7.08179 7.54576 7.08179 7.81406 7.35009Z" fill="#292927"/>
@@ -67,10 +105,10 @@ const EditEmail = ({ onClose, onUpdate }) => {
       </div>
 
       {/* Form Container */}
-      <div className="edit-mobile-form-container">
-        <div className="edit-mobile-form">
+      <div className="edit-email-form-container">
+        <div className="edit-email-form">
         
-        <div className="edit-mobile-text">
+        <div className="edit-email-text">
             <span>Please add your email for notifications and login.</span>
         </div>
 
@@ -83,16 +121,22 @@ const EditEmail = ({ onClose, onUpdate }) => {
             />
         </div>
 
-        <div className="edit-mobile-verify-text">
+        <div className="edit-email-verify-text">
             <span>A verification code will be sent to the above email</span>
         </div>
         <div onClick={() => setShowEditEmailVerifyOtp(true)} style={{ cursor: 'pointer' }}>
 
-          <button className="update-button" onClick={handleSubmit}>
-          Next <span className="arrow-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M14.8619 7.19528C14.6016 7.45563 14.6016 7.87774 14.8619 8.13809L17.2794 10.5556H4.22221C3.85402 10.5556 3.55554 10.854 3.55554 11.2222C3.55554 11.5904 3.85402 11.8889 4.22221 11.8889H17.2794L14.8619 14.3064C14.6016 14.5667 14.6016 14.9888 14.8619 15.2492C15.1223 15.5095 15.5444 15.5095 15.8047 15.2492L19.3603 11.6936C19.6206 11.4333 19.6206 11.0112 19.3603 10.7508L15.8047 7.19528C15.5444 6.93493 15.1223 6.93493 14.8619 7.19528Z" fill="#FAFAF9"/>
-</svg>
-</span>
+        <button 
+            className={`update-button ${!isValid || isLoading ? 'disabled' : ''}`}
+            onClick={handleSubmit}
+            disabled={!isValid || isLoading}
+          >
+            {isLoading ? 'Sending...' : 'Next'} 
+            <span className="arrow-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M14.8619 7.19528C14.6016 7.45563 14.6016 7.87774 14.8619 8.13809L17.2794 10.5556H4.22221C3.85402 10.5556 3.55554 10.854 3.55554 11.2222C3.55554 11.5904 3.85402 11.8889 4.22221 11.8889H17.2794L14.8619 14.3064C14.6016 14.5667 14.6016 14.9888 14.8619 15.2492C15.1223 15.5095 15.5444 15.5095 15.8047 15.2492L19.3603 11.6936C19.6206 11.4333 19.6206 11.0112 19.3603 10.7508L15.8047 7.19528C15.5444 6.93493 15.1223 6.93493 14.8619 7.19528Z" fill="#FAFAF9"/>
+              </svg>
+            </span>
           </button>
           </div>
         </div>
@@ -100,7 +144,7 @@ const EditEmail = ({ onClose, onUpdate }) => {
 
          {/* Bottom Navigation */}
       <div className="bottom-nav">
-        <div className="navigation-edit-mobile">
+        <div className="navigation-edit-email">
           <div className={`nav-item ${activeNav === '/' ? 'active' : ''}`} onClick={() => handleNavigate('/')}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M1.66463 7.32901C1.29415 7.51425 1.14398 7.96476 1.32922 8.33524C1.51446 8.70572 1.96497 8.85589 2.33545 8.67065L12 3.83835L21.6646 8.67065C22.0351 8.85589 22.4856 8.70572 22.6709 8.33524C22.8561 7.96476 22.7059 7.51425 22.3355 7.32901L12.6038 2.46317C12.2237 2.27314 11.7764 2.27314 11.3963 2.46317L1.66463 7.32901ZM4.75003 11C4.75003 10.5858 4.41424 10.25 4.00003 10.25C3.58582 10.25 3.25003 10.5858 3.25003 11V19C3.25003 20.5188 4.48125 21.75 6.00003 21.75H18C19.5188 21.75 20.75 20.5188 20.75 19V11C20.75 10.5858 20.4142 10.25 20 10.25C19.5858 10.25 19.25 10.5858 19.25 11V19C19.25 19.6903 18.6904 20.25 18 20.25H6.00003C5.30967 20.25 4.75003 19.6903 4.75003 19V11Z" fill="#292927"/>
