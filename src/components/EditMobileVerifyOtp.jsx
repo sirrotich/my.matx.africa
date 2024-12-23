@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { getUserId, getCachedUserInfo } from '../utils/auth';
+import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/EditMobileVerifyOtp.css';
 
-const EditMobileVerifyOtp = ({ onClose, onUpdate }) => {
+const EditMobileVerifyOtp = ({ onClose, onUpdate, newPhoneNumber }) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [activeNav, setActiveNav] = useState('/profile');
+  const [isVerifying, setIsVerifying] = useState(false);
+
   const { contactNewMobileInfo, loginMethod } = location.state || {};
 
   const inputRefs = useRef([]);
@@ -22,16 +25,15 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate }) => {
 
   useEffect(() => {
     let timer;
-    if (loginMethod === 'mobile' && isCountdownActive && countdown > 0) {
+    if (isCountdownActive && countdown > 0) {
       timer = setInterval(() => {
         setCountdown((prev) => prev - 1);
       }, 1000);
     } else if (countdown === 0) {
       setIsCountdownActive(false);
     }
-
     return () => clearInterval(timer);
-  }, [countdown, isCountdownActive, loginMethod]);
+  }, [countdown, isCountdownActive]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -48,6 +50,10 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate }) => {
     }
     if (!value && index > 0) {
       inputRefs.current[index - 1].focus();
+    }
+    // Auto submit when all digits are entered
+    if (index === 5 && value && newOtp.every(digit => digit !== '')) {
+      handleNext(newOtp);
     }
   };
 
@@ -67,56 +73,94 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate }) => {
       }
     }
   };
-  const handleNext = async () => {
-    const otpString = otp.join('');
-    if (otpString.length === 6) {
-      const requestBody = {
-        email: loginMethod === 'email' ? contactNewMobileInfo : '',
-        phone_number: loginMethod === 'mobile' ? contactNewMobileInfo : '',
-        otp: otpString,
-        channel: 'web'
-      };
 
-      try {
-        const response = await axios.post('https://apis.gasmat.africa/users/verify-otp', requestBody);
-        const { access_token, user_info } = response.data;
 
-        localStorage.setItem('user_id', user_info.user_id);
-        localStorage.setItem('access_token', access_token);
 
-        toast.success('OTP verified successfully!');
-        navigate('/');
-      } catch (error) {
-        console.error('Error verifying OTP:', error);
-        toast.error('Failed to verify OTP. Please try again.');
+  const handleNext = async (otpArray = otp) => {
+    const otpString = otpArray.join('');
+    if (otpString.length !== 6) {
+      toast.error('Please enter a valid verification code');
+      return;
+    }
+
+    setIsVerifying(true);
+    try {
+      const userId = getUserId();
+      const response = await fetch('https://apis.gasmat.africa/users/verify-update-phone', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          new_phone_number: newPhoneNumber,
+          otp: otpString,
+          channel: 'web'
+        })
+      });
+
+      if (response.ok) {
+        // Update cached user info
+        const cachedInfo = JSON.parse(localStorage.getItem('cached_user_info') || '{}');
+        localStorage.setItem('cached_user_info', JSON.stringify({
+          ...cachedInfo,
+          phone: newPhoneNumber
+        }));
+
+        toast.success('Phone number updated successfully');
+        onUpdate({ phone: newPhoneNumber });
+        onClose(); // This will return to parent
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Invalid verification code');
       }
-    } else {
-      toast.error('Please enter a valid OTP.');
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error(error.message || 'Failed to verify code. Please try again.');
+      // Clear OTP fields on error
+      setOtp(['', '', '', '', '', '']);
+      if (inputRefs.current[0]) {
+        inputRefs.current[0].focus();
+      }
+    } finally {
+      setIsVerifying(false);
     }
   };
 
   const handleResendCode = async () => {
-    if (loginMethod === 'mobile' && (isResending || isCountdownActive)) return;
+    if (isResending || isCountdownActive) return;
     setIsResending(true);
 
-    const requestBody = {
-      email: loginMethod === 'email' ? contactNewMobileInfo : '',
-      phone_number: loginMethod === 'mobile' ? contactNewMobileInfo : '',
-      user_type: 'customer',
-      channel: 'web'
-    };
-
     try {
-      await axios.post('https://apis.gasmat.africa/users/authenticate', requestBody);
-      toast.success(`New OTP sent successfully to ${contactNewMobileInfo}`);
-      if (loginMethod === 'mobile') {
+      const userId = getUserId();
+      const response = await fetch('https://apis.gasmat.africa/users/request-update-phone', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          new_phone_number: newPhoneNumber,
+          channel: 'web'
+        })
+      });
+
+      if (response.ok) {
+        toast.success('New verification code sent');
         setCountdown(60);
         setIsCountdownActive(true);
+        setOtp(['', '', '', '', '', '']);
+        if (inputRefs.current[0]) {
+          inputRefs.current[0].focus();
+        }
+      } else {
+        throw new Error('Failed to resend code');
       }
-      setOtp(['', '', '', '', '', '']);
     } catch (error) {
-      console.error('Error resending OTP:', error);
-      toast.error('Failed to resend OTP. Please try again.');
+      console.error('Error:', error);
+      toast.error('Failed to resend code. Please try again.');
     } finally {
       setIsResending(false);
     }
@@ -168,7 +212,7 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate }) => {
     } else {
       return (
         <>
-          A login code SMS has been sent to <span style={{ fontWeight: 700 }}>{contactNewMobileInfo}</span>
+          A login code SMS has been sent to <span style={{ fontWeight: 700 }}>{newPhoneNumber}</span>
         </>
       );
     }
@@ -232,11 +276,11 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate }) => {
           {renderResendCode()}
         </p>
         <button
-          className={`new-mobile-send-code-button ${isNextButtonDisabled ? 'disabled' : ''}`}
-          onClick={handleNext}
-          disabled={isNextButtonDisabled}
+          className={`new-mobile-send-code-button ${otp.join('').length !== 6 || isVerifying ? 'disabled' : ''}`}
+          onClick={() => handleNext()}
+          disabled={otp.join('').length !== 6 || isVerifying}
         >
-          Verify & Update 
+          {isVerifying ? 'Verifying...' : 'Verify & Update'}
         </button>
       
       </div>
