@@ -4,7 +4,7 @@ import { getUserId } from '../utils/auth';
 import { toast } from 'react-toastify';
 import '../styles/EditEmailVerifyOtp.css';
 
-const EditEmailVerifyOtp = ({ onClose, onUpdate, newEmail }) => {
+const EditEmailVerifyOtp = ({ onClose, onUpdate, newEmail, currentUserInfo }) => {
   const navigate = useNavigate();
   const [activeNav, setActiveNav] = useState('/profile');
   const { contactNewEmailInfo, loginMethod  } = location.state || {};
@@ -113,7 +113,6 @@ const EditEmailVerifyOtp = ({ onClose, onUpdate, newEmail }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
         },
         body: JSON.stringify({
           user_id: userId,
@@ -187,7 +186,7 @@ const EditEmailVerifyOtp = ({ onClose, onUpdate, newEmail }) => {
     } else {
       return (
         <>
-          A verification code email has been sent to <span style={{ fontWeight: 700 }}>{newEmail}</span>
+          A verification code has been sent to <br></br> <span style={{ fontWeight: 700 }}>{newEmail}</span>
         </>
       );
     }
@@ -221,7 +220,10 @@ const EditEmailVerifyOtp = ({ onClose, onUpdate, newEmail }) => {
 
       {/* Form Container */}
       <div className="verify-new-email-form-container">
-        <h1 className="verify-new-email-title">Verify your email address</h1>
+        <h1 className="verify-new-email-title">
+        {currentUserInfo?.email ? 'Verify your new email address' : 'Verify your email addres'}
+
+        </h1>
         <p className="new-email-otp-sent-message">
           {renderContactMessage()}
         </p>
