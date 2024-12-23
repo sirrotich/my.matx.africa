@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getUserId } from '../utils/auth';
+import { toast } from 'react-toastify';
 import '../styles/EditEmailVerifyOtp.css';
 
-const EditEmailVerifyOtp = ({ onClose, onUpdate }) => {
+const EditEmailVerifyOtp = ({ onClose, onUpdate, newEmail }) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [activeNav, setActiveNav] = useState('/profile');
   const { contactNewEmailInfo, loginMethod  } = location.state || {};
+  const [isVerifying, setIsVerifying] = useState(false);
 
   const inputRefs = useRef([]);
   const [isResending, setIsResending] = useState(false);
@@ -48,56 +50,92 @@ const EditEmailVerifyOtp = ({ onClose, onUpdate }) => {
       }
     }
   };
-  const handleNext = async () => {
-    const otpString = otp.join('');
-    if (otpString.length === 6) {
-      const requestBody = {
-        email: loginMethod === 'email' ? contactNewEmailInfo : '',
-        phone_number: loginMethod === 'mobile' ? contactNewEmailInfo : '',
-        otp: otpString,
-        channel: 'web'
-      };
 
-      try {
-        const response = await axios.post('https://apis.gasmat.africa/users/verify-otp', requestBody);
-        const { access_token, user_info } = response.data;
 
-        localStorage.setItem('user_id', user_info.user_id);
-        localStorage.setItem('access_token', access_token);
 
-        toast.success('OTP verified successfully!');
-        navigate('/');
-      } catch (error) {
-        console.error('Error verifying OTP:', error);
-        toast.error('Failed to verify OTP. Please try again.');
+  const handleNext = async (otpArray = otp) => {
+    const otpString = otpArray.join('');
+    if (otpString.length !== 6) {
+      toast.error('Please enter a valid verification code');
+      return;
+    }
+
+    setIsVerifying(true);
+    try {
+      const userId = getUserId();
+      const response = await fetch('https://apis.gasmat.africa/users/verify-update-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          new_email: newEmail,
+          otp: otpString,
+          channel: 'web'
+        })
+      });
+
+      if (response.ok) {
+        // Update cached user info
+        const cachedInfo = JSON.parse(localStorage.getItem('cached_user_info') || '{}');
+        localStorage.setItem('cached_user_info', JSON.stringify({
+          ...cachedInfo,
+          email: newEmail
+        }));
+
+        toast.success('Email updated successfully');
+        onUpdate({ email: newEmail });
+        onClose();
+      } else {
+        throw new Error('Invalid verification code');
       }
-    } else {
-      toast.error('Please enter a valid OTP.');
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to verify code. Please try again.');
+      setOtp(['', '', '', '', '', '']);
+      if (inputRefs.current[0]) {
+        inputRefs.current[0].focus();
+      }
+    } finally {
+      setIsVerifying(false);
     }
   };
 
+
   const handleResendCode = async () => {
-    if (loginMethod === 'mobile' && (isResending || isCountdownActive)) return;
+    if (isResending || isCountdownActive) return;
     setIsResending(true);
 
-    const requestBody = {
-      email: loginMethod === 'email' ? contactNewEmailInfo : '',
-      phone_number: loginMethod === 'mobile' ? contactNewEmailInfo : '',
-      user_type: 'customer',
-      channel: 'web'
-    };
-
     try {
-      await axios.post('https://apis.gasmat.africa/users/authenticate', requestBody);
-      toast.success(`New OTP sent successfully to ${contactNewEmailInfo}`);
-      if (loginMethod === 'mobile') {
+      const userId = getUserId();
+      const response = await fetch('https://apis.gasmat.africa/users/request-update-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          new_email: newEmail,
+          channel: 'web'
+        })
+      });
+
+      if (response.ok) {
+        toast.success('New verification code sent');
         setCountdown(60);
         setIsCountdownActive(true);
+        setOtp(['', '', '', '', '', '']);
+        if (inputRefs.current[0]) {
+          inputRefs.current[0].focus();
+        }
+      } else {
+        throw new Error('Failed to resend code');
       }
-      setOtp(['', '', '', '', '', '']);
     } catch (error) {
-      console.error('Error resending OTP:', error);
-      toast.error('Failed to resend OTP. Please try again.');
+      console.error('Error:', error);
+      toast.error('Failed to resend code. Please try again.');
     } finally {
       setIsResending(false);
     }
@@ -149,17 +187,13 @@ const EditEmailVerifyOtp = ({ onClose, onUpdate }) => {
     } else {
       return (
         <>
-          A verification code email has been sent to <span style={{ fontWeight: 700 }}>{contactNewEmailInfo}</span>
+          A verification code email has been sent to <span style={{ fontWeight: 700 }}>{newEmail}</span>
         </>
       );
     }
   };
 
-  const handleSubmit = () => {
-    onUpdate({ mobile });
-    onClose();
-  };
-
+ 
   const handleNavigate = (path) => {
     setActiveNav(path);
     navigate(path);
@@ -186,12 +220,12 @@ const EditEmailVerifyOtp = ({ onClose, onUpdate }) => {
       </div>
 
       {/* Form Container */}
-      <div className="verify-new-mobile-form-container">
-        <h1 className="verify-new-mobile-title">Verify your email address</h1>
-        <p className="new-mobile-otp-sent-message">
+      <div className="verify-new-email-form-container">
+        <h1 className="verify-new-email-title">Verify your email address</h1>
+        <p className="new-email-otp-sent-message">
           {renderContactMessage()}
         </p>
-        <div className="new-mobile-otp-input-container" onPaste={handlePaste}>
+        <div className="new-email-otp-input-container" onPaste={handlePaste}>
           {otp.map((value, index) => (
             <input
               key={index}
@@ -203,21 +237,26 @@ const EditEmailVerifyOtp = ({ onClose, onUpdate }) => {
                   handleOtpChange(inputValue, index);
                 }
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Backspace' && !value && index > 0) {
+                  inputRefs.current[index - 1].focus();
+                }
+              }}
               placeholder="-"
               maxLength="1"
               ref={(el) => inputRefs.current[index] = el}
             />
           ))}
         </div>
-        <p className="new-mobile-resend-code-text">
+        <p className="new-email-resend-code-text">
           {renderResendCode()}
         </p>
         <button
-          className={`new-mobile-send-code-button ${isNextButtonDisabled ? 'disabled' : ''}`}
-          onClick={handleNext}
-          disabled={isNextButtonDisabled}
+          className={`new-email-send-code-button ${otp.join('').length !== 6 || isVerifying ? 'disabled' : ''}`}
+          onClick={() => handleNext()}
+          disabled={otp.join('').length !== 6 || isVerifying}
         >
-          Verify & Update 
+          {isVerifying ? 'Verifying...' : 'Verify & Update'}
         </button>
       
       </div>
