@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/EditMobileVerifyOtp.css';
 
-const EditMobileVerifyOtp = ({ onClose, onUpdate, newPhoneNumber }) => {
+const EditMobileVerifyOtp = ({ onClose, onUpdate, newPhoneNumber, currentUserInfo }) => {
   const navigate = useNavigate();
   const [activeNav, setActiveNav] = useState('/profile');
   const [isVerifying, setIsVerifying] = useState(false);
@@ -14,7 +14,7 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate, newPhoneNumber }) => {
   const inputRefs = useRef([]);
   const [isResending, setIsResending] = useState(false);
   const [countdown, setCountdown] = useState(60);
-  const [isCountdownActive, setIsCountdownActive] = useState(loginMethod === 'mobile');
+  const [isCountdownActive, setIsCountdownActive] = useState(true);
   
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
 
@@ -23,6 +23,7 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate, newPhoneNumber }) => {
     const hasAnyDigit = otp.some(digit => digit !== '');
   }, [otp]);
 
+  // Initialize countdown effect when component mounts
   useEffect(() => {
     let timer;
     if (isCountdownActive && countdown > 0) {
@@ -32,6 +33,7 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate, newPhoneNumber }) => {
     } else if (countdown === 0) {
       setIsCountdownActive(false);
     }
+
     return () => clearInterval(timer);
   }, [countdown, isCountdownActive]);
 
@@ -52,9 +54,9 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate, newPhoneNumber }) => {
       inputRefs.current[index - 1].focus();
     }
     // Auto submit when all digits are entered
-    if (index === 5 && value && newOtp.every(digit => digit !== '')) {
-      handleNext(newOtp);
-    }
+    // if (index === 5 && value && newOtp.every(digit => digit !== '')) {
+    //   handleNext(newOtp);
+    // }
   };
 
   const handlePaste = (e) => {
@@ -166,45 +168,27 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate, newPhoneNumber }) => {
     }
   };
 
-  const isNextButtonDisabled = otp.filter(val => val !== '').length < 6;
-
   const renderResendCode = () => {
-    if (loginMethod === 'mobile') {
-      return isCountdownActive ? (
-        `Resend code in ${formatTime(countdown)}`
-      ) : (
-        <>
-          I didn't receive code?{' '}
-          <span 
-            className="resend-link" 
-            onClick={handleResendCode}
-            style={{ 
-              cursor: isResending ? 'not-allowed' : 'pointer',
-              opacity: isResending ? 0.7 : 1 
-            }}
-          >
-            {isResending ? 'Sending...' : 'Resend Code'}
-          </span>
-        </>
-      );
-    } else {
-      return (
-        <>
-          I didn't receive code?{' '}
-          <span 
-            className="resend-link" 
-            onClick={handleResendCode}
-            style={{ 
-              cursor: isResending ? 'not-allowed' : 'pointer',
-              opacity: isResending ? 0.7 : 1 
-            }}
-          >
-            {isResending ? 'Sending...' : 'Resend Code'}
-          </span>
-        </>
-      );
+    if (isCountdownActive) {
+      return `Resend code in ${formatTime(countdown)}`;
     }
+    return (
+      <>
+        I didn't receive code?{' '}
+        <span 
+          className="resend-link" 
+          onClick={handleResendCode}
+          style={{ 
+            cursor: isResending ? 'not-allowed' : 'pointer',
+            opacity: isResending ? 0.7 : 1 
+          }}
+        >
+          {isResending ? 'Sending...' : 'Resend Code'}
+        </span>
+      </>
+    );
   };
+
 
   const renderContactMessage = () => {
     if (loginMethod === 'email') {
@@ -212,7 +196,7 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate, newPhoneNumber }) => {
     } else {
       return (
         <>
-          A login code SMS has been sent to <span style={{ fontWeight: 700 }}>{newPhoneNumber}</span>
+          A verification code has been sent via SMS to <span style={{ fontWeight: 700 }}>{newPhoneNumber}</span>
         </>
       );
     }
@@ -250,7 +234,10 @@ const EditMobileVerifyOtp = ({ onClose, onUpdate, newPhoneNumber }) => {
 
       {/* Form Container */}
       <div className="verify-new-mobile-form-container">
-        <h1 className="verify-new-mobile-title">Verify your mobile number</h1>
+        <h1 className="verify-new-mobile-title">
+        {currentUserInfo?.phone ? 'Verify your new mobile number' : 'Verify your mobile number'}
+
+        </h1>
         <p className="new-mobile-otp-sent-message">
           {renderContactMessage()}
         </p>
