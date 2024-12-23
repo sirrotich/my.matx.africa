@@ -88,6 +88,7 @@ const EditEmail = ({ onClose, onUpdate, currentUserInfo }) => {
         onClose={() => setShowEditEmailVerifyOtp(false)} 
         onUpdate={onUpdate}
         newEmail={contactNewEmailInfo}
+        currentUserInfo={currentUserInfo}
       />
     );
   }
@@ -109,11 +110,14 @@ const EditEmail = ({ onClose, onUpdate, currentUserInfo }) => {
         <div className="edit-email-form">
         
         <div className="edit-email-text">
-            <span>Please add your email for notifications and login.</span>
+            {currentUserInfo?.email ? (
+              <span>Enter a new email to replace: <span style={{ fontWeight: 700 }}>{currentUserInfo.email}</span></span>
+            ) : (
+              <span>Add your email for notifications and login.</span>
+            )}
         </div>
 
-        <div className="input-group">
-            <label>Email</label>
+        <div className="email-input-group">
             <input
               type="text"
               onChange={handleInputChange}
@@ -127,7 +131,7 @@ const EditEmail = ({ onClose, onUpdate, currentUserInfo }) => {
         <div onClick={() => setShowEditEmailVerifyOtp(true)} style={{ cursor: 'pointer' }}>
 
         <button 
-            className={`update-button ${!isValid || isLoading ? 'disabled' : ''}`}
+            className={`update-email-button ${!isValid || isLoading ? 'disabled' : ''}`}
             onClick={handleSubmit}
             disabled={!isValid || isLoading}
           >
