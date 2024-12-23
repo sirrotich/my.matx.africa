@@ -1,16 +1,64 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/EditName.css';
+import { getUserId } from '../utils/auth';
 
-const EditName = ({ onClose, onUpdate }) => {
+
+const EditName = ({ onClose, onUpdate, currentUserInfo }) => {
   const navigate = useNavigate();
-  const [fullName, setFullName] = useState('');
-  const [preferredName, setPreferredName] = useState('');
+  // Initialize with current values
+  const [fullName, setFullName] = useState(currentUserInfo?.fullName || '');
+  const [preferredName, setPreferredName] = useState(currentUserInfo?.preferredName || '');
+  const [isUpdating, setIsUpdating] = useState(false);
   const [activeNav, setActiveNav] = useState('/profile');
 
-  const handleSubmit = () => {
-    onUpdate({ fullName, preferredName });
-    onClose();
+  const handleSubmit = async () => {
+    try {
+      setIsUpdating(true);
+      const userId = getUserId();
+      const accessToken = localStorage.getItem('access_token');
+
+      // Prepare update payload maintaining existing values if fields are empty
+      const updatePayload = {
+        user_id: userId,
+        fullname: fullName.trim() || currentUserInfo?.fullName || '',
+        nickname: preferredName.trim() || currentUserInfo?.preferredName || ''
+      };
+
+      const response = await fetch('https://apis.gasmat.africa/users/updateInfo', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(updatePayload)
+      });
+
+      if (response.ok) {
+        // Update local state and cache
+        const updatedInfo = {
+          fullName: updatePayload.fullname,
+          preferredName: updatePayload.nickname
+        };
+        
+        // Update cached user info
+        const cachedInfo = JSON.parse(localStorage.getItem('cached_user_info') || '{}');
+        localStorage.setItem('cached_user_info', JSON.stringify({
+          ...cachedInfo,
+          ...updatedInfo
+        }));
+
+        onUpdate(updatedInfo);
+        onClose();
+      } else {
+        throw new Error('Failed to update name');
+      }
+    } catch (error) {
+      console.error('Error updating name:', error);
+      alert('Failed to update name. Please try again.');
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   const handleNavigate = (path) => {
@@ -59,8 +107,12 @@ const EditName = ({ onClose, onUpdate }) => {
             />
           </div>
 
-          <button className="update-button" onClick={handleSubmit}>
-            Update
+          <button 
+            className="update-button" 
+            onClick={handleSubmit}
+            disabled={isUpdating}
+          >
+            {isUpdating ? 'Updating...' : 'Update'}
           </button>
         </div>
       </div>
