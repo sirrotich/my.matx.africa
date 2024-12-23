@@ -78,7 +78,7 @@
 
   }
 
-  .verify-new-mobile-form-container {
+  .verify-new-email-form-container {
     width: 332px;
     padding: 10px;
     background: var(--surface-surface-neutral-2, #EBEBE6);
@@ -95,7 +95,7 @@
 }
 
 /* Title */
-.verify-new-mobile-title {
+.verify-new-email-title {
   width: 100%; /* Make it full width */
   /* font-family: 'Bai Jamjuree'; */
   font-size: 16.6px;
@@ -111,7 +111,7 @@
 }
 
 /* OTP Sent Message */
-.new-mobile-otp-sent-message {
+.new-email-otp-sent-message {
   width: 100%; /* Make it full width */
   opacity: 0.75;
   font-size: 9.68px;
@@ -123,12 +123,12 @@
 }
 
 /* OTP Input Container */
-.new-mobile-otp-input-container {
+.new-email-otp-input-container {
   display: flex;
-  gap: 2px; /* Adjust the gap between OTP inputs */
+  gap: 8px; /* Adjust the gap between OTP inputs */
 }
 
-.new-mobile-otp-input-container input {
+.new-email-otp-input-container input {
   width: 41.04px; /* Fixed width for OTP inputs */
   height: 60.87px; /* Fixed height for OTP inputs */
   padding: 16px; /* Adjust padding */
@@ -137,26 +137,25 @@
   background-color: white; /* White background */
   color: black; /* Text color for input */
   text-align: center; /* Center the text */
-  margin-left: 7px;
   padding: var(--SpacingSpacing-md16);
   
 }
 
 /* Tiny placeholder styles */
-.new-mobile-otp-input-container input::placeholder {
+.new-email-otp-input-container input::placeholder {
   font-size: 12px; /* Tiny placeholder size */
   color: #bbb; /* Placeholder color */
   gap: 8.3px;
 }
 
 /* Focus effect for OTP input */
-.new-mobile-otp-input-container input:focus {
+.new-email-otp-input-container input:focus {
   outline: none; /* Remove default outline */
   border-color: #53D5FF; /* Change border color on focus */
 }
 
 /* Resend Code Text */
-.new-mobile-resend-code-text {
+.new-email-resend-code-text {
   margin-top: 20px; 
   font-size: 14px; /* Font size */
   font-weight: 200;
@@ -164,32 +163,32 @@
   text-align: center; /* Center the text */
 }
 
-.new-mobile-resend-link {
+.new-email-resend-link {
   color: black; /* Darker shade for the link */
   font-weight: 400;
   cursor: pointer; /* Pointer cursor for hover */
 }
 
-.new-mobile-resend-link:hover {
+.new-email-resend-link:hover {
   color: #001a33; /* Darker shade on hover */
 }
-.new-mobile-send-code-button:hover {
+.new-email-send-code-button:hover {
   background-color: rgba(100, 100, 95, 1);
 }
 
 /* Style for the disabled button */
-.new-mobile-send-code-button.disabled {
+.new-email-send-code-button.disabled {
   background-color: rgba(226, 225, 218, 1);
   color: rgba(82, 82, 77, 1);
   cursor: not-allowed;
 }
 
-.new-mobile-send-code-button.disabled:hover {
+.new-email-send-code-button.disabled:hover {
   background-color: rgba(226, 225, 218, 1); /* Ensure no hover effect when disabled */
 }
 
 /* Next Button */
-.new-mobile-send-code-button {
+.new-email-send-code-button {
   width: 100%; /* Set to 100% for responsiveness */
   max-width: 210px; /* Max width to maintain layout */
   height: 50px; /* Fixed height */
@@ -205,7 +204,7 @@
   margin-top: -5px;
 }
 
-.new-mobile-send-code-button:hover {
+.new-email-send-code-button:hover {
   background-color: #083f34; /* Darker shade on hover */
 }
 
