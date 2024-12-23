@@ -84,7 +84,7 @@
 
   }
 
-  .update-button {
+  .update-email-button {
     width: 270.93px;
     height: 49.74px;
     border-radius: 326px;
@@ -96,7 +96,11 @@
   
 
   }
-  
+  .update-email-button :disabled{
+    background: #E2E1DA;
+    color: #52524D;
+    cursor: not-allowed;
+  }
 
   .navigation-edit-email {
     display: flex;
@@ -117,6 +121,34 @@
     margin-top: 132px;
     padding: 30px;
 
+  }
+
+  .email-input-group {
+    width: 270.93px;
+    height: 49.73px;
+    padding: 10px;
+    gap: 1px;
+    border-radius: 14.52px;
+    border: 1.78px 0px 0px 0px;
+    opacity: 0px;
+    background-color: #FAFAF9;
+    border: #EBEBE6;
+  }
+
+  .email-input-group input {
+    background: transparent;
+    border: none;
+    font-family: 'Bai Jamjuree';
+    font-weight: 500;
+    font-size: 14.21px;
+    width: 100%;
+    color: #292927;
+    padding-left: 5px;
+    margin-top: -4px;    
+  }
+  
+  .email-input-group input:focus {
+    outline: none;
   }
   
   /* Media Queries */
