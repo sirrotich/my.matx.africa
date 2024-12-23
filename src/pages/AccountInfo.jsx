@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getUserId, getCachedUserInfo} from '../utils/auth';
 import '../styles/AccountInfo.css';
 import EditName from '../components/EditName';
 import EditMobile from '../components/EditMobile';
@@ -13,12 +14,51 @@ const AccountInfo = () => {
   const [showEditEmail, setShowEditEmail] = useState(false);
 
 
-  const [userInfo, setUserInfo] = useState({
-    fullName: 'John Doe',
+  // Initialize with cached data immediately
+  const [userInfo, setUserInfo] = useState(getCachedUserInfo() || {
+    fullName: '',
     preferredName: '',
-    email: 'jdoe@matx.africa',
-    phone: '0722 123 456'
+    email: '',
+    phone: ''
   });
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const userId = getUserId(); // Use the utility function
+        if (!userId) return;
+
+        const response = await fetch(`https://apis.gasmat.africa/users/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const updatedInfo = {
+            fullName: data.fullname || '',
+            email: data.email || '',
+            phone: data.mobile || data.phone_number || '',
+            preferredName: data.preferred_name || ''
+          };
+          setUserInfo(updatedInfo);
+          // Update cache with fresh data
+          localStorage.setItem("cached_user_info", JSON.stringify(updatedInfo));
+        }
+      } catch (err) {
+        console.error('Error fetching user details:', err);
+      }
+    };
+
+    // Only fetch if we don't have cached data
+    if (!getCachedUserInfo()) {
+      fetchUserDetails();
+    }
+  }, []);
+
+ 
   const handleNavigate = (path) => {
     setActiveNav(path);
     navigate(path);
@@ -34,31 +74,36 @@ const AccountInfo = () => {
   };
 
   if (showEditName) {
-    return <EditName onClose={() => setShowEditName(false)} onUpdate={handleNameUpdate} />;
+    return <EditName onClose={() => setShowEditName(false)} onUpdate={handleNameUpdate} currentUserInfo={userInfo} />;
   }
 
   const handleMobileUpdate = (newMobileInfo) => {
-    setMobileInfo(prev => ({
+    setUserInfo(prev => ({
       ...prev,
-      mobile: newMobileInfo.mobile || prev.mobile
+      phone: newMobileInfo.phone
     }));
-    setShowMobileName(false);
+    setShowEditMobile(false); // This will close the mobile edit view
   };
 
   if (showEditMobile) {
-    return <EditMobile onClose={() => setShowEditMobile(false)} onUpdate={handleMobileUpdate} />;
+    return <EditMobile 
+      onClose={() => setShowEditMobile(false)} 
+      onUpdate={handleMobileUpdate} 
+      currentUserInfo={userInfo}
+    />;
   }
 
+
   const handleEmailUpdate = (newEmailInfo) => {
-    setEmailInfo(prev => ({
+    setUserInfo(prev => ({
       ...prev,
       email: newEmailInfo.email || prev.email
     }));
-    setShowEmailName(false);
+    setShowEditEmail(false);
   };
 
   if (showEditEmail) {
-    return <EditEmail onClose={() => setShowEditEmail(false)} onUpdate={handleEmailUpdate} />;
+    return <EditEmail onClose={() => setShowEditEmail(false)} onUpdate={handleEmailUpdate}  currentUserInfo={userInfo} />;
   }
 
 
@@ -87,7 +132,7 @@ const AccountInfo = () => {
 
             <div className="info-text">
               <span className="label">Name</span>
-              <span className="value">John Doe</span>
+              <span className="value">{userInfo.fullName}</span>
 
             </div>
           </div>
@@ -106,7 +151,7 @@ const AccountInfo = () => {
 </svg>
             <div className="info-text">
               <span className="label">Mobile Number</span>
-              <span className="value">0722 123 456</span>
+              <span className="value">{userInfo.phone}</span>
             </div>
           </div>
           <div onClick={() => setShowEditMobile(true)} style={{ cursor: 'pointer' }}>
@@ -125,7 +170,7 @@ const AccountInfo = () => {
 </svg>
             <div className="info-text">
               <span className="label">Email</span>
-              <span className="value">jdoe@matx.africa</span>
+              <span className="value">{userInfo.email}</span>
 
             </div>
           </div>
