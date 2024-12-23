@@ -14,6 +14,8 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem('user_id');
     localStorage.removeItem('access_token');
+    localStorage.removeItem('cached_user_info');
+
     navigate('/login');
   };
 
