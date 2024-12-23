@@ -83,8 +83,49 @@
     text-decoration-skip-ink: none;
 
   }
+  .mobile-input-group {
+    width: 270.93px;
+    height: 49.73px;
+    padding: 10px;
+    gap: 1px;
+    border-radius: 14.52px;
+    border: 1.78px 0px 0px 0px;
+    opacity: 0px;
+    background-color: #FAFAF9;
+    border: #EBEBE6;
+  }
 
-  .update-button {
+  .mobile-input-group input {
+    background: transparent;
+    border: none;
+    font-family: 'Bai Jamjuree';
+    font-weight: 500;
+    font-size: 14.21px;
+    width: 100%;
+    color: #292927;
+    padding-left: 5px;
+    margin-top: -4px;    
+  }
+  
+  .mobile-input-group input:focus {
+    outline: none;
+  }
+
+  .mobile-input-group ::placeholder {
+    color: #E2E1DA;
+    font-family: Bai Jamjuree;
+    font-size: 14.22px;
+    font-weight: 500;
+    line-height: 21.33px;
+    letter-spacing: -0.025em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    gap: 5px;
+  }
+
+  
+  .update-mobile-button {
     width: 270.93px;
     height: 49.74px;
     border-radius: 326px;
@@ -94,7 +135,12 @@
     font-family: 'Bai Jamjuree';
   font-weight: 600;
   
+  }
 
+  .update-mobile-button :disabled{
+    background: #E2E1DA;
+    color: #52524D;
+    cursor: not-allowed;
   }
   
 
