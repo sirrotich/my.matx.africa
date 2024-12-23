@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getUserId } from '../utils/auth';
 import '../styles/EditMobile.css';
 import EditMobileVerifyOtp from './EditMobileVerifyOtp';
 
-const EditMobile = ({ onClose, onUpdate }) => {
+const EditMobile = ({ onClose, onUpdate, currentUserInfo }) => {
   const navigate = useNavigate();
   const [contactNewMobileInfo, setContactNewMobileInfo] = useState('');
   const [isValid, setIsValid] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [activeNav, setActiveNav] = useState('/profile');
   const [showEditMobileVerifyOtp, setShowEditMobileVerifyOtp] = useState(false);
 
@@ -37,10 +38,48 @@ const EditMobile = ({ onClose, onUpdate }) => {
     setIsValid(validateInput(value));
   };
 
-  const handleSubmit = () => {
-    onUpdate({ mobile });
-    onClose();
+  
+  const handleSubmit = async () => {
+    if (!isValid) {
+      toast.error('Please enter a valid phone number');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const userId = getUserId();
+      const formattedPhone = formatPhoneNumber(contactNewMobileInfo);
+      
+      const requestBody = {
+        user_id: userId,
+        new_phone_number: formattedPhone,
+        channel: 'web'
+      };
+
+      const response = await fetch('https://apis.gasmat.africa/users/request-update-phone', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (response.ok) {
+        // Show OTP verification component instead of navigating
+        setShowEditMobileVerifyOtp(true);
+      } else {
+        throw new Error('Failed to send verification code');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to send verification code. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+
+
 
   const handleNavigate = (path) => {
     setActiveNav(path);
@@ -63,10 +102,16 @@ const EditMobile = ({ onClose, onUpdate }) => {
     setShowMobileName(false);
   };
 
+  // Show OTP verification component if showEditMobileVerifyOtp is true
   if (showEditMobileVerifyOtp) {
-    return <EditMobileVerifyOtp onClose={() => setShowEditMobileVerifyOtp(false)} onUpdate={handleMobileUpdateVerifyOtp} />;
+    return (
+      <EditMobileVerifyOtp 
+        onClose={() => setShowEditMobileVerifyOtp(false)}
+        newPhoneNumber={formatPhoneNumber(contactNewMobileInfo)}
+        onUpdate={onUpdate}
+      />
+    );
   }
-
   return (
     <div className="edit-mobile-container">
       {/* Header */}
@@ -101,11 +146,17 @@ const EditMobile = ({ onClose, onUpdate }) => {
         </div>
         <div onClick={() => setShowEditMobileVerifyOtp(true)} style={{ cursor: 'pointer' }}>
 
-          <button className="update-button" onClick={handleSubmit}>
-          Next <span className="arrow-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M14.8619 7.19528C14.6016 7.45563 14.6016 7.87774 14.8619 8.13809L17.2794 10.5556H4.22221C3.85402 10.5556 3.55554 10.854 3.55554 11.2222C3.55554 11.5904 3.85402 11.8889 4.22221 11.8889H17.2794L14.8619 14.3064C14.6016 14.5667 14.6016 14.9888 14.8619 15.2492C15.1223 15.5095 15.5444 15.5095 15.8047 15.2492L19.3603 11.6936C19.6206 11.4333 19.6206 11.0112 19.3603 10.7508L15.8047 7.19528C15.5444 6.93493 15.1223 6.93493 14.8619 7.19528Z" fill="#FAFAF9"/>
-</svg>
-</span>
+        <button 
+            className={`update-button ${!isValid || isLoading ? 'disabled' : ''}`}
+            onClick={handleSubmit}
+            disabled={!isValid || isLoading}
+          >
+            {isLoading ? 'Sending...' : 'Next'} 
+            <span className="arrow-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M14.8619 7.19528C14.6016 7.45563 14.6016 7.87774 14.8619 8.13809L17.2794 10.5556H4.22221C3.85402 10.5556 3.55554 10.854 3.55554 11.2222C3.55554 11.5904 3.85402 11.8889 4.22221 11.8889H17.2794L14.8619 14.3064C14.6016 14.5667 14.6016 14.9888 14.8619 15.2492C15.1223 15.5095 15.5444 15.5095 15.8047 15.2492L19.3603 11.6936C19.6206 11.4333 19.6206 11.0112 19.3603 10.7508L15.8047 7.19528C15.5444 6.93493 15.1223 6.93493 14.8619 7.19528Z" fill="#FAFAF9"/>
+              </svg>
+            </span>
           </button>
           </div>
         </div>
