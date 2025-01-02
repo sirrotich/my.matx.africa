@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserId, getCachedUserInfo} from '../utils/auth';
 import '../styles/AccountInfo.css';
@@ -6,12 +6,18 @@ import EditName from '../components/EditName';
 import EditMobile from '../components/EditMobile';
 import EditEmail from '../components/EditEmail';
 
+
+const POLLING_INTERVAL = 10000; // Poll every 10 seconds
+const API_BASE_URL = 'https://apis.gasmat.africa';
+
+
 const AccountInfo = () => {
   const navigate = useNavigate();
   const [activeNav, setActiveNav] = useState('/profile');
   const [showEditName, setShowEditName] = useState(false);
   const [showEditMobile, setShowEditMobile] = useState(false);
   const [showEditEmail, setShowEditEmail] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState(null);
 
 
   // Initialize with cached data immediately
@@ -22,41 +28,141 @@ const AccountInfo = () => {
     phone: ''
   });
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const userId = getUserId(); // Use the utility function
-        if (!userId) return;
+  // Function to fetch user details
+  const fetchUserDetails = useCallback(async () => {
+    try {
+      const userId = getUserId();
+      if (!userId) {
+        console.error('No user ID found');
+        return false;
+      }
 
-        const response = await fetch(`https://apis.gasmat.africa/users/${userId}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          const updatedInfo = {
-            fullName: data.fullname || '',
-            email: data.email || '',
-            phone: data.mobile || data.phone_number || '',
-            preferredName: data.preferred_name || ''
-          };
-          setUserInfo(updatedInfo);
-          // Update cache with fresh data
-          localStorage.setItem("cached_user_info", JSON.stringify(updatedInfo));
+      const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
         }
-      } catch (err) {
-        console.error('Error fetching user details:', err);
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user details');
+      }
+
+      const data = await response.json();
+      const updatedInfo = {
+        fullName: data.fullname || '',
+        email: data.email || '',
+        phone: data.mobile || data.phone_number || '',
+        preferredName: data.nickname || '',
+        lastModified: data.updated_at || new Date().toISOString()
+      };
+
+      // Compare with current data to avoid unnecessary updates
+      if (JSON.stringify(updatedInfo) !== JSON.stringify(userInfo)) {
+        setUserInfo(updatedInfo);
+        localStorage.setItem("cached_user_info", JSON.stringify(updatedInfo));
+        setLastUpdated(new Date().toISOString());
+      }
+
+      return true;
+    } catch (err) {
+      console.error('Error fetching user details:', err);
+      return false;
+    }
+  }, [userInfo]);
+
+  // Setup polling
+  useEffect(() => {
+    let pollInterval;
+
+    const startPolling = () => {
+      // Initial fetch
+      fetchUserDetails();
+
+      // Setup polling
+      pollInterval = setInterval(() => {
+        fetchUserDetails();
+      }, POLLING_INTERVAL);
+    };
+
+    startPolling();
+
+    // Cleanup
+    return () => {
+      if (pollInterval) {
+        clearInterval(pollInterval);
+      }
+    };
+  }, [fetchUserDetails]);
+
+  // Setup visibility change handler
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        fetchUserDetails();
       }
     };
 
-    // Only fetch if we don't have cached data
-    if (!getCachedUserInfo()) {
-      fetchUserDetails();
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [fetchUserDetails]);
+
+  // Handle updates
+  const handleUpdate = async (type, newData) => {
+    try {
+      const userId = getUserId();
+      if (!userId) return;
+
+      const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newData)
+      });
+
+      if (response.ok) {
+        // Force immediate refresh after update
+        await fetchUserDetails();
+      }
+    } catch (error) {
+      console.error('Error updating user info:', error);
     }
-  }, []);
+  };
+
+  const handleNameUpdate = async (newNameInfo) => {
+    await handleUpdate('name', newNameInfo);
+    setShowEditName(false);
+  };
+
+  const handleMobileUpdate = async (newMobileInfo) => {
+    await handleUpdate('mobile', newMobileInfo);
+    setShowEditMobile(false);
+  };
+
+  const handleEmailUpdate = async (newEmailInfo) => {
+    await handleUpdate('email', newEmailInfo);
+    setShowEditEmail(false);
+  };
+
+  // Render edit components
+  if (showEditName) {
+    return <EditName onClose={() => setShowEditName(false)} onUpdate={handleNameUpdate} currentUserInfo={userInfo} />;
+  }
+
+  if (showEditMobile) {
+    return <EditMobile onClose={() => setShowEditMobile(false)} onUpdate={handleMobileUpdate} currentUserInfo={userInfo} />;
+  }
+
+  if (showEditEmail) {
+    return <EditEmail onClose={() => setShowEditEmail(false)} onUpdate={handleEmailUpdate} currentUserInfo={userInfo} />;
+  }
 
  
   const handleNavigate = (path) => {
@@ -64,47 +170,9 @@ const AccountInfo = () => {
     navigate(path);
   };
 
-  const handleNameUpdate = (newNameInfo) => {
-    setUserInfo(prev => ({
-      ...prev,
-      fullName: newNameInfo.fullName || prev.fullName,
-      preferredName: newNameInfo.preferredName || prev.preferredName
-    }));
-    setShowEditName(false);
-  };
-
-  if (showEditName) {
-    return <EditName onClose={() => setShowEditName(false)} onUpdate={handleNameUpdate} currentUserInfo={userInfo} />;
-  }
-
-  const handleMobileUpdate = (newMobileInfo) => {
-    setUserInfo(prev => ({
-      ...prev,
-      phone: newMobileInfo.phone
-    }));
-    setShowEditMobile(false); // This will close the mobile edit view
-  };
-
-  if (showEditMobile) {
-    return <EditMobile 
-      onClose={() => setShowEditMobile(false)} 
-      onUpdate={handleMobileUpdate} 
-      currentUserInfo={userInfo}
-    />;
-  }
 
 
-  const handleEmailUpdate = (newEmailInfo) => {
-    setUserInfo(prev => ({
-      ...prev,
-      email: newEmailInfo.email || prev.email
-    }));
-    setShowEditEmail(false);
-  };
 
-  if (showEditEmail) {
-    return <EditEmail onClose={() => setShowEditEmail(false)} onUpdate={handleEmailUpdate}  currentUserInfo={userInfo} />;
-  }
 
 
 
