@@ -146,9 +146,9 @@ const Login = () => {
             By logging in, you agree to our
           </div>
           <div className="agreement-links">
-            <a href="#" className="agreement-link">Terms of Use</a>
+            <a href="/terms" className="agreement-link">Terms of Use</a>
             {' '}and{' '}
-            <a href="#" className="agreement-link">Privacy Policy</a>
+            <a href="/privacy" className="agreement-link">Privacy Policy</a>
           </div>
         </div>
       </div>
