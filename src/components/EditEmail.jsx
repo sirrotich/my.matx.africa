@@ -4,6 +4,7 @@ import { getUserId } from '../utils/auth';
 import { toast } from 'react-toastify';
 import '../styles/EditEmail.css';
 import EditEmailVerifyOtp from './EditEmailVerifyOtp';
+import DeleteEmail from './DeleteEmail';
 
 const EditEmail = ({ onClose, onUpdate, currentUserInfo }) => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const EditEmail = ({ onClose, onUpdate, currentUserInfo }) => {
 
   const [activeNav, setActiveNav] = useState('/profile');
   const [showEditEmailVerifyOtp, setShowEditEmailVerifyOtp] = useState(false);
-
+  const [showDeleteEmail, setShowDeleteEmail] = useState(false);
 
 
   const validateInput = (value) => {
@@ -82,6 +83,43 @@ const EditEmail = ({ onClose, onUpdate, currentUserInfo }) => {
     setShowEmailName(false);
   };
 
+
+
+  const handleDelete = async () => {
+    try {
+      const userId = getUserId();
+      const response = await fetch('https://apis.gasmat.africa/users/delete-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_id: userId })
+      });
+
+      if (response.ok) {
+        onUpdate({ ...currentUserInfo, phone: null });
+        onClose();
+      } else {
+        throw new Error('Failed to delete email');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to delete email. Please try again.');
+    }
+  };
+
+  if (showDeleteEmail) {
+    return (
+      <DeleteEmail
+        onClose={() => setShowDeleteEmail(false)}
+        email={currentUserInfo?.email}
+        onDelete={handleDelete}
+      />
+    );
+  }
+
+
+
   if (showEditEmailVerifyOtp) {
     return (
       <EditEmailVerifyOtp 
@@ -144,6 +182,15 @@ const EditEmail = ({ onClose, onUpdate, currentUserInfo }) => {
           </button>
           </div>
         </div>
+
+        {currentUserInfo?.email && (
+          <button 
+            onClick={() => setShowDeleteEmail(true)}
+            className={`delete-email ${isValid || isLoading ? 'disabled' : ''}`}
+          >
+            Delete your email
+          </button>
+        )}
       </div>
 
          {/* Bottom Navigation */}
