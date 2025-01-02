@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUserId } from '../utils/auth';
 import '../styles/EditMobile.css';
 import EditMobileVerifyOtp from './EditMobileVerifyOtp';
+import DeleteMobile from './DeleteMobile';
 
 const EditMobile = ({ onClose, onUpdate, currentUserInfo }) => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const EditMobile = ({ onClose, onUpdate, currentUserInfo }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeNav, setActiveNav] = useState('/profile');
   const [showEditMobileVerifyOtp, setShowEditMobileVerifyOtp] = useState(false);
+  const [showDeleteMobile, setShowDeleteMobile] = useState(false);
 
 
   const formatPhoneNumber = (number) => {
@@ -102,6 +104,42 @@ const EditMobile = ({ onClose, onUpdate, currentUserInfo }) => {
     setShowMobileName(false);
   };
 
+
+  const handleDelete = async () => {
+    try {
+      const userId = getUserId();
+      const response = await fetch('https://apis.gasmat.africa/users/delete-phone', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_id: userId })
+      });
+
+      if (response.ok) {
+        onUpdate({ ...currentUserInfo, phone: null });
+        onClose();
+      } else {
+        throw new Error('Failed to delete phone number');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to delete phone number. Please try again.');
+    }
+  };
+
+  if (showDeleteMobile) {
+    return (
+      <DeleteMobile 
+        onClose={() => setShowDeleteMobile(false)}
+        phoneNumber={currentUserInfo?.phone}
+        onDelete={handleDelete}
+      />
+    );
+  }
+
+
+
   // Show OTP verification component if showEditMobileVerifyOtp is true
   if (showEditMobileVerifyOtp) {
     return (
@@ -140,7 +178,7 @@ const EditMobile = ({ onClose, onUpdate, currentUserInfo }) => {
 
         <div className="mobile-input-group">
             <input
-              type="number"
+              type="text"
               onChange={handleInputChange}
               value={contactNewMobileInfo}
               placeholder='0722123456'
@@ -165,8 +203,22 @@ const EditMobile = ({ onClose, onUpdate, currentUserInfo }) => {
             </span>
           </button>
           </div>
+          
         </div>
+
+        {currentUserInfo?.phone && (
+          <button 
+            onClick={() => setShowDeleteMobile(true)}
+            className={`delete-mobile-number ${isValid || isLoading ? 'disabled' : ''}`}
+          >
+            Delete your mobile number
+          </button>
+        )}
+
       </div>
+
+
+      
 
          {/* Bottom Navigation */}
       <div className="bottom-nav">
