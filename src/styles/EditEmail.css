@@ -93,33 +93,66 @@
     color: #FAFAF9;
     font-family: 'Bai Jamjuree';
   font-weight: 600;
-  
 
   }
-  .update-email-button :disabled{
+
+  .update-email-button:hover{
+    border-color: #E2E1DA;
+  }
+  .update-email-button.disabled{
     background: #E2E1DA;
     color: #52524D;
     cursor: not-allowed;
   }
+  .delete-email{
+    width: 270.93px;
+    height: 49.74px;
+    top: 386px;
+    left: 45px;
+    border: 1px 0px 0px 0px;
+    opacity: 0px;
+    border-radius: 326.74px;
+    background-color: #EBEBE6;
+    color: #FF6565;
+    border-color: #FF6565;
+    font-size: 14px;
+    font-family: 'Bai Jamjuree';
+    font-size: 14.21px;
+    font-weight: 600;
+    line-height: 21.32px;
+    margin-top: 14px;
+    margin-left: 24px;
+
+  }
+ /* Add this if you want to remove the focus outline completely */
+.delete-email:focus {
+  outline: none;
+}
+.delete-email:hover{
+  border-color: #FF6565;
+}
+.delete-email.disabled {
+  color: #A3A29E;
+  cursor: not-allowed;
+  border-color: #EBEBE6;
+}
+
+
 
   .navigation-edit-email {
-    display: flex;
+    position: absolute;
     bottom: 0;
+    left: 0;
     height: 77px;
-    top: 561px;
-    gap: 0px;
-    border-radius: var(--Spacingnone0) 0px 20px 20px;
-    border: 2px 0px 0px 0px;
-    opacity: 0px;
-    background: var(--surface-surface-neutral-2, #EBEBE6);
     width: 356px;
-    display: flex;  
-    flex-direction: row;  
-    align-items: center;  
-    justify-content: space-between;  
-    border-radius: 0 0 20px 20px; 
-    margin-top: 132px;
+    background: var(--surface-surface-neutral-2, #EBEBE6);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0 0 18px 18px;
     padding: 30px;
+    z-index: 2;
 
   }
 
@@ -182,5 +215,7 @@
           padding: 0 20px;
           box-sizing: border-box;
           bottom: 0;
+          border-radius: 0%;
+
       }
   }
