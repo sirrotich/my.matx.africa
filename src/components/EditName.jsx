@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/EditName.css';
 import { getUserId } from '../utils/auth';
+import DeleteName from './DeleteName';
 
 
 const EditName = ({ onClose, onUpdate, currentUserInfo }) => {
@@ -9,8 +10,10 @@ const EditName = ({ onClose, onUpdate, currentUserInfo }) => {
   // Initialize with current values
   const [fullName, setFullName] = useState(currentUserInfo?.fullName || '');
   const [preferredName, setPreferredName] = useState(currentUserInfo?.preferredName || '');
+  
   const [isUpdating, setIsUpdating] = useState(false);
   const [activeNav, setActiveNav] = useState('/profile');
+  const [showDeleteName, setShowDeleteName] = useState(false);
 
   const handleSubmit = async () => {
     try {
@@ -60,6 +63,40 @@ const EditName = ({ onClose, onUpdate, currentUserInfo }) => {
       setIsUpdating(false);
     }
   };
+
+  const handleDelete = async () => {
+    try {
+      const userId = getUserId();
+      const response = await fetch('https://apis.gasmat.africa/users/delete-name', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_id: userId })
+      });
+
+      if (response.ok) {
+        onUpdate({ ...currentUserInfo, fullName: null });
+        onClose();
+      } else {
+        throw new Error('Failed to delete name');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to delete name. Please try again.');
+    }
+  };
+
+  if (showDeleteName) {
+    return (
+      <DeleteName
+        onClose={() => setShowDeleteName(false)}
+        email={currentUserInfo?.fullName}
+        onDelete={handleDelete}
+      />
+    );
+  }
+
 
   const handleNavigate = (path) => {
     setActiveNav(path);
@@ -115,6 +152,16 @@ const EditName = ({ onClose, onUpdate, currentUserInfo }) => {
             {isUpdating ? 'Updating...' : 'Update'}
           </button>
         </div>
+
+
+        {currentUserInfo?.fullName && (
+          <button 
+            onClick={() => setShowDeleteName(true)}
+            className='delete-name'
+          >
+            Delete the above details
+          </button>
+        )}
       </div>
 
          {/* Bottom Navigation */}
