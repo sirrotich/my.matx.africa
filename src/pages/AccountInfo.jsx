@@ -7,7 +7,7 @@ import EditMobile from '../components/EditMobile';
 import EditEmail from '../components/EditEmail';
 
 
-const POLLING_INTERVAL = 10000; // Poll every 10 seconds
+const POLLING_INTERVAL = 1000; // Poll every 10 seconds
 const API_BASE_URL = 'https://apis.gasmat.africa';
 
 
