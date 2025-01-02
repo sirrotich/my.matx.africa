@@ -299,77 +299,80 @@ color: var(--text-text-neutral-05, #FAFAF9);
 
 
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+  z-index: 1000;
+}
 
+.dropdown-button {
+  width: 91.22px;
+  height: 28.44px;
+  padding: 4px 12px;
+  gap: 8px;
+  border-radius: 20px;
+  border: 1px solid #040000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-right: 20px;
+  font-size: 10.67px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  position: relative;
+  z-index: 2;
+  color: #333;
+}
 
-  .dropdown-button {
-    width: 91.22px;
-    height: 28.44px;
-    padding: var(--SpacingSpacing-xxs4) var(--SpacingSpacing-sm12) var(--SpacingSpacing-xxs4) var(--SpacingSpacing-sm12);
-    gap: var(--SpacingSpacing-xs8);
-    border-radius: 326px;
-    border: var(--BorderBorderWidth-sm1);
-    opacity: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #f0f0f0;
-    border: 1px solid #040000;
-    border-radius: 20px;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-    margin-top: 15px;
-    margin-right: 20px;
-    /* font-family: 'Bai Jamjuree'; */
-    font-size: 10.67px;
-    font-weight: 600;
-    line-height: 16px;
-    letter-spacing: -0.02em;
-    text-align: left;
-    z-index: 2;
+.dropdown-options-container {
+  position: absolute;
+  background: #151513;
+  border-radius: 20px;
+  width: 100%;
+  top: 50%;
+  right: 0;
+  padding-top: 20px;
+  margin-top: -11.5px;
+  z-index: 1;
+  width: 91.22px;
+  margin-right: 20px;
+}
 
+.dropdown-options {
+  list-style: none;
+  padding: 4px 0;
+  margin: 0;
+}
 
-  }
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
+.dropdown-option {
+  padding: 4px 16px;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 10.65px;
+  font-weight: 500;
+  line-height: 15.98px;
+  letter-spacing: -0.02em;
+  transition: background-color 0.2s ease;
+}
 
-  .dropdown-options-container {
-    position: absolute;
-    background: var(--colors-neutrals-95, #151513);
-    border: 1px solid #555;
-    border-radius: 13.31px;
-    width: 90px;
-    top: 100%;
-    left: 0;
-    z-index: 1;
-    margin-top: -10px;
-    border-top: none;
-  }
-  
-  .dropdown-options {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .dropdown-option {
-    padding: 3px;
-    color: white;
-    cursor: pointer;
-    /* font-family: 'Bai Jamjuree'; */
-    font-size: 10.65px;
-    font-weight: 500;
-    line-height: 15.98px;
-    letter-spacing: -0.02em;
+.dropdown-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
 
-  }
-  
-  .dropdown-option:last-child {
-    border-bottom: none;
-  }
+.dropdown-button svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.dropdown.open .dropdown-button svg {
+  transform: rotate(180deg);
+}
   
 
   .navigation{
