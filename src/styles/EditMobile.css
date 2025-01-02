@@ -136,29 +136,62 @@
   font-weight: 600;
   
   }
-
-  .update-mobile-button :disabled{
+  .update-mobile-button:hover{
+    border-color: #E2E1DA;
+  }
+  .update-mobile-button.disabled{
     background: #E2E1DA;
     color: #52524D;
     cursor: not-allowed;
   }
-  
+
+  .delete-mobile-number{
+    width: 270.93px;
+    height: 49.74px;
+    top: 386px;
+    left: 45px;
+    border: 1px 0px 0px 0px;
+    opacity: 0px;
+    border-radius: 326.74px;
+    background-color: #EBEBE6;
+    color: #FF6565;
+    border-color: #FF6565;
+    font-size: 14px;
+    font-family: 'Bai Jamjuree';
+    font-size: 14.21px;
+    font-weight: 600;
+    line-height: 21.32px;
+    margin-top: 34px;
+    margin-left: 24px;
+
+  }
+ /* Add this if you want to remove the focus outline completely */
+.delete-mobile-number:focus {
+  outline: none;
+}
+.delete-mobile-number:hover{
+  border-color: #FF6565;
+}
+.delete-mobile-number.disabled {
+  color: #A3A29E;
+  cursor: not-allowed;
+  border-color: #EBEBE6;
+}
 
   .navigation-edit-mobile {
-    display: flex;
-    position: absolute; /* Changed from relative */
-    bottom: 0; /* Ensures it stays at bottom */
+    position: absolute;
+    bottom: 0;
+    left: 0;
     height: 77px;
-    gap: 0px;
+    width: 356px;
     background: var(--surface-surface-neutral-2, #EBEBE6);
-    width: 356px; /* Account for parent border */
-    flex-direction: row;  
-    align-items: center;  
-    justify-content: space-between;  
-    border-radius: 0 0 18px 18px; /* Adjusted to account for parent border */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0 0 18px 18px;
     padding: 30px;
-    margin: 0; /* Remove margin-top */
-    left: 0; /* Align with container */
+    z-index: 2;
 }
   
   /* Media Queries */
@@ -191,5 +224,7 @@
           padding: 0 20px;
           box-sizing: border-box;
           bottom: 0;
+          border-radius: 0%;
+
       }
   }
