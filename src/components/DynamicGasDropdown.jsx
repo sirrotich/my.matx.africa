@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useGas } from './GasContext';
 
 const DynamicGasDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownWidth, setDropdownWidth] = useState('auto');
+  const buttonRef = useRef(null);
   const { locations, selectedLocation, setSelectedLocation } = useGas();
   const location = useLocation();
   
   const isAnalyticsPage = location.pathname === '/analytics';
   const isMonthlyPage = location.pathname.includes('/months/');
+
+  useEffect(() => {
+    if (buttonRef.current) {
+      // Get the width of the button including padding
+      setDropdownWidth(Math.max(buttonRef.current.offsetWidth, 92));
+    }
+  }, [selectedLocation]);
 
   const toggleDropdown = () => {
     if (locations.length > 1) {
@@ -33,6 +42,7 @@ const DynamicGasDropdown = () => {
       justifyContent: 'space-between',
       gap: '8px',
       minWidth: '92px',
+      width: 'fit-content',
       cursor: locations.length > 1 ? 'pointer' : 'default',
       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
       fontSize: '11px',
@@ -42,22 +52,22 @@ const DynamicGasDropdown = () => {
       letterSpacing: '-0.02em',
       textAlign: 'left',
       position: 'relative',
-      zIndex: 2,  // Updated to ensure button stays above dropdown
-      padding: '4px 16px'
+      zIndex: 2,
+      padding: '4px 16px',
+      whiteSpace: 'nowrap'
     };
 
     const baseDropdownStyles = {
       position: 'absolute',
-      top: '0',  // Changed from 100% to 0
+      top: '0',
       right: 0,
-      paddingTop: '25px',  // Added to create space for the button
+      paddingTop: '25px',
       borderRadius: '15px',
-      minWidth: '92px',
+      width: `${dropdownWidth}px`,
       overflow: 'hidden',
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-      zIndex: 1,  // Updated to ensure dropdown stays behind button
-      border: '1px solid #004A4C'  // Added border here
-
+      zIndex: 1,
+      border: '1px solid #004A4C'
     };
 
     const containerStyles = {
@@ -96,6 +106,7 @@ const DynamicGasDropdown = () => {
           cursor: 'pointer',
           lineHeight: '10px',
           fontWeight: 500,
+          whiteSpace: 'nowrap'
         },
         chevron: '#FFFFFF'
       };
@@ -129,6 +140,7 @@ const DynamicGasDropdown = () => {
         cursor: 'pointer',
         lineHeight: '10px',
         fontWeight: 500,
+        whiteSpace: 'nowrap'
       },
       chevron: '#292927'
     };
@@ -140,7 +152,7 @@ const DynamicGasDropdown = () => {
 
   return (
     <div style={styles.container}>
-      <button onClick={toggleDropdown} style={styles.button}>
+      <button ref={buttonRef} onClick={toggleDropdown} style={styles.button}>
         <span style={styles.text}>
           {selectedLocation?.name}
         </span>
