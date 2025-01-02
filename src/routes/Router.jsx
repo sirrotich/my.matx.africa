@@ -87,18 +87,14 @@ const AppRouter = () => {
       <Route
           path="/terms"
           element={
-            <ProtectedRoute>
               <Terms />
-            </ProtectedRoute>
           }
         />
 
 <Route
           path="/privacy"
           element={
-            <ProtectedRoute>
               <Privacy />
-            </ProtectedRoute>
           }
         />
 
