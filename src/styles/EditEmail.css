@@ -107,7 +107,6 @@
   .delete-email{
     width: 270.93px;
     height: 49.74px;
-    top: 386px;
     left: 45px;
     border: 1px 0px 0px 0px;
     opacity: 0px;
@@ -120,7 +119,7 @@
     font-size: 14.21px;
     font-weight: 600;
     line-height: 21.32px;
-    margin-top: 14px;
+    margin-top: 30px;
     margin-left: 24px;
 
   }
