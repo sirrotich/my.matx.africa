@@ -1,28 +1,45 @@
-import React, { createContext, useState, useContext, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback, useMemo, useRef } from 'react';
 
 const GasContext = createContext();
-const POLLING_INTERVAL = 500; // 500ms polling interval
+const POLLING_INTERVAL = 500;
 const API_BASE_URL = 'https://apis.gasmat.africa';
 
-// Optimized API call with AbortController for cleanup
 const fetchUserLocations = async (userId, signal) => {
+  if (!userId) return null;
+  
   try {
-    const response = await fetch(`${API_BASE_URL}/assign-devices/user/${userId}`, {
-      signal,
-      headers: {
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache'
+    const timestamp = new Date().getTime();
+    const response = await fetch(
+      `${API_BASE_URL}/assign-devices/user/${userId}`, 
+      {
+        signal,
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
+          // Add a random header to prevent caching
+          'X-Request-ID': `${userId}-${timestamp}-${Math.random()}`
+        },
+        // Disable browser caching
+        cache: 'no-store'
       }
-    });
+    );
+    
+    if (response.status === 401) {
+      localStorage.clear();
+      window.location.href = '/login';
+      return null;
+    }
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
-    return await response.json();
+    const data = await response.json();
+    return data;
   } catch (error) {
     if (error.name === 'AbortError') {
-      // Handle abortion silently
       return null;
     }
     console.error('Error fetching locations:', error);
@@ -36,9 +53,40 @@ export const GasProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [lastFetchTime, setLastFetchTime] = useState(null);
+  
+  // Use ref to track current user ID to detect changes
+  const currentUserIdRef = useRef(localStorage.getItem('user_id'));
+  
+  // Function to reset all state
+  const resetState = useCallback(() => {
+    setLocations([]);
+    setSelectedLocation(null);
+    setError(null);
+    setLastFetchTime(null);
+  }, []);
 
-  // Optimized fetch function with timestamp comparison
+  // Check for user changes
+  const checkUserChange = useCallback(() => {
+    const newUserId = localStorage.getItem('user_id');
+    if (newUserId !== currentUserIdRef.current) {
+      console.log('User changed, resetting state...', {
+        old: currentUserIdRef.current,
+        new: newUserId
+      });
+      currentUserIdRef.current = newUserId;
+      resetState();
+      return true;
+    }
+    return false;
+  }, [resetState]);
+
+  // Optimized fetch function
   const loadLocations = useCallback(async (signal) => {
+    // Check for user change before each fetch
+    if (checkUserChange()) {
+      return; // Don't proceed with fetch if user changed
+    }
+
     try {
       const userId = localStorage.getItem('user_id');
       if (!userId) {
@@ -46,10 +94,14 @@ export const GasProvider = ({ children }) => {
       }
 
       const data = await fetchUserLocations(userId, signal);
-      if (!data) return; // Request was aborted
+      if (!data) return;
 
-      // Compare with existing data to avoid unnecessary updates
-      const hasChanges = JSON.stringify(data) !== JSON.stringify(locations);
+      // Force update if user just changed
+      const shouldForceUpdate = checkUserChange();
+      
+      // Compare data only if no force update
+      const hasChanges = shouldForceUpdate || 
+        JSON.stringify(data) !== JSON.stringify(locations);
       
       if (hasChanges) {
         setLocations(data);
@@ -65,88 +117,112 @@ export const GasProvider = ({ children }) => {
       if (error.name !== 'AbortError') {
         setError(error.message);
         setLocations([]);
+        
+        if (error.message.includes('User ID not found')) {
+          window.location.href = '/login';
+        }
       }
     } finally {
       setIsLoading(false);
     }
-  }, [locations, selectedLocation]);
+  }, [locations, selectedLocation, checkUserChange]);
 
-  // Setup polling with cleanup
+  // Setup polling with aggressive checking
   useEffect(() => {
     const controller = new AbortController();
     let timeoutId;
 
     const pollData = async () => {
-      await loadLocations(controller.signal);
+      // Check user before starting poll
+      if (checkUserChange()) {
+        await loadLocations(controller.signal);
+      } else {
+        await loadLocations(controller.signal);
+      }
+      
       if (!controller.signal.aborted) {
         timeoutId = setTimeout(pollData, POLLING_INTERVAL);
       }
     };
 
-    // Initial load
-    pollData();
+    // Start polling if we have a user
+    if (currentUserIdRef.current) {
+      pollData();
+    }
 
-    // Cleanup function
     return () => {
       controller.abort();
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
     };
-  }, [loadLocations]);
+  }, [loadLocations, checkUserChange]);
 
-  // Setup visibility change handler for background tab optimization
+  // Add interval to regularly check for user changes
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        loadLocations();
-      }
-    };
+    const checkInterval = setInterval(() => {
+      checkUserChange();
+    }, 1000); // Check every second
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [loadLocations]);
+    return () => clearInterval(checkInterval);
+  }, [checkUserChange]);
 
-  // Attempt WebSocket connection if available
+  // WebSocket connection with aggressive user checking
   useEffect(() => {
     let ws;
-    const userId = localStorage.getItem('user_id');
-
+    let reconnectTimeout;
+    
     const connectWebSocket = () => {
+      // Check user before connecting
+      if (checkUserChange()) {
+        return;
+      }
+
+      const userId = localStorage.getItem('user_id');
+      const authToken = localStorage.getItem('auth_token');
+      
+      if (!userId || !authToken) return;
+
       try {
-        ws = new WebSocket(`wss://apis.gasmat.africa/ws/locations/${userId}`);
+        const timestamp = new Date().getTime();
+        ws = new WebSocket(
+          `wss://apis.gasmat.africa/ws/assign-devices/user/${userId}?token=${authToken}&t=${timestamp}`
+        );
         
         ws.onmessage = (event) => {
-          const data = JSON.parse(event.data);
-          setLocations(data);
-          setLastFetchTime(Date.now());
+          // Check user before processing message
+          if (!checkUserChange()) {
+            const data = JSON.parse(event.data);
+            setLocations(data);
+            setLastFetchTime(Date.now());
+          }
         };
 
         ws.onerror = () => {
-          // Fallback to polling on WebSocket error
           ws.close();
         };
 
         ws.onclose = () => {
-          // Attempt to reconnect after 5 seconds
-          setTimeout(connectWebSocket, 5000);
+          reconnectTimeout = setTimeout(connectWebSocket, 5000);
         };
       } catch (error) {
         console.error('WebSocket connection failed:', error);
       }
     };
 
-    // Try WebSocket first
-    connectWebSocket();
+    if (currentUserIdRef.current) {
+      connectWebSocket();
+    }
 
     return () => {
       if (ws) {
         ws.close();
       }
+      if (reconnectTimeout) {
+        clearTimeout(reconnectTimeout);
+      }
     };
-  }, []);
+  }, [checkUserChange]);
 
   const contextValue = useMemo(() => ({
     locations,
@@ -155,8 +231,12 @@ export const GasProvider = ({ children }) => {
     isLoading,
     error,
     lastFetchTime,
-    refreshLocations: () => loadLocations(),
-  }), [locations, selectedLocation, isLoading, error, lastFetchTime, loadLocations]);
+    refreshLocations: () => {
+      // Force refresh locations and check user
+      checkUserChange();
+      return loadLocations();
+    },
+  }), [locations, selectedLocation, isLoading, error, lastFetchTime, loadLocations, checkUserChange]);
 
   return (
     <GasContext.Provider value={contextValue}>
