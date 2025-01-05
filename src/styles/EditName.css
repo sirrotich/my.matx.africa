@@ -110,6 +110,13 @@
   
 
   }
+
+  .update-button:disabled{
+    color: #A3A29E;
+    cursor: not-allowed;
+    border-color: #EBEBE6;
+    background-color: #E2E1DA;
+  }
   
 
   .navigation-edit-name {
