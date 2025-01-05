@@ -15,7 +15,14 @@ const EditName = ({ onClose, onUpdate, currentUserInfo }) => {
   const [activeNav, setActiveNav] = useState('/profile');
   const [showDeleteName, setShowDeleteName] = useState(false);
 
+      // Add validation check for empty fields
+  const isFormValid = () => {
+    return fullName.trim() || preferredName.trim();
+  };
+
   const handleSubmit = async () => {
+    if (!isFormValid()) return;
+
     try {
       setIsUpdating(true);
       const userId = getUserId();
@@ -147,7 +154,7 @@ const EditName = ({ onClose, onUpdate, currentUserInfo }) => {
           <button 
             className="update-button" 
             onClick={handleSubmit}
-            disabled={isUpdating}
+            disabled={isUpdating || !isFormValid()}
           >
             {isUpdating ? 'Updating...' : 'Update'}
           </button>
