@@ -20,28 +20,42 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 20px;
   width: 100%;
   height: 100vh;
   width: 360px;
   height: 639px;
-  gap: 0px;
   border-radius: 20px;
   border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
   padding: 14px;
 }
 
+
+.home-container .welcome-text {
+  font-family: 'Bai Jamjuree';
+  font-size: 18.32px;
+  font-weight: 500;
+  line-height: 25.65px;
+  letter-spacing: -0.04em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+    margin-right: 120px;
+    margin-top: 2px;
+    margin-bottom: 10px;
+
+}
+
+
 /* Main top card with minimum height */
 .main-top-card {
+  position: relative; /* Establish stacking context */
   background-color: #004A4C;
-  padding: 0 20px;
-  gap: 0px;
-  background: var(--surface-surface-primary-100, #004A4C);
-  border: 2px 0px 0px 0px;
-  border-radius: 20px;
+  padding: 10px;
+  border-radius: 32px;
   width: 100%;
-  min-height: 280px; /* Ensure a minimum height of 300px */
-  margin-bottom: 5px; 
+  min-height: 231px;
+  margin-bottom: 5px;
+  z-index: 2; /* Ensure it's above .home-analytic */
 }
 
 .home-gas-data {
@@ -49,7 +63,7 @@ body {
   height: 30.64px;
   display: flex;
   align-items: center; /* Vertically centers the elements */
-  margin-top: 40px;
+  padding-top:40px;
 }
 
 .total-gas-weight {
@@ -62,6 +76,11 @@ body {
   width: auto; /* Allows the text to take up as much space as needed */
   height: 27px;
   margin-right: auto;
+}
+
+.total-gas-weight span{
+  font-size: 15px;
+  font-weight: 450;
 }
 
 .home-gas-btn {
@@ -88,84 +107,115 @@ body {
   color: var(--text-text-neutral-9, #292927);
   top: 10px;
 }
-
-.todays-date {
-  /* font-family: 'Bai Jamjuree'; */
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 17.23px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  color: var(--text-text-neutral-05, #FAFAF9);
-  gap: 30.64px;
-  opacity: 0px;
-  margin-top: 20px;
+.gas-pad {
+  display: flex;
+  padding-top: 25px;
 }
 
+.gas-pad-item span{
+  font-family: 'Bai Jamjuree';
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.025em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #FAFAF9;
+  margin-left: 7px;
+
+}
+.gas-pad-percentage {
+  margin-left: auto;
+}
+
+.gas-pad-percentage span {
+  font-family: 'Bai Jamjuree';
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 15px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #FAFAF9;
+  padding-right: 10px;
+
+}
 .current-weight {  
   display: flex;  
   flex-direction: column;  
   justify-content: center;  
   align-items: center;  
   color: white;  
+  padding-top: 10px;
 }
 
 .current-weight-text {  
-  /* font-family: 'Bai Jamjuree'; */
-  font-size: 16px;
-  font-weight: 500;
+  font-family: 'Bai Jamjuree';
+  font-size: 12px;
+  font-weight: 400;
   line-height: 18px;
   letter-spacing: -0.02em;
-  text-align: center;
-  color: var(--text-text-neutral-05, #FAFAF9);
-  opacity: 0.75;
-  margin-top: 30px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  
 } 
 
 .current-weight-kgs {
   /* font-family: 'Bai Jamjuree'; */
-  font-size: 42.74px;
+  font-size: 40px;
   font-weight: 500;
   line-height: 46.48px;
   letter-spacing: -0.045em;
   text-align: center;
-  margin-top: 5px;
+  margin-bottom: 10px;
 
 }
 
 .days-remaining {
   /* font-family: 'Bai Jamjuree'; */
-  font-size: 21px;
-  font-weight: 500;
-  line-height: 24px;
+  font-family: 'Bai Jamjuree';
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
   letter-spacing: -0.025em;
-  text-align: center;
-  color: var(--text-text-neutral-05, #FAFAF9);
-  opacity: 0.75;
-  margin-top: 10px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  padding-top: -25px;
+
+}
+
+.days-remaining span {
+  font-family: 'Bai Jamjuree';
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: -0.025em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  
 
 }
 
 /* Responsive analytic section */
 .home-analytic {
   display: flex;
-  height: 95px; /* Allow automatic height */
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 15px;
   background: rgba(247, 171, 97, 1);
-  margin-top: 20px; /* Ensure space from the card */
-  margin-left: 5px;
-  margin-right: 5px;
-  border-radius: 15px;
-  box-sizing: border-box;
-  width: 100%;
-  height: 85px;
-  top: 346px;
-  left: 18px;
+  width: 328px;
+  height: 191.29px;
+  padding: 120px var(--SpacingSpacing-lg24) 24px var(--SpacingSpacing-lg24);
   gap: 0px;
+  border-radius: var(--RadiusRadius-xl32);
   opacity: 0px;
+  border-radius: 32px;
+  
+  position: relative;
+  top: -80px; /* Adjust this value to control overlap */
+  padding: 15px;
 }
 
 .hometoday, .homeweek, .homeaverage {
@@ -174,20 +224,138 @@ body {
   flex-direction: column;
   text-align: center;
   color: var(--text-text-primary-100, #004A4C);
+  padding-top: 60px;
 }
+
+.hometoday, .homeweek, .homeaverage svg {
+  
+  padding-top: 60px;
+}
+
 
 .sizing {
   /* font-family: 'Bai Jamjuree'; */
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
   line-height: 34.62px;
   letter-spacing: -0.025em;
   text-align: center;
   color: var(--text-text-primary-100, #004A4C);
+  font-family:'Bai Jamjuree';
+
 }
 
 .highlight {
+  font-size: 11px;
+  color: #004A4C;
+  font-family:'Bai Jamjuree';
+}
+.vertical-line {
+  margin-top: 70px; /* Adjust value as needed */
+}
+.home-hub-card {
+  width: 100%;
+  background-color: #292927;
+  border-radius: 32px;
+  padding: 24px;
+  color: #FAFAF9;
+  margin-bottom: -20px;
+  margin-top: -70px;
+
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-container span {
+  font-family: 'Bai Jamjuree';
   font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.025em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #FAFAF9;
+}
+
+.battery-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.battery-container span {
+  font-family:'Bai Jamjuree';
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 15px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  
+  color: #FAFAF9;
+}
+
+.card-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+}
+
+.card-body::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background-color: #FAFAF9;
+}
+
+.internet-status,
+.electricity-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.icon-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.home-hub-item {
+  font-family: 'Bai Jamjuree';
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  color: #FAFAF9;
+  margin-bottom: 4px;
+}
+
+.status-value {
+  font-family: 'Bai Jamjuree';
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: -0.025em;
+  color: #FAFAF9;
 }
 
 .navigation-home {
@@ -199,7 +367,7 @@ body {
   border: 2px 0px 0px 0px;
   opacity: 0px;
   background: var(--surface-surface-neutral-2, #EBEBE6);
-  margin-top: 154px;
+  margin-top: 25px;
   width: 356px;
   display: flex;  
   flex-direction: row;  
@@ -225,6 +393,7 @@ body {
     border: none;
     margin-top: -60px;
   }
+ 
 
   .bottom-nav {
     position: fixed;
@@ -254,29 +423,23 @@ body {
 @media (max-width: 480px) {
   .main-top-card {
     max-width: 90vw; /* Slightly narrower on tablets */
-    height: 240px;
+    height: 211px;
     padding: 0 20px; /* More padding on tablets */
   }
 
   .home-analytic {
-    max-width: 90vw; /* Slightly narrower on tablets */
+    max-width: 90vw; 
+    height: 140px;/* Slightly narrower on tablets */
   }
 }
 
-/* Tablet styles */
-@media (min-width: 768px) {
-  .main-top-card {
-    max-width: 90vw; /* Slightly narrower on tablets */
-    height: 260px;
-    padding: 0 20px; /* More padding on tablets */
-  }
-}
+
 
 /* Desktop styles */
 @media (min-width: 1024px) {
   .main-top-card {
     max-width: 70vw; /* Even more narrow on desktops */
-    height: 260px;
+    height: 211px;
     padding: 0 20px; /* Larger padding on desktop */
   }
 
