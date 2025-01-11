@@ -118,6 +118,10 @@ color: #292927;
       height: 100vh;
       
   }
+
+  .menu-group-1{
+    background-color: #EBEBE6;
+    }
   .bottom-nav {
     position: fixed;
     bottom: 0;
