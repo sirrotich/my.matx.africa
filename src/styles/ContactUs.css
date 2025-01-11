@@ -1,0 +1,146 @@
+
+
+  .contactus-container {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    height: 100vh;
+    max-height: 639px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    position: relative;
+    border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
+
+    margin: 0 auto;
+  }
+  
+  .contactus-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 16px;
+    gap: 16px;
+  }
+  
+  .contactus-header span {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 16.49px;
+    font-weight: 500;
+    line-height: 23.08px;
+    letter-spacing: -0.035em;
+    color: #292927;
+  }
+  
+  .back-buttn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .contactus-form-container {
+    width: 330px;
+    margin: 0 auto;
+    padding: 16px;
+    background-color: #EBEBE6;
+    border-radius: 32px;
+  }
+  
+  .contactus-edit-field {
+    width: 100%;
+    min-height: 191px;
+    background-color: #FAFAF9;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  
+  .contactus-text {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .contact-placeholder {
+    position: absolute;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: -0.025em;
+    color: #292927;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .contact-input {
+    width: 100%;
+    min-height: 159px;
+    background: transparent;
+    border: none;
+    resize: none;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 16px;
+    line-height: 19px;
+    color: #292927;
+    padding: 0;
+  }
+  
+  .contact-input:focus {
+    outline: none;
+  }
+  
+  
+  .contactus-send-button {
+    width: 100%;
+    height: 50px;
+    background-color: #004A4C;
+    border-radius: 327px;
+    color: #FAFAF9;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 21px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .contactus-send-button:hover {
+    background-color: #003638;
+  }
+  
+  .navigation-contactus {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 77px;
+    width: 356px;
+    background: var(--surface-surface-neutral-2, #EBEBE6);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0 0 18px 18px;
+    padding: 30px;
+    z-index: 2;
+}
+
+
+  /* Media Queries */
+  @media screen and (max-width: 480px) {
+    .contactus-container {
+      width: 100%;
+      border-radius: 0;
+      max-height: none;
+    }
+  
+    .contactus-form-container {
+      width: 90%;
+    }
+  
+    .navigation-contactus {
+      border-radius: 0;
+      padding: 0 16px;
+    }
+  }
