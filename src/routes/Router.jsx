@@ -14,6 +14,9 @@ import Notifications from "../pages/Notifications";
 import About from "../pages/About";
 import Terms from "../pages/Terms";
 import Privacy from "../pages/Privacy";
+import Help from "../pages/Help";
+import Alerts from "../pages/Alerts";
+
 const AppRouter = () => {
   return (
     <Router>
@@ -98,6 +101,22 @@ const AppRouter = () => {
           }
         />
 
+<Route
+          path="/help"
+          element={
+            <ProtectedRoute>
+              <Help />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/alerts"
+          element={
+            <ProtectedRoute>
+              <Alerts />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<Error404 />} />
         
       </Routes>
