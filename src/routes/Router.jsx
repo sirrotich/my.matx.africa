@@ -16,7 +16,8 @@ import Terms from "../pages/Terms";
 import Privacy from "../pages/Privacy";
 import Help from "../pages/Help";
 import Alerts from "../pages/Alerts";
-
+import PowerMonthly from "../pages/PowerMonthly";
+import InternetMonthly from "../pages/InternetMonthly";
 const AppRouter = () => {
   return (
     <Router>
@@ -57,6 +58,17 @@ const AppRouter = () => {
             </ProtectedRoute>
           }
         />
+
+<Route path="/power/:month"  element={
+            <ProtectedRoute>
+              <PowerMonthly />
+            </ProtectedRoute>
+          } />
+<Route path="/internet/:month"  element={
+            <ProtectedRoute>
+              <InternetMonthly />
+            </ProtectedRoute>
+          } />
 
       <Route
           path="/account"
