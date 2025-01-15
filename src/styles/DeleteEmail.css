@@ -143,7 +143,7 @@
     cursor: not-allowed;
   }
 
-  .delete-email-number{
+  .delete-email{
     width: 270.93px;
     height: 49.74px;
     top: 386px;
@@ -159,12 +159,10 @@
     font-size: 14.21px;
     font-weight: 600;
     line-height: 21.32px;
-    margin-top: 34px;
     margin-left: 24px;
-
   }
  /* Add this if you want to remove the focus outline completely */
-.delete-email-number:focus {
+.delete-email:focus {
   outline: none;
 }
 

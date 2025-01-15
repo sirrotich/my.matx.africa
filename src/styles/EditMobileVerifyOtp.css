@@ -125,7 +125,7 @@
 /* OTP Input Container */
 .new-mobile-otp-input-container {
   display: flex;
-  gap: 2px; /* Adjust the gap between OTP inputs */
+  gap: 8px; /* Adjust the gap between OTP inputs */
 }
 
 .new-mobile-otp-input-container input {
@@ -137,7 +137,6 @@
   background-color: white; /* White background */
   color: black; /* Text color for input */
   text-align: center; /* Center the text */
-  margin-left: 7px;
   padding: var(--SpacingSpacing-md16);
   
 }

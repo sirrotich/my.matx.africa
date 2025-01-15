@@ -147,15 +147,137 @@ html, body {
   .p-2 {
     padding: 0.5rem;
   }
+
+
+  
   
   /* Additional styles for the chart */
   .chart-container {
     max-width: 1200px;
-   margin-top: -50px;
+    margin-top: -8px;
     background: var(--surface-surface-neutral-2, #EBEBE6);
     border-radius: 30px;
+    position: relative;
+    margin-bottom: -50px; /* Pull up the next element */
+    z-index: 20;
+    height: 337px;
+    padding: 5px;
+    padding-left: 20px;
+
   }
-  
+
+
+/* Add this class for the cards wrapper */
+.cards-wrapper {
+  position: relative;
+}
+
+/* Update consumption card styles */
+.consumption-card {
+  background: #004A4C;
+  border-radius: 30px;
+  padding: 10px 2px 10px 30px;
+  color: white;
+  position: relative;
+  z-index: 10;
+  margin-bottom: -18px;
+  top: -15px;
+
+}
+
+
+
+.consumption-text {
+  font-size: 12.44px;
+  font-weight: 500;
+  line-height: 18.67px;
+  letter-spacing: -0.025em;
+  color: #EBEBE6;
+  margin-top: 67px;
+
+
+}
+
+.consumption-total {
+  font-family: 'Bai Jamjuree';
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: -0.04em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #FAFAF9;
+  margin-top: -15px;
+
+}
+
+.consumption-subtitle {
+  font-family: 'Bai Jamjuree';
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+    color: #EBEBE6;
+    margin-top: -10px;
+}
+
+.consumption-card-2 {
+  background: #004A4C;
+  border-radius: 30px;
+  padding: 10px 2px 10px 30px;
+  color: white;
+  position: relative;
+  z-index: 10;
+  margin-top: -70px;
+  height: 150px;
+}
+
+
+
+.consumption-text-2 {
+  font-size: 12.44px;
+  font-weight: 500;
+  line-height: 18.67px;
+  letter-spacing: -0.025em;
+  color: #EBEBE6;
+  margin-top: 67px;
+}
+
+.consumption-total-2 {
+  font-family: 'Bai Jamjuree';
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: -0.04em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #FAFAF9;
+  margin-top: -15px;
+}
+
+.consumption-subtitle-2 {
+  font-family: 'Bai Jamjuree';
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+    color: #EBEBE6;
+    margin-top: -15px;
+
+
+}
+
+
+
+
   .recharts-wrapper {
     margin: 0 auto;
   }
@@ -195,6 +317,11 @@ html, body {
     border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
     border-radius: 20px; /* Optional: For rounded corners */
     padding: 0px; /* Optional: Add padding inside the border */
+    height: 100vh;
+    width: 360px;
+    height: 639px;
+    overflow: hidden; /* Ensures content and nav don't overflow */
+
   }
   .top-div{
     display: flex;
@@ -214,6 +341,7 @@ html, body {
 
 
   }
+  
   .top-btn {
     /* width: 89.31px;
     height: 36.64px; */
@@ -268,34 +396,9 @@ margin-left: 20px;
 margin-top: 20px;
   }
 
-.consumption-total {
-  /* font-family: 'Bai Jamjuree'; */
-  font-size: 38.67px;
-font-weight: 500;
-line-height: 51.2px;
-letter-spacing: -0.05em;
-text-align: left;
-width: 146px;
-height: 41px;
-gap: 0px;
-opacity: 0px;
-color: var(--text-text-neutral-05, #FAFAF9);
 
-}
 
-.consumption-text {
-    width: 280px;
-    height: 19px;
-    
-    /* font-family: 'Bai Jamjuree'; */
-    font-size: 12.44px;
-    font-weight: 500;
-    line-height: 18.67px;
-    letter-spacing: -0.025em;
-    text-align: left;
-    color: var(--text-text-neutral-2, #EBEBE6);
 
-}
 
 
 
@@ -377,6 +480,25 @@ color: var(--text-text-neutral-05, #FAFAF9);
 
   .navigation{
     display: flex;
+    height: 64px;
+    border-radius: var(--Spacingnone0) 0px 20px 20px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
+    background: var(--surface-surface-neutral-2, #EBEBE6);
+    width: 100%;
+    display: flex;  
+      flex-direction: row;  
+      align-items: center;  
+      justify-content: space-between;  
+      border-radius: 0 0 20px 20px; 
+      padding: 30px;
+      margin-top: 13px;
+      
+
+    }
+
+    .navigation-con{
+      display: flex;
     height: 77px;
     border-radius: var(--Spacingnone0) 0px 20px 20px;
     border: 2px 0px 0px 0px;
@@ -389,8 +511,9 @@ color: var(--text-text-neutral-05, #FAFAF9);
       justify-content: space-between;  
       border-radius: 0 0 20px 20px; 
       padding: 30px;
-
-    }
+      margin-top: -10px;
+  
+      }
     
     .nav-item {
       border-radius: 9999px; /* or 50px - both will work */
@@ -442,9 +565,261 @@ color: var(--text-text-neutral-05, #FAFAF9);
     
     }
     
+/* Tabs container */
+.bg-ebebe6 {
+  background-color: #EBEBE6;
+  border-radius: 50px;
+  padding: 8px;  /* Reduced padding to better align buttons */
+  margin: 0 16px;
+  width: 330px;
+  margin-top: -25px;
+  height: 48px;
+  display: flex;  /* Added to help with alignment */
+  align-items: center;  /* Center items vertically */
+  margin-right: -15px;
 
-   
-    
+}
+
+/* Flex container for tabs */
+.tabs-flex-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;  /* Adjusted gap for better spacing */
+  width: 100%;  /* Ensure container takes full width */
+  height: 32px;  /* Match button height */
+}
+
+/* Individual tab button */
+.tab-button {
+  flex: 1;
+  height: 32px;
+  border-radius: 40px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0 12px;  /* Adjusted padding */
+  display: flex;  /* Added for text alignment */
+  align-items: center;  /* Center text vertically */
+  justify-content: center;  /* Center text horizontally */
+  line-height: 1;  /* Prevent text from affecting button height */
+}
+
+/* Active tab state */
+.tab-button.active {
+  background-color: #00191A;
+  color: white;
+}
+
+/* Inactive tab state */
+.tab-button:not(.active) {
+  color: #292927;
+  background: transparent;
+}
+
+/* Hover state for inactive tabs */
+.tab-button:not(.active):hover {
+  background-color: rgba(10, 17, 16, 0.05);
+}
+
+/* Transition effect */
+.tab-button {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Font settings */
+.tab-button {
+  font-family: 'Bai Jamjuree', sans-serif;
+  letter-spacing: -0.02em;
+  white-space: nowrap;  /* Prevent text wrapping */
+}
+
+/* Media query for mobile responsiveness */
+@media (max-width: 768px) {
+  .tabs-flex-container {
+    gap:  16px;
+  }
+  
+  .tab-button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabs-flex-container {
+    gap: 16px;
+  }
+  
+  .tab-button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
 
 
- 
+
+
+.power-on{
+  font-family:'Bai Jamjuree';
+  font-size: 10.73px;
+  font-weight: 500;
+  line-height: 16.1px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #292927;
+}
+.power-outage{
+  font-family:'Bai Jamjuree';
+  font-size: 10.73px;
+  font-weight: 500;
+  line-height: 16.1px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #292927;
+}
+
+.recharts-bar-rectangle{
+  width: 2px;
+}
+
+
+.consumption-card-power {
+  background: #292927;
+  border-radius: 30px;
+  padding: 10px 2px 10px 30px;
+  color: white;
+  position: relative;
+  z-index: 10;
+  margin-bottom: -25px;
+  top: -15px;
+
+}
+
+
+.consumption-title {
+  font-family: 'Bai Jamjuree';
+
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+  margin-top: 60px;
+  
+  color: #EBEBE6;
+
+}
+
+.stats-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 3px;
+  margin-left: -30px;
+}
+
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-value {
+  font-family: 'Bai Jamjuree';
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: -0.04em;
+  text-align: center;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;  
+  margin: 0 0 4px 0;
+  color: #EBEBE6;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #EBEBE6;
+  margin: 0;
+  font-family: 'Bai Jamjuree';
+
+}
+
+.vertical-divider {
+  width: 1px;
+  height: 34px;
+  background-color: #EBEBE6;
+  margin: 0 8px;
+}
+
+.bar-tooltip {
+  position: absolute;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 120px;
+  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.08);
+  transform: translate(-50%, calc(-100% - 15px));
+  z-index: 1000;
+  text-align: center;
+}
+
+.tooltip-value {
+  font-family: 'Bai Jamjuree', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #292927;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.view-details-btn {
+  background: #00191A;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-family: 'Bai Jamjuree', sans-serif;
+  transition: background-color 0.2s ease;
+}
+
+.view-details-btn:hover {
+  background: #002F31;
+}
+
+/* Custom arrow */
+.bar-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: white;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Cover the shadow leak */
+.bar-tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 12px;
+  background: white;
+  z-index: 1;
+}

@@ -1,4 +1,4 @@
-.account-info-page {
+.help-page {
     display: flex;
     flex-direction: column;
     width: 360px;
@@ -10,7 +10,7 @@
     padding-top: -30px;
   }
   
-  .account-header {
+  .help-header {
     display: flex;
     align-items: center;
     padding: 16px;
@@ -18,7 +18,7 @@
     font-family: 'Bai Jamjuree';
   }
   
-  .account-header span {
+  .help-header span {
     font-family: 'Bai Jamjuree';
     font-size: 16.49px;
     font-weight: 500;
@@ -81,7 +81,7 @@
     text-decoration-skip-ink: none;
     
   }
-  .navigation-account {
+  .navigation-help {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -100,7 +100,7 @@
   
   /* Media Queries */
   @media screen and (max-width: 480px) {
-    .account-info-page {
+    .help-page {
       border: none;
       border-radius: 0;
       height: 100vh;
@@ -114,7 +114,7 @@
         z-index: 10;
       }
   
-      .navigation-account {
+      .navigation-help {
           display: flex;
           height: 64px;
           gap: 0px;
