@@ -8,9 +8,21 @@ const DynamicGasDropdown = () => {
   const buttonRef = useRef(null);
   const { locations, selectedLocation, setSelectedLocation } = useGas();
   const location = useLocation();
+
+
+  // Return null if there's no data
+  if (!locations?.length || !selectedLocation) {
+    return null;
+  }
   
   const isAnalyticsPage = location.pathname === '/analytics';
   const isMonthlyPage = location.pathname.includes('/months/');
+  const isPowerPage = location.pathname.includes('/power/');
+  const isInternetPage = location.pathname.includes('/internet/');
+  const isHomePage = location.pathname.includes('/');
+
+
+
 
   useEffect(() => {
     if (buttonRef.current) {
@@ -76,7 +88,7 @@ const DynamicGasDropdown = () => {
       zIndex: isOpen ? 9999 : 1000
     };
 
-    if (isAnalyticsPage || isMonthlyPage) {
+    if (isAnalyticsPage || isMonthlyPage || isInternetPage || isPowerPage || isHomePage) {
       return {
         container: containerStyles,
         button: {
@@ -191,7 +203,7 @@ const DynamicGasDropdown = () => {
                 backgroundColor: 'transparent'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = isAnalyticsPage || isMonthlyPage ? '#E5E5E5' : '#292927';
+                e.currentTarget.style.backgroundColor = isAnalyticsPage || isMonthlyPage || isInternetPage || isPowerPage || isHomePage ? '#E5E5E5' : '#292927';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'transparent';
