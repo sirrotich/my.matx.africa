@@ -7,7 +7,9 @@ import '../styles/Login.css';
 const Login = () => {
   const [loginMethod, setLoginMethod] = useState('mobile');
   const [contactInfo, setContactInfo] = useState('');
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(true);
+  const [showError, setShowError] = useState(false); // New state for error display
+
   const [isProcessing, setIsProcessing] = useState(false);
 
   const navigate = useNavigate();
@@ -36,17 +38,63 @@ const Login = () => {
     }
   };
 
+
+  const validateMobileNumber = (number) => {
+    // Remove all non-digit characters
+    const cleaned = number.replace(/\D/g, '');
+    // Check if length is greater than 10 digits
+    return cleaned.length <= 10;
+  };
+
+
+
+  const validateEmail = (email) => {
+    if (!email) return false;
+    
+    // Basic email format check
+    const basicEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!basicEmailRegex.test(email)) return false;
+
+    // Check for common invalid patterns
+    const invalidPatterns = [
+      /\.com{2,}$/,  // Matches .comm, .commm etc.
+      /\.co{2,}m$/,  // Matches .coom, .cooom etc.
+      /\.[^.]{5,}$/  // Matches unusually long TLDs
+    ];
+
+    return !invalidPatterns.some(pattern => pattern.test(email));
+  };
+
+  const isInputValid = () => {
+    if (!contactInfo) return false;
+    
+    if (loginMethod === 'mobile') {
+      const cleaned = contactInfo.replace(/\D/g, '');
+      // Enable button when exactly 10 digits
+      return cleaned.length === 10;
+    }
+    
+    return validateEmail(contactInfo);
+  };
+
   const handleInputChange = (e) => {
     let value = e.target.value;
     
     if (loginMethod === 'mobile') {
-      // Allow +, digits, and spaces in input for user convenience
       value = value.replace(/[^\d\s+]/g, '');
+      const cleaned = value.replace(/\D/g, '');
+      // Show error if more than 10 digits
+      setShowError(cleaned.length > 10 && value.length > 0);
+    } else {
+      // For email validation
+      setShowError(!validateEmail(value) && value.includes('@'));
     }
     
     setContactInfo(value);
-    setIsValid(validateInput(value));
   };
+
+
+
 
   const handleSendCode = async () => {
     if (!isValid) {
@@ -97,21 +145,29 @@ const Login = () => {
         <div className="toggle-container">
           <button 
             className={`toggle-btn ${loginMethod === 'mobile' ? 'active' : ''}`}
-            onClick={() => setLoginMethod('mobile')}
+            onClick={() => {
+              setLoginMethod('mobile');
+              setContactInfo('');
+              setShowError(false);
+            }}
           >
             Mobile
           </button>
           <button 
             className={`toggle-btn ${loginMethod === 'email' ? 'active' : ''}`}
-            onClick={() => setLoginMethod('email')}
+            onClick={() => {
+              setLoginMethod('email');
+              setContactInfo('');
+              setShowError(false);
+            }}
           >
             Email
           </button>
         </div>
 
-        <h2 className="welcome-text">Welcome and Login With...</h2>
+        <div className="welcome-text-home">Welcome and Login With...</div>
 
-        <div className="input-container">
+        <div className={`input-container ${showError ? 'error' : ''}`}>
           <input
             type={loginMethod === 'email' ? 'email' : 'tel'}
             value={contactInfo}
@@ -129,14 +185,22 @@ const Login = () => {
               </svg>
             )}
           </span>
-        </div>
 
+          {showError && (
+            <div className="error-text">
+              {loginMethod === 'mobile' 
+                ? 'Oops! Invalid mobile number.'
+                : 'Oops! Invalid email.'}
+            </div>
+          )}
+        </div>
+       
         <div>
           <button
-            className={`login-btn ${!isValid ? 'disabled' : ''}`}
+            className={`login-btn ${!isInputValid() ? 'disabled' : ''}`}
             onClick={handleSendCode}
-            disabled={!isValid || isProcessing}
-          >
+            disabled={!isInputValid() || isProcessing}
+            >
             {isProcessing ? 'Sending...' : 'Get Login Code →'}
           </button>
         </div>

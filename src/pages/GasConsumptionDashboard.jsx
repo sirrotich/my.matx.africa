@@ -154,11 +154,13 @@ const handleInternetBarClick = (entry, event) => {
     const svgPoint = point.matrixTransform(svgElement.getScreenCTM().inverse());
     
     // Determine if it's online or offline based on the fill color
-    const isOffline = event.target.getAttribute('fill') === '#666666';
-    const value = isOffline ? entry.offline : entry.online;
+  // Get the current fill color of the clicked bar
+    const fillColor = event.target.getAttribute('fill');
+    // Check which bar was clicked based on fill color
+    const isOffline = fillColor === '#FF6B6B';
     
     setInternetTooltipInfo({
-      value,
+      value: isOffline ? entry.offline : entry.online,  // Select correct value based on which bar clicked
       position: {
         x: svgPoint.x,
         y: svgPoint.y
@@ -265,19 +267,35 @@ const handleInternetViewDetails = (period) => {
 
 
   // Update data in the Internet section of renderTabContent
+  const powerData = [
+    { period: 'Jan', powerOn: 10, powerOutage: 12 },
+    { period: 'Feb', powerOn: 8, powerOutage: 16 },
+    { period: 'Mar', powerOn: 9, powerOutage: 15 },
+    { period: 'Apr', powerOn: 7, powerOutage: 17 },
+    { period: 'May', powerOn: 8, powerOutage: 16 },
+    { period: 'Jun', powerOn: 8, powerOutage: 16 },
+    { period: 'Jul', powerOn: 9, powerOutage: 15 },
+    { period: 'Aug', powerOn: 11, powerOutage: 13 },
+    { period: 'Sep', powerOn: 10, powerOutage: 14 },
+    { period: 'Oct', powerOn: 8, powerOutage: 16 },
+    { period: 'Nov', powerOn: 11, powerOutage: 13 },
+    { period: 'Dec', powerOn: 10, powerOutage: 14 },
+  ];
+
+  // Update data in the Internet section of renderTabContent
 const internetData = [
-  { period: 'Jan', online: 720, offline: 24 }, // Example: 24 hours offline, rest online
-  { period: 'Feb', online: 672, offline: 48 },
-  { period: 'Mar', online: 720, offline: 24 },
-  { period: 'Apr', online: 700, offline: 20 },
-  { period: 'May', online: 744, offline: 0 },
-  { period: 'Jun', online: 710, offline: 10 },
-  { period: 'Jul', online: 744, offline: 0 },
-  { period: 'Aug', online: 720, offline: 24 },
-  { period: 'Sep', online: 710, offline: 10 },
-  { period: 'Oct', online: 744, offline: 0 },
-  { period: 'Nov', online: 720, offline: 0 },
-  { period: 'Dec', online: 744, offline: 0 }
+  { period: 'Jan', online: 20, offline: 4 }, // Example: 24 hours offline, rest online
+  { period: 'Feb', online: 12, offline: 12 },
+  { period: 'Mar', online: 20, offline: 4 },
+  { period: 'Apr', online: 4, offline: 20 },
+  { period: 'May', online: 7, offline: 17 },
+  { period: 'Jun', online: 5, offline: 19 },
+  { period: 'Jul', online: 12, offline: 12 },
+  { period: 'Aug', online: 20, offline: 4 },
+  { period: 'Sep', online: 10, offline: 14 },
+  { period: 'Oct', online: 14, offline: 10 },
+  { period: 'Nov', online: 20, offline: 4 },
+  { period: 'Dec', online: 4, offline: 20 }
 ];
 
   const renderTabContent = () => {
@@ -291,7 +309,7 @@ const internetData = [
                 <div className="dropdown">
                   <button 
                     onClick={() => setIsOpen(!isOpen)} 
-                    className="dropdown-button"
+                    className="dropdown-button" style={{ marginTop: '20px'}}
                   >
                     {selectedView}
                     <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -331,7 +349,7 @@ const internetData = [
         return (
           <div className="cards-wrapper">
             <div className="chart-container">
-              <div className="flex justify-between">
+            <div className="flex justify-end items-center legend-container" style={{ marginLeft: '16px' }}>
                 <div className="flex items-center gap-4 mt-4 ml-4">
                   <div className="flex items-center">
                     <div className="w-2 h-2 rounded-full bg-orange-500 mr-2"></div>
@@ -347,25 +365,48 @@ const internetData = [
 </span>
                   </div>
                 </div>
+
+                <div className="dropdown" style={{ marginLeft: '25px', marginTop: '5px'}}>
+                  <button 
+                    onClick={() => setIsOpen(!isOpen)} 
+                    className="dropdown-button"
+                  >
+                    {selectedView}
+                    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M5.00208 7.17373C5.2197 6.95611 5.57253 6.95611 5.79015 7.17373L9.85411 11.2377L13.9181 7.17373C14.1357 6.95611 14.4885 6.95611 14.7061 7.17373C14.9238 7.39135 14.9238 7.74418 14.7061 7.9618L10.2481 12.4198C10.0305 12.6374 9.6777 12.6374 9.46008 12.4198L5.00208 7.9618C4.78446 7.74418 4.78446 7.39135 5.00208 7.17373Z" fill="#292927"/>
+                    </svg>
+                  </button>
+                  {isOpen && (
+                    <div className="dropdown-options-container" style={{ marginTop: '-2px'}}>
+                      <ul className="dropdown-options">
+                        {["This Year", "2023"].map((option, index) => (
+                          <li 
+                            key={index} 
+                            onClick={() => handleSelect(option)} 
+                            className="dropdown-option"
+                          >
+                            {option}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
+              
+
+              
               <div style={{ position: 'relative' }}>
 
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={[
-                  { period: 'Jan', powerOn: 10, powerOutage: 2 },
-                  { period: 'Feb', powerOn: 8, powerOutage: 1 },
-                  { period: 'Mar', powerOn: 9, powerOutage: 3 },
-                  { period: 'Apr', powerOn: 7, powerOutage: 2 },
-                  { period: 'May', powerOn: 8, powerOutage: 3 },
-                  { period: 'Jun', powerOn: 8, powerOutage: 2 },
-                  { period: 'Jul', powerOn: 9, powerOutage: 1 },
-                  { period: 'Aug', powerOn: 11, powerOutage: 1 },
-                  { period: 'Sep', powerOn: 10, powerOutage: 1 },
-                  { period: 'Oct', powerOn: 8, powerOutage: 2 },
-                  { period: 'Nov', powerOn: 11, powerOutage: 2 },
-                  { period: 'Dec', powerOn: 10, powerOutage: 2 },
-
-                ]} margin={{ top: 20, right: 10, left: 10, bottom: 20 }}       onClick={() => powerTooltipInfo && setPowerTooltipInfo(null)}
+                <BarChart    
+                 data={powerData.map(item => ({
+                  ...item,
+                  powerOnWithSpace: item.powerOn + 2,
+                  spacer: 1  // Increased spacer to match internet chart
+                }))}
+                
+                margin={{ top: 20, right: 10, left: 10, bottom: 20 }}       onClick={() => powerTooltipInfo && setPowerTooltipInfo(null)}
 >
                   <XAxis 
                     dataKey="period" 
@@ -380,7 +421,16 @@ const internetData = [
                     onClick={(entry, index, event) => handlePowerBarClick(entry, event)}         
                     cursor="pointer"
 
-/>
+                  />
+
+                  <Bar 
+                        dataKey="spacer" 
+                        fill="transparent" 
+                        stackId="stack"
+                        barSize={5.37}
+                      />
+                  
+
                   <Bar dataKey="powerOutage" stackId="stack" fill="#666666"   radius={[15, 15, 15, 15]}
                     barSize={5.37} 
                     onClick={(entry, index, event) => handlePowerBarClick(entry, event)}         
@@ -423,21 +473,49 @@ const internetData = [
         return (
           <div className="cards-wrapper">
             <div className="chart-container">
-            <div className="flex justify-between">
-                <div className="flex items-center gap-4 mt-4 ml-4">
+            <div className="flex justify-end items-center legend-container" style={{ marginLeft: '16px' }}>
+                <div className="flex items-center gap-4 mt-4 ml-2">
                   <div className="flex items-center">
                     <div className="w-2 h-2 rounded-full bg-orange-500 mr-2"></div>
-                    <span className="power-on"><svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="0.61792" y="0.0894775" width="5.36585" height="5.36585" rx="2.68293" fill="#E4760C"/>
-</svg>   Online</span>
+                    <span className="power-on"><svg width="7" height="6" viewBox="0 0 7 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.671387" y="0.151245" width="5.37588" height="5.37588" rx="2.68794" fill="#004A4C"/>
+</svg>
+   Online</span>
                   </div>
                   <div className="flex items-center">
                     <div className="w-2 h-2 rounded-full bg-gray-500 mr-2"></div>
                     <span className="power-outage"><svg width="7" height="6" viewBox="0 0 7 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="0.869873" y="0.0894775" width="5.36585" height="5.36585" rx="2.68293" fill="#52524D"/>
-</svg> Offline
+<rect x="0.966797" y="0.151245" width="5.37588" height="5.37588" rx="2.68794" fill="#FF6565"/>
+</svg>
+ Offline
 </span>
                   </div>
+                </div>
+                <div className="dropdown" style={{paddingLeft: '79px' , marginTop: '5px'}}>
+                  <button 
+                    onClick={() => setIsOpen(!isOpen)} 
+                    className="dropdown-button"
+                  >
+                    {selectedView}
+                    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M5.00208 7.17373C5.2197 6.95611 5.57253 6.95611 5.79015 7.17373L9.85411 11.2377L13.9181 7.17373C14.1357 6.95611 14.4885 6.95611 14.7061 7.17373C14.9238 7.39135 14.9238 7.74418 14.7061 7.9618L10.2481 12.4198C10.0305 12.6374 9.6777 12.6374 9.46008 12.4198L5.00208 7.9618C4.78446 7.74418 4.78446 7.39135 5.00208 7.17373Z" fill="#292927"/>
+                    </svg>
+                  </button>
+                  {isOpen && (
+                    <div className="dropdown-options-container" style={{ marginTop: '-2px'}}>
+                      <ul className="dropdown-options">
+                        {["This Year", "2023"].map((option, index) => (
+                          <li 
+                            key={index} 
+                            onClick={() => handleSelect(option)} 
+                            className="dropdown-option"
+                          >
+                            {option}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -445,9 +523,14 @@ const internetData = [
 
               <ResponsiveContainer width="100%" height={300}>
             <BarChart 
-              data={internetData}
+                 data={internetData.map(item => ({
+                  ...item,
+                  onlineWithSpace: item.online + 2, // Add space for visualization
+                  spacer: 1  // This creates the gap
+                }))}
               margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
               onClick={() => internetTooltipInfo && setInternetTooltipInfo(null)}
+
             >
               <XAxis 
                 dataKey="period" 
@@ -465,7 +548,17 @@ const internetData = [
                 barSize={5.37}
                 onClick={(entry, index, event) => handleInternetBarClick(entry, event)}
                 cursor="pointer"
+            
+                
               />
+
+            <Bar 
+                  dataKey="spacer" 
+                  fill="transparent" 
+                  stackId="a"
+                  barSize={5.37}
+                />
+              
               <Bar 
                 dataKey="offline" 
                 stackId="a" // Important: both bars need same stackId
@@ -474,6 +567,7 @@ const internetData = [
                 barSize={5.37}
                 onClick={(entry, index, event) => handleInternetBarClick(entry, event)}
                 cursor="pointer"
+
               />
             </BarChart>
           </ResponsiveContainer>
@@ -490,10 +584,21 @@ const internetData = [
           </div>
             </div>
 
-            <div className="consumption-card">
-              <p className="consumption-text">Monthly Internet Usage</p>
-              <p className="consumption-total">250 GB</p>
-              <p className="text-xs text-gray-300 mt-2">Average Usage per Month</p>
+            <div className="consumption-card-power">
+              <p className="consumption-title">Total Number Hour Of Internet Outage</p>
+              <div className="stats-container">
+                <div className="stat-item">
+                  <p className="stat-value">7</p>
+                  <p className="stat-label">Your Home</p>
+                </div>
+                
+                <div className="vertical-divider"></div>
+                
+                <div className="stat-item">
+                  <p className="stat-value">30</p>
+                  <p className="stat-label">Your Area</p>
+                </div>
+              </div>
             </div>
           </div>
         );

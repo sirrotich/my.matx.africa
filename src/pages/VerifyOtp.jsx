@@ -12,6 +12,11 @@ const VerifyOtp = () => {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [isBackDisabled, setIsBackDisabled] = useState(false);
 
+
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+
   const inputRefs = useRef([]);
   const [isResending, setIsResending] = useState(false);
   const [countdown, setCountdown] = useState(60);
@@ -21,6 +26,11 @@ const VerifyOtp = () => {
     // Check if any OTP digit is entered
     const hasAnyDigit = otp.some(digit => digit !== '');
     setIsBackDisabled(hasAnyDigit);
+
+    if (isError) {
+      setIsError(false);
+      setErrorMessage('');
+    }
   }, [otp]);
 
   const handleBack = () => {
@@ -53,6 +63,12 @@ const VerifyOtp = () => {
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
+
+    // Clear error state when user starts typing
+    if (isError) {
+      setIsError(false);
+      setErrorMessage('');
+    }
     if (value && index < otp.length - 1) {
       inputRefs.current[index + 1].focus();
     }
@@ -99,7 +115,12 @@ const VerifyOtp = () => {
         navigate('/');
       } catch (error) {
         console.error('Error verifying OTP:', error);
-        toast.error('Failed to verify OTP. Please try again.');
+        setIsError(true);
+        setErrorMessage('Oops! Invalid login code.');
+        // Add error class to all inputs
+        inputRefs.current.forEach(input => {
+          if (input) input.classList.add('error');
+        });
       }
     } else {
       toast.error('Please enter a valid OTP.');
@@ -109,6 +130,15 @@ const VerifyOtp = () => {
   const handleResendCode = async () => {
     if (loginMethod === 'mobile' && (isResending || isCountdownActive)) return;
     setIsResending(true);
+
+    // Clear error state when resending
+    setIsError(false);
+    setErrorMessage('');
+    // Remove error class from all inputs
+    inputRefs.current.forEach(input => {
+      if (input) input.classList.remove('error');
+    });
+
 
     const requestBody = {
       email: loginMethod === 'email' ? contactInfo : '',
@@ -198,6 +228,7 @@ const VerifyOtp = () => {
               key={index}
               type="text"
               value={value}
+              className={isError ? 'error' : ''}
               onChange={(e) => {
                 const inputValue = e.target.value;
                 if (/^\d*$/.test(inputValue)) {
@@ -210,6 +241,11 @@ const VerifyOtp = () => {
             />
           ))}
         </div>
+        {isError && (
+          <div className="otp-error-message">
+            {errorMessage}
+          </div>
+        )}
         <p className="resend-code-text">
           {renderResendCode()}
         </p>

@@ -29,19 +29,19 @@ const InternetMonthly = () => {
   const fetchData = async (view) => {
     const dummyData = {
      'Week 1': [
-      { period: 'Sun', online: 24, offline: 0 },
-      { period: 'Mon', online: 24, offline: 0 },
-      { period: 'Tue', online: 24, offline: 0 },
-      { period: 'Wed', online: 24, offline: 0 },
-      { period: 'Thu', online: 23, offline: 1 },
-      { period: 'Fri', online: 24, offline: 0 },
-      { period: 'Sat', online: 24, offline: 0 },
+      { period: 'Sun', online: 14, offline: 10 },
+      { period: 'Mon', online: 4, offline: 20 },
+      { period: 'Tue', online: 15, offline: 9 },
+      { period: 'Wed', online: 16, offline: 8 },
+      { period: 'Thu', online: 10, offline: 14 },
+      { period: 'Fri', online: 14, offline: 10 },
+      { period: 'Sat', online: 14, offline: 10 },
     ],
     [month]: [
         { period: 'Week_1', online: 167, offline: 1 },
-        { period: 'Week_2', online: 168, offline: 0 },
+        { period: 'Week_2', online: 100, offline: 68 },
         { period: 'Week_3', online: 168, offline: 0 },
-        { period: 'Week_4', online: 168, offline: 0 },
+        { period: 'Week_4', online: 168, offline: 90 },
       ]
     };
 
@@ -94,16 +94,58 @@ const InternetMonthly = () => {
     return null;
   };
 
+  const handleTabClick = (tab) => {
+    if (tab === activeTab) return;
+    
+    switch (tab) {
+      case 'Gas':
+        navigate(`/months/${month}`);
+        break;
+      case 'Power':
+        navigate(`/power/${month}`);
+        break;
+      case 'Internet':
+        navigate(`/internet/${month}`);
+        break;
+      default:
+        break;
+    }
+  };
+
   const renderChart = () => {
     if (!data[selectedView]) return null;
 
-    const barWidth = selectedView.startsWith('Week') ? 40 : 31.4; // Adjust barSize based on view
+    const barWidth = selectedView.startsWith('Week') ? 5.37 : 5.37
+     // Adjust spacing based on view
+    const getSpacerAndBarSize = () => {
+        if (selectedView === month) {
+        return {
+            spacer: 10,      // Smaller spacer for month view
+            barSize: 14    // Larger bars for month view
+        };
+        } else {
+        return {
+            spacer: 1,     // Consistent spacer for week view
+            barSize: 8     // Smaller bars for week view
+        };
+        }
+    };
+
+    const { spacer, barSize } = getSpacerAndBarSize();
+
+    
+    // Transform the data to add spacers
+    const transformedData = data[selectedView].map(item => ({
+      ...item,
+      spacer: spacer, // Creates the gap between bars
+    }));
 
     return (
-        <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={300}>
         <BarChart 
-          data={data[selectedView]} 
+          data={transformedData} 
           margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
+          barSize={barWidth}
         >
           <XAxis 
             dataKey="period" 
@@ -115,17 +157,20 @@ const InternetMonthly = () => {
           />
           <Bar 
             dataKey="online" 
-            stackId="stack"
             fill="#004A4C" 
             radius={[15, 15, 15, 15]}
-            barSize={barWidth}
+            stackId="stack"
+          />
+          <Bar 
+            dataKey="spacer" 
+            fill="transparent" 
+            stackId="stack"
           />
           <Bar 
             dataKey="offline" 
-            stackId="stack"
             fill="#FF6B6B" 
             radius={[15, 15, 15, 15]}
-            barSize={barWidth}
+            stackId="stack"
           />
         </BarChart>
       </ResponsiveContainer>
@@ -148,19 +193,19 @@ const InternetMonthly = () => {
           <div className="bg-ebebe6">
             <div className="tabs-flex-container">
               <button
-                onClick={() => setActiveTab('Gas')}
+                onClick={() => handleTabClick('Gas')}
                 className={`tab-button ${activeTab === 'Gas' ? 'active' : ''}`}
               >
                 Gas
               </button>
               <button
-                onClick={() => setActiveTab('Power')}
+                onClick={() => handleTabClick('Power')}
                 className={`tab-button ${activeTab === 'Power' ? 'active' : ''}`}
               >
                 Power
               </button>
               <button
-                onClick={() => setActiveTab('Internet')}
+                onClick={() => handleTabClick('Internet')}
                 className={`tab-button ${activeTab === 'Internet' ? 'active' : ''}`}
               >
                 Internet
@@ -171,20 +216,41 @@ const InternetMonthly = () => {
 
         <div className="p-3">
           <div className="chart-container">
-            <div className="flex justify-between">
-              <h2 className="total-remaining-gas">Internet Usage</h2>
-              <div className="dropdown">
+          <div className="flex justify-between items-start" style={{ padding: '2px 2px 0 30px', marginTop: '-10px' }}>
+          <div className="flex items-center gap-4 mt-4 ml-4">
+                <div className="flex items-center">
+                  <div className="w-2 h-2 rounded-full bg-orange-500 mr-2"></div>
+                  <span className="power-on">
+                    <svg width="7" height="6" viewBox="0 0 7 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="0.671387" y="0.151245" width="5.37588" height="5.37588" rx="2.68794" fill="#004A4C"/>
+                    </svg>
+                    Online
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-2 h-2 rounded-full bg-gray-500 mr-2"></div>
+                  <span className="power-outage">
+                    <svg width="7" height="6" viewBox="0 0 7 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="0.966797" y="0.151245" width="5.37588" height="5.37588" rx="2.68794" fill="#FF6565"/>
+                    </svg>
+                    Offline
+                  </span>
+                </div>
+              </div>
+              <div className="dropdown" style={{ marginTop: '4px'}}>
                 <button 
                   onClick={() => setIsOpen(!isOpen)} 
                   className="dropdown-button"
                 >
                   {selectedView}
                   <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M5.00208 7.17373C5.2197 6.95611 5.57253 6.95611 5.79015 7.17373L9.85411 11.2377L13.9181 7.17373C14.1357 6.95611 14.4885 6.95611 14.7061 7.17373C14.9238 7.39135 14.9238 7.74418 14.7061 7.9618L10.2481 12.4198C10.0305 12.6374 9.6777 12.6374 9.46008 12.4198L5.00208 7.9618C4.78446 7.74418 4.78446 7.39135 5.00208 7.17373Z" fill="#292927"/>
-                  </svg>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.00208 7.17373C5.2197 6.95611 5.57253 6.95611 5.79015 7.17373L9.85411 11.2377L13.9181 7.17373C14.1357 6.95611 14.4885 6.95611 14.7061 7.17373C14.9238 7.39135 14.9238 7.74418 14.7061 7.9618L10.2481 12.4198C10.0305 12.6374 9.6777 12.6374 9.46008 12.4198L5.00208 7.9618C4.78446 7.74418 4.78446 7.39135 5.00208 7.17373Z" fill="#292927"/>
+</svg>
+
                 </button>
+
                 {isOpen && (
-                  <div className="dropdown-options-container">
+                  <div className="dropdown-options-container" style={{ marginTop: '-5px'}}>
                     <ul className="dropdown-options">
                       {options.map((option, index) => (
                         <li 
@@ -204,7 +270,9 @@ const InternetMonthly = () => {
           </div>
 
           <div className="consumption-card-power">
-            <p className="consumption-title">{selectedView === month ? `${month} 2024` : `${selectedView} ${month} 2024`} Internet Usage</p>
+            <p className="consumption-title">
+              {selectedView === month ? `${month} 2024` : `${selectedView} ${month} 2024`} Internet Usage
+            </p>
             <div className="stats-container">
               <div className="stat-item">
                 <p className="stat-value">250</p>
@@ -269,6 +337,7 @@ const InternetMonthly = () => {
             </div>
           </div>
         </div>
+   
       </div>
     </div>
   );

@@ -25,6 +25,25 @@ const PowerMonthly = () => {
     navigate(path);
   };
 
+  const handleTabClick = (tab) => {
+    if (tab === activeTab) return; // Don't do anything if clicking current tab
+    
+    // Navigate to appropriate route based on tab
+    switch (tab) {
+      case 'Gas':
+        navigate(`/months/${month}`);
+        break;
+      case 'Power':
+        navigate(`/power/${month}`);
+        break;
+      case 'Internet':
+        navigate(`/internet/${month}`);
+        break;
+      default:
+        break;
+    }
+  };
+
   // Simulated API call
   const fetchData = async (view) => {
     const dummyData = {
@@ -80,10 +99,33 @@ const PowerMonthly = () => {
 
     const barWidth = selectedView.startsWith('Week') ? 5.37 : 31.4; // Adjust barSize based on view
 
+      // Adjust spacing based on view
+    const getSpacerAndBarSize = () => {
+        if (selectedView === month) {
+        return {
+            spacer: 8,      // Smaller spacer for month view
+            barSize: 14    // Larger bars for month view
+        };
+        } else {
+        return {
+            spacer: 1,     // Consistent spacer for week view
+            barSize: 8     // Smaller bars for week view
+        };
+        }
+    };
+
+    const { spacer, barSize } = getSpacerAndBarSize();
+
+    // Transform the data to add spacers
+    const transformedData = data[selectedView].map(item => ({
+        ...item,
+        spacer: spacer,
+    }));
+
     return (
       <ResponsiveContainer width="100%" height={300}>
         <BarChart 
-          data={data[selectedView]} 
+          data={transformedData} 
           margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
         >
           <XAxis 
@@ -100,6 +142,11 @@ const PowerMonthly = () => {
             fill="#EA760C" 
             radius={[15, 15, 15, 15]}
             barSize={barWidth}
+          />
+             <Bar 
+            dataKey="spacer" 
+            fill="transparent" 
+            stackId="stack"
           />
           <Bar 
             dataKey="powerOutage" 
@@ -129,19 +176,19 @@ const PowerMonthly = () => {
           <div className="bg-ebebe6">
             <div className="tabs-flex-container">
               <button
-                onClick={() => setActiveTab('Gas')}
+                onClick={() => handleTabClick('Gas')}
                 className={`tab-button ${activeTab === 'Gas' ? 'active' : ''}`}
               >
                 Gas
               </button>
               <button
-                onClick={() => setActiveTab('Power')}
+                onClick={() => handleTabClick('Power')}
                 className={`tab-button ${activeTab === 'Power' ? 'active' : ''}`}
               >
                 Power
               </button>
               <button
-                onClick={() => setActiveTab('Internet')}
+                onClick={() => handleTabClick('Internet')}
                 className={`tab-button ${activeTab === 'Internet' ? 'active' : ''}`}
               >
                 Internet
@@ -152,18 +199,21 @@ const PowerMonthly = () => {
 
         <div className="p-3">
           <div className="chart-container">
-            <div className="flex justify-between">
+          <div className="flex justify-between items-start" style={{ padding: '2px 2px 0 30px', marginTop: '-10px' }}>
               <div className="flex items-center gap-4 mt-4 ml-4">
                 <div className="flex items-center">
                   <div className="w-2 h-2 rounded-full bg-orange-500 mr-2"></div>
-                  <span className="power-on">Power On</span>
-                </div>
+                  <span className="power-on"><svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.61792" y="0.0894775" width="5.36585" height="5.36585" rx="2.68293" fill="#E4760C"/>
+</svg>   Power On</span>                </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 rounded-full bg-gray-500 mr-2"></div>
-                  <span className="power-outage">Power Outage</span>
-                </div>
+                  <span className="power-outage"><svg width="7" height="6" viewBox="0 0 7 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.869873" y="0.0894775" width="5.36585" height="5.36585" rx="2.68293" fill="#52524D"/>
+</svg> Power Outage
+</span>                </div>
               </div>
-              <div className="dropdown">
+              <div className="dropdown" style={{ marginTop: '4px'}}>
                 <button 
                   onClick={() => setIsOpen(!isOpen)} 
                   className="dropdown-button"
@@ -174,7 +224,7 @@ const PowerMonthly = () => {
                   </svg>
                 </button>
                 {isOpen && (
-                  <div className="dropdown-options-container">
+                  <div className="dropdown-options-container" style={{ marginTop: '-5px'}}>
                     <ul className="dropdown-options">
                       {options.map((option, index) => (
                         <li 
@@ -243,7 +293,7 @@ const PowerMonthly = () => {
               onClick={() => handleNavigate('/notifications')}
             >
               <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" clipRule="evenodd" 
+                <path fillRule="evenodd" clipRule="evenodd"     
                 d="M11.5039 1.15259C9.8492 1.15259 8.27197 1.85415 7.11632 3.08684C5.96208 4.31803 5.32071 5.97893 5.32071 7.70221C5.32071 11.0279 4.65326 13.1168 4.022 14.3512C3.70571 14.9698 3.39549 15.3798 3.17536 15.6277C3.06512 15.7518 2.97698 15.8358 2.92129 15.8853C2.89344 15.91 2.87366 15.9262 2.86327 15.9345L2.85528 15.9407C2.61613 16.1148 2.51502 16.4227 2.60517 16.7051C2.6961 16.9898 2.96072 17.1831 3.25964 17.1831H19.7482C20.0471 17.1831 20.3117 16.9898 20.4027 16.7051C20.4928 16.4227 20.3917 16.1148 20.1526 15.9407L20.1446 15.9345C20.1342 15.9262 20.1144 15.91 20.0865 15.8853C20.0309 15.8358 19.9427 15.7518 19.8325 15.6277C19.6123 15.3798 19.3021 14.9698 18.9858 14.3512C18.3546 13.1168 17.6871 11.0279 17.6871 7.70221C17.6871 5.97893 17.0458 4.31803 15.8915 3.08684C14.7359 1.85415 13.1586 1.15259 11.5039 1.15259ZM17.7625 14.9768C17.9253 15.2952 18.0892 15.5713 18.2469 15.8091H4.76089C4.9186 15.5713 5.08257 15.2952 5.24537 14.9768C5.98816 13.5243 6.69476 11.2162 6.69476 7.70221C6.69476 6.31577 7.21151 4.99432 8.11874 4.02661C9.02456 3.0604 10.2433 2.52663 11.5039 2.52663C12.7646 2.52663 13.9833 3.0604 14.8891 4.02661C15.7963 4.99432 16.3131 6.31577 16.3131 7.70221C16.3131 11.2162 17.0197 13.5243 17.7625 14.9768Z" fill="#292927"/>
               </svg>
             </div>

@@ -180,6 +180,26 @@ const ConsumptionMonthly = () => {
     }
   };
   
+
+  const handleTabClick = (tab) => {
+    if (tab === activeTab) return; // Don't do anything if clicking current tab
+    
+    // Navigate to appropriate route based on tab
+    switch (tab) {
+      case 'Gas':
+        navigate(`/months/${month}`);
+        break;
+      case 'Power':
+        navigate(`/power/${month}`);
+        break;
+      case 'Internet':
+        navigate(`/internet/${month}`);
+        break;
+      default:
+        break;
+    }
+  };
+
   
   
 
@@ -196,19 +216,19 @@ const ConsumptionMonthly = () => {
     <div className="bg-ebebe6">
   <div className="tabs-flex-container">
     <button
-      onClick={() => setActiveTab('Gas')}
+      onClick={() => handleTabClick('Gas')}
       className={`tab-button ${activeTab === 'Gas' ? 'active' : ''}`}
     >
       Gas
     </button>
     <button
-      onClick={() => setActiveTab('Power')}
+      onClick={() => handleTabClick('Power')}
       className={`tab-button ${activeTab === 'Power' ? 'active' : ''}`}
     >
       Power
     </button>
     <button
-      onClick={() => setActiveTab('Internet')}
+      onClick={() => handleTabClick('Internet')}
       className={`tab-button ${activeTab === 'Internet' ? 'active' : ''}`}
     >
       Internet

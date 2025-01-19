@@ -33,23 +33,21 @@ const App = () => {
 
   return (
     <div className="home-container">
- <div className="welcome-wrapper">
-                <h1 className="welcome-text">Welcome</h1>
-            </div>
+      <div className="welcome-wrapper">
+        <h1 className="welcome-text">Welcome</h1>
+        <DynamicGasDropdown />
+      </div>
       
      <div className="main-top-card">
      <div className="header">  
-
-      
-
         <div className="home-gas-data">
-            <div className="total-gas-weight">  
+            {/* <div className="total-gas-weight">  
                 13kg <span>Gas Cylinder</span> 
                 
-            </div>
-            <div className="home-gasias">
+            </div> */}
+            {/* <div className="home-gasias">
             <DynamicGasDropdown />
-          </div>   
+          </div>    */}
             {/* <div className="home-gas">
                 <button className='home-gas-btn'><span className='home-gas-text'>Home Gas</span></button>
             </div>  */}
@@ -91,7 +89,7 @@ const App = () => {
         <div className="current-weight">  
             <h3 className='current-weight-text'>Current Weight</h3>  
             <div className="current-weight-kgs">{currentWeight} kg  </div>
-            <div className="days-remaining">You can cook a proximatly <span>47 meals</span> </div>  
+            <div className="days-remaining">You have 23 cooking days </div>  
         </div>  
 
 
