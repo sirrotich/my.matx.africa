@@ -59,21 +59,18 @@
     color: white;
   }
   
-  .welcome-text {
-    /* font-family: 'Bai Jamjuree'; */
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 25.19px;
-    letter-spacing: -0.04em;
-    text-align: left;
-    text-underline-position: from-font;
-    text-decoration-skip-ink: none;
-    color: var(--text-text-neutral-9, #292927);
-    width: 200px;
-    height: 25px;
-    gap: 0px;
-    opacity: var(--TextText-Opacity75);
-    margin-top: -10px;
+  .welcome-text-home {
+    font-family: 'Bai Jamjuree';
+    font-size: 18px;
+      font-weight: 500;
+      line-height: 25.34px;
+      letter-spacing: -0.04em;
+      text-align: left;
+      text-underline-position: from-font;
+      text-decoration-skip-ink: none;
+      color: #292927;
+          margin-top: -10px;
+          padding-left: 5px;
 
   }
   
@@ -84,6 +81,33 @@
     border-radius: 16px;
     padding: 4px;
     margin-top: -10px;
+  }
+
+
+  .input-container.error {
+    border: 2px solid #FF6565; /* Specific red color from your design */
+    background: #FFFFFF;
+  }
+
+  .error-text {
+
+    font-family: 'Bai Jamjuree';
+    font-size: 12.67px;
+    font-weight: 500;
+    line-height: 19.01px;
+    letter-spacing: -0.025em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+    color: #FF6565;
+    font-size: 14px;
+    position: absolute;
+    left: 0;
+    /* Exact positioning below input */
+    top: 100%;
+    padding-left: 15px;
+    padding-top: 5px;
   }
   
   .input-container input {
@@ -117,6 +141,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
   }
   
   .login-btn.disabled {

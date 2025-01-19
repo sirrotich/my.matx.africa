@@ -28,6 +28,12 @@ body {
   border: 2px solid var(--Colors-Brand-Primary-100, #004A4C);
   padding: 14px;
 }
+.welcome-wrapper {
+  display: flex;
+  align-items: center;
+  padding-top: -10px;
+  width: 100%;
+}
 
 
 .home-container .welcome-text {
@@ -53,9 +59,10 @@ body {
   padding: 10px;
   border-radius: 32px;
   width: 100%;
-  min-height: 231px;
+  min-height: 186px;
   margin-bottom: 5px;
   z-index: 2; /* Ensure it's above .home-analytic */
+  margin-top: 15px;
 }
 
 .home-gas-data {
@@ -109,7 +116,7 @@ body {
 }
 .gas-pad {
   display: flex;
-  padding-top: 25px;
+  margin-top: -10px;
 }
 
 .gas-pad-item span{
@@ -214,7 +221,7 @@ body {
   border-radius: 32px;
   
   position: relative;
-  top: -80px; /* Adjust this value to control overlap */
+  top: -100px; /* Adjust this value to control overlap */
   padding: 15px;
 }
 
@@ -224,12 +231,12 @@ body {
   flex-direction: column;
   text-align: center;
   color: var(--text-text-primary-100, #004A4C);
-  padding-top: 60px;
+  padding-top: 90px;
 }
 
 .hometoday, .homeweek, .homeaverage svg {
   
-  padding-top: 60px;
+  padding-top: 90px;
 }
 
 
@@ -251,7 +258,7 @@ body {
   font-family:'Bai Jamjuree';
 }
 .vertical-line {
-  margin-top: 70px; /* Adjust value as needed */
+  margin-top: 90px; /* Adjust value as needed */
 }
 .home-hub-card {
   width: 100%;
@@ -360,14 +367,14 @@ body {
 
 .navigation-home {
   display: flex;
-  height: 77px;
+  height: 64px;
   top: 561px;
   gap: 0px;
   border-radius: var(--Spacingnone0) 0px 20px 20px;
   border: 2px 0px 0px 0px;
   opacity: 0px;
   background: var(--surface-surface-neutral-2, #EBEBE6);
-  margin-top: 25px;
+  margin-top: 37px;
   width: 356px;
   display: flex;  
   flex-direction: row;  
@@ -423,13 +430,13 @@ body {
 @media (max-width: 480px) {
   .main-top-card {
     max-width: 90vw; /* Slightly narrower on tablets */
-    height: 211px;
+    height: 186px;
     padding: 0 20px; /* More padding on tablets */
   }
 
   .home-analytic {
     max-width: 90vw; 
-    height: 140px;/* Slightly narrower on tablets */
+    height: 170px;/* Slightly narrower on tablets */
   }
 }
 

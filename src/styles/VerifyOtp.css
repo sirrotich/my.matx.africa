@@ -93,7 +93,20 @@ body {
     padding: var(--SpacingSpacing-md16);
     
 }
+.otp-input-container input.error {
+    border: 2px solid #FF6565;
+}
 
+.otp-error-message {
+    color: #FF6565;
+    text-align: left;
+    padding-left: 16px;
+    font-weight: 500;
+    font-family: 'Bai Jamjuree';
+font-size: 12.55px;
+
+
+}
 /* Tiny placeholder styles */
 .otp-input-container input::placeholder {
     font-size: 12px; /* Tiny placeholder size */

@@ -162,7 +162,6 @@ html, body {
     z-index: 20;
     height: 337px;
     padding: 5px;
-    padding-left: 20px;
 
   }
 
@@ -409,7 +408,7 @@ margin-top: 20px;
 }
 
 .dropdown-button {
-  width: 91.22px;
+  width: 98.22px;
   height: 28.44px;
   padding: 4px 12px;
   gap: 8px;
@@ -442,7 +441,7 @@ margin-top: 20px;
   padding-top: 20px;
   margin-top: -11.5px;
   z-index: 1;
-  width: 91.22px;
+  width: 98.22px;
   margin-right: 20px;
 }
 
