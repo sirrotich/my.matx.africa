@@ -9,7 +9,7 @@ const BarTooltip = ({ value, position, onViewDetails, type = 'gas', dataType }) 
       case 'power':
         return `${value} ${dataType === 'outage' ? 'Hrs Outage' : 'Hrs'}`;
       case 'internet':
-        return `${value} ${dataType === 'offline' ? 'Hrs Offline' : 'GB'}`;
+        return `${value} ${dataType === 'offline' ? 'Hrs Offline' : 'Hrs Online'}`;
       default:
         return `${value.toFixed(2)}`;
     }
