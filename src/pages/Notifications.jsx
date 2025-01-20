@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/Notifications.css';
+
+const BASE_URL = 'https://apis.gasmat.africa';
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -9,70 +12,146 @@ const Notifications = () => {
     sms: true,
     email: false
   });
+  const [userInfo, setUserInfo] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchUserPreferences = async () => {
+    try {
+      const userId = localStorage.getItem('user_id');
+      const response = await axios.get(`${BASE_URL}/notifications/user_preferences/${userId}`);
+      const cachedUserInfo = JSON.parse(localStorage.getItem('cached_user_info'));
+      
+      let updatedPreferences = {
+        sms: response.data.sms_enabled,
+        email: response.data.email_enabled
+      };
+
+      // Auto-enable SMS if email is removed and SMS is available
+      if (!cachedUserInfo.email && cachedUserInfo.phone) {
+        updatedPreferences = {
+          sms: true,
+          email: false
+        };
+      }
+
+      // Auto-enable email if phone is removed and email is available
+      if (!cachedUserInfo.phone && cachedUserInfo.email) {
+        updatedPreferences = {
+          sms: false,
+          email: true
+        };
+      }
+
+      setNotifications(updatedPreferences);
+      setUserInfo(cachedUserInfo);
+    } catch (error) {
+      console.error('Error fetching preferences:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserPreferences();
+  }, []);
 
   const handleNavigate = (path) => {
     setActiveNav(path);
     navigate(path);
   };
-  
-  const handleToggle = (type) => {
+
+  const handleToggle = async (type) => {
+    if (type === 'email' && !userInfo?.email) return;
+    if (type === 'sms' && !userInfo?.phone) return;
+
+    const otherType = type === 'email' ? 'sms' : 'email';
+    if (!notifications[otherType] && notifications[type]) return;
+
+    // Optimistic update
+    const newValue = !notifications[type];
     setNotifications(prev => ({
       ...prev,
-      [type]: !prev[type]
+      [type]: newValue
     }));
+
+    try {
+      const userId = localStorage.getItem('user_id');
+      const payload = {
+        user_id: userId,
+        email_enabled: type === 'email' ? newValue : notifications.email,
+        sms_enabled: type === 'sms' ? newValue : notifications.sms,
+        push_enabled: true
+      };
+
+      await axios.put(`${BASE_URL}/notifications/update_notification_preferences`, payload);
+    } catch (error) {
+      // Revert on error
+      setNotifications(prev => ({
+        ...prev,
+        [type]: !newValue
+      }));
+      console.error('Error updating preferences:', error);
+    }
   };
 
   return (
     <div className="notifications-page">
-      {/* Header */}
+      {isLoading && (
+        <div className="loader-overlay">
+          <div className="loader-spinner"></div>
+        </div>
+      )}
+
       <div className="notifications-header">
         <div className="back-buttn" onClick={() => handleNavigate('/profile')}>
-        <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M7.81406 7.35009C8.08235 7.61839 8.08235 8.05339 7.81406 8.32169L5.32275 10.813H18.7786C19.1581 10.813 19.4657 11.1206 19.4657 11.5C19.4657 11.8794 19.1581 12.187 18.7786 12.187H5.32275L7.81406 14.6783C8.08235 14.9466 8.08235 15.3816 7.81406 15.6499C7.54576 15.9182 7.11076 15.9182 6.84246 15.6499L3.17834 11.9858C2.91004 11.7175 2.91004 11.2825 3.17834 11.0142L6.84246 7.35009C7.11076 7.08179 7.54576 7.08179 7.81406 7.35009Z" fill="#292927"/>
-</svg>
-
+          <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" clipRule="evenodd" d="M7.81406 7.35009C8.08235 7.61839 8.08235 8.05339 7.81406 8.32169L5.32275 10.813H18.7786C19.1581 10.813 19.4657 11.1206 19.4657 11.5C19.4657 11.8794 19.1581 12.187 18.7786 12.187H5.32275L7.81406 14.6783C8.08235 14.9466 8.08235 15.3816 7.81406 15.6499C7.54576 15.9182 7.11076 15.9182 6.84246 15.6499L3.17834 11.9858C2.91004 11.7175 2.91004 11.2825 3.17834 11.0142L6.84246 7.35009C7.11076 7.08179 7.54576 7.08179 7.81406 7.35009Z" fill="#292927"/>
+          </svg>
         </div>
         <span>Notifications</span>
       </div>
 
-      {/* Notifications Settings Container */}
       <div className="notifications-container">
         <div className="notifications-card">
           <h2>Where you'll receive notifications</h2>
           
-          {/* SMS Toggle */}
-          <div className="notification-item">
+          <div className={`notification-item ${!userInfo?.phone ? 'disabled' : ''}`}>
             <div className="notification-left">
             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M10.8885 11.7778C10.8885 11.1641 11.386 10.6666 11.9996 10.6666H24.4441C25.0577 10.6666 25.5552 11.1641 25.5552 11.7778V20.6666C25.5552 21.2803 25.0577 21.7778 24.4441 21.7778H14.6318C13.8893 21.7778 13.1869 22.1153 12.7231 22.6952L10.8885 24.9883V11.7778ZM11.9996 9.33331C10.6496 9.33331 9.55518 10.4277 9.55518 11.7778V25.3685C9.55518 26.5028 10.9836 27.0039 11.6922 26.1181L13.7642 23.5281C13.9751 23.2645 14.2943 23.1111 14.6318 23.1111H24.4441C25.7941 23.1111 26.8885 22.0167 26.8885 20.6666V11.7778C26.8885 10.4277 25.7941 9.33331 24.4441 9.33331H11.9996ZM13.1106 14.4444C13.1106 14.0762 13.409 13.7778 13.7772 13.7778L19.1106 13.7778C19.4788 13.7778 19.7772 14.0762 19.7772 14.4444C19.7772 14.8126 19.4788 15.1111 19.1106 15.1111L13.7772 15.1111C13.409 15.1111 13.1106 14.8126 13.1106 14.4444ZM13.1106 18C13.1106 17.6318 13.409 17.3333 13.7772 17.3333H22.6661C23.0343 17.3333 23.3328 17.6318 23.3328 18C23.3328 18.3682 23.0343 18.6667 22.6661 18.6667H13.7772C13.409 18.6667 13.1106 18.3682 13.1106 18Z" fill="#292927"/>
-</svg>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.8889 11.7779C10.8889 11.1643 11.3863 10.6668 12 10.6668H24.4444C25.0581 10.6668 25.5555 11.1643 25.5555 11.7779V20.6668C25.5555 21.2805 25.0581 21.7779 24.4444 21.7779H14.6322C13.8896 21.7779 13.1873 22.1155 12.7234 22.6954L10.8889 24.9885V11.7779ZM12 9.3335C10.65 9.3335 9.55554 10.4279 9.55554 11.7779V25.3686C9.55554 26.503 10.984 27.004 11.6926 26.1183L13.7646 23.5283C13.9754 23.2647 14.2947 23.1113 14.6322 23.1113H24.4444C25.7945 23.1113 26.8889 22.0169 26.8889 20.6668V11.7779C26.8889 10.4279 25.7945 9.3335 24.4444 9.3335H12ZM13.1111 14.4444C13.1111 14.0763 13.4096 13.7778 13.7778 13.7778L19.1111 13.7778C19.4793 13.7778 19.7778 14.0763 19.7778 14.4444C19.7778 14.8126 19.4793 15.1111 19.1111 15.1111L13.7778 15.1111C13.4096 15.1111 13.1111 14.8126 13.1111 14.4444ZM13.1111 18C13.1111 17.6318 13.4096 17.3333 13.7778 17.3333L22.6667 17.3333C23.0349 17.3333 23.3333 17.6318 23.3333 18C23.3333 18.3682 23.0349 18.6667 22.6667 18.6667H13.7778C13.4096 18.6667 13.1111 18.3682 13.1111 18Z" fill="#292927"/>
+            </svg>
 
-              <span>SMS</span>
+              <span>SMS {!userInfo?.phone && '(No phone number)'}</span>
             </div>
-            <div className={`toggle-switch ${notifications.sms ? 'active' : ''}`} onClick={() => handleToggle('sms')}>
+            <div 
+              className={`toggle-switch ${notifications.sms ? 'active' : ''} ${!userInfo?.phone ? 'disabled' : ''}`} 
+              onClick={() => handleToggle('sms')}
+            >
               <div className="toggle-slider"></div>
             </div>
           </div>
           
           <div className="divider"></div>
           
-          {/* Email Toggle */}
-          <div className="notification-item">
+          <div className={`notification-item ${!userInfo?.email ? 'disabled' : ''}`}>
             <div className="notification-left">
             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M19.4795 8.86576C18.7054 8.40129 17.7383 8.40129 16.9642 8.86576L9.85305 13.1324C9.11677 13.5742 8.66626 14.3699 8.66626 15.2285V24.8886C8.66626 26.2387 9.76068 27.3331 11.1107 27.3331H25.3329C26.683 27.3331 27.7774 26.2387 27.7774 24.8886V15.2285C27.7774 14.3699 27.3269 13.5742 26.5906 13.1324L19.4795 8.86576ZM17.6502 10.0091C18.002 9.79796 18.4416 9.79796 18.7935 10.0091L25.9046 14.2758C26.2393 14.4766 26.444 14.8382 26.444 15.2285V24.8886C26.444 25.5023 25.9466 25.9997 25.3329 25.9997H11.1107C10.4971 25.9997 9.99959 25.5023 9.99959 24.8886V15.2285C9.99959 14.8382 10.2044 14.4766 10.539 14.2758L17.6502 10.0091ZM14.1598 17.2317C13.8582 17.0205 13.4425 17.0939 13.2314 17.3955C13.0202 17.6972 13.0936 18.1128 13.3952 18.324L17.8397 21.4351C18.0692 21.5958 18.3747 21.5958 18.6043 21.4351L23.0487 18.324C23.3504 18.1128 23.4237 17.6972 23.2126 17.3955C23.0014 17.0939 22.5858 17.0205 22.2841 17.2317L18.222 20.0752L14.1598 17.2317Z" fill="#292927"/>
-</svg>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.4799 8.86593C18.7058 8.40146 17.7387 8.40146 16.9646 8.86593L9.85348 13.1326C9.1172 13.5744 8.66669 14.37 8.66669 15.2287V24.8888C8.66669 26.2388 9.7611 27.3332 11.1111 27.3332H25.3334C26.6834 27.3332 27.7778 26.2388 27.7778 24.8888V15.2287C27.7778 14.37 27.3273 13.5744 26.591 13.1326L19.4799 8.86593ZM17.6506 10.0093C18.0025 9.79813 18.442 9.79813 18.7939 10.0093L25.905 14.2759C26.2397 14.4767 26.4445 14.8384 26.4445 15.2287V24.8888C26.4445 25.5024 25.947 25.9999 25.3334 25.9999H11.1111C10.4975 25.9999 10 25.5024 10 24.8888V15.2287C10 14.8384 10.2048 14.4767 10.5395 14.2759L17.6506 10.0093ZM14.1601 17.2317C13.8585 17.0205 13.4428 17.0939 13.2316 17.3955C13.0205 17.6972 13.0938 18.1128 13.3955 18.324L17.8399 21.4351C18.0695 21.5958 18.375 21.5958 18.6045 21.4351L23.049 18.324C23.3506 18.1128 23.424 17.6972 23.2128 17.3955C23.0017 17.0939 22.586 17.0205 22.2844 17.2317L18.2222 20.0752L14.1601 17.2317Z" fill="#292927"/>
+            </svg>
 
-              <span>Email</span>
+              <span>Email {!userInfo?.email && '(No email address)'}</span>
             </div>
-            <div className={`toggle-switch ${notifications.email ? 'active' : ''}`} onClick={() => handleToggle('email')}>
+            <div 
+              className={`toggle-switch ${notifications.email ? 'active' : ''} ${!userInfo?.email ? 'disabled' : ''}`} 
+              onClick={() => handleToggle('email')}
+            >
               <div className="toggle-slider"></div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Navigation */}
+            {/* Bottom Navigation */}
       <div className="bottom-nav">
         <div className="navigation-notifications">
           <div className={`nav-item ${activeNav === '/' ? 'active' : ''}`} onClick={() => handleNavigate('/')}>
@@ -99,9 +178,8 @@ const Notifications = () => {
         </div>
 
         <div 
-                    className={`nav-item active${activeNav === '/notifications' ? 'active' : ''}`} 
+                    className={`nav-item ${activeNav === '/alerts' ? 'active' : ''}`} onClick={() => handleNavigate('/alerts')} 
                     id="grid-icon" 
-                    onClick={() => handleNavigate('/notifications')}
                 >         <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5039 1.15259C9.8492 1.15259 8.27197 1.85415 7.11632 3.08684C5.96208 4.31803 5.32071 5.97893 5.32071 7.70221C5.32071 11.0279 4.65326 13.1168 4.022 14.3512C3.70571 14.9698 3.39549 15.3798 3.17536 15.6277C3.06512 15.7518 2.97698 15.8358 2.92129 15.8853C2.89344 15.91 2.87366 15.9262 2.86327 15.9345L2.85528 15.9407C2.61613 16.1148 2.51502 16.4227 2.60517 16.7051C2.6961 16.9898 2.96072 17.1831 3.25964 17.1831H19.7482C20.0471 17.1831 20.3117 16.9898 20.4027 16.7051C20.4928 16.4227 20.3917 16.1148 20.1526 15.9407L20.1446 15.9345C20.1342 15.9262 20.1144 15.91 20.0865 15.8853C20.0309 15.8358 19.9427 15.7518 19.8325 15.6277C19.6123 15.3798 19.3021 14.9698 18.9858 14.3512C18.3546 13.1168 17.6871 11.0279 17.6871 7.70221C17.6871 5.97893 17.0458 4.31803 15.8915 3.08684C14.7359 1.85415 13.1586 1.15259 11.5039 1.15259ZM17.7625 14.9768C17.9253 15.2952 18.0892 15.5713 18.2469 15.8091H4.76089C4.9186 15.5713 5.08257 15.2952 5.24537 14.9768C5.98816 13.5243 6.69476 11.2162 6.69476 7.70221C6.69476 6.31577 7.21151 4.99432 8.11874 4.02661C9.02456 3.0604 10.2433 2.52663 11.5039 2.52663C12.7646 2.52663 13.9833 3.0604 14.8891 4.02661C15.7963 4.99432 16.3131 6.31577 16.3131 7.70221C16.3131 11.2162 17.0197 13.5243 17.7625 14.9768ZM10.5136 18.8996C10.3232 18.5714 9.90278 18.4596 9.57457 18.65C9.24636 18.8404 9.13464 19.2608 9.32503 19.589C9.54647 19.9708 9.86431 20.2876 10.2467 20.5079C10.6291 20.7282 11.0627 20.8441 11.504 20.8441C11.9453 20.8441 12.3789 20.7282 12.7613 20.5079C13.1438 20.2876 13.4616 19.9708 13.683 19.589C13.8734 19.2608 13.7617 18.8404 13.4335 18.65C13.1053 18.4596 12.6849 18.5714 12.4945 18.8996C12.3938 19.0731 12.2494 19.2171 12.0755 19.3172C11.9017 19.4174 11.7046 19.4701 11.504 19.4701C11.3034 19.4701 11.1064 19.4174 10.9325 19.3172C10.7587 19.2171 10.6142 19.0731 10.5136 18.8996Z" fill="#292927"/>
                 </svg>
@@ -118,6 +196,7 @@ const Notifications = () => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };
