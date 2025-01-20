@@ -1,14 +1,11 @@
-// Delivery.jsx
 import React, { useState, useEffect, useCallback } from 'react';
-import { ArrowLeft, MapPin, PenLine, Trash2, Home, BarChart2, Bell, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Delivery.css';
 import NewDeliveryAddress from '../components/NewDeliveryAddress';
 import DeleteDeliveryAddress from '../components/DeleteDeliveryAddress';
 
-
 const BASE_URL = 'https://apis.gasmat.africa/addresses';
-const POLLING_INTERVAL = 3000; // Poll every 3 seconds
+const POLLING_INTERVAL = 3000;
 
 const Delivery = () => {
   const [addresses, setAddresses] = useState([]);
@@ -18,12 +15,9 @@ const Delivery = () => {
   const [showDeleteDeliveryAddress, setShowDeleteDeliveryAddress] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
-
+  const [showNewDeliveryAddress, setShowNewDeliveryAddress] = useState(false);
   const navigate = useNavigate();
-
   const [selectedAddress, setSelectedAddress] = useState(null);
-
-
 
   const handleNavigate = (path) => {
     setActiveNav(path);
@@ -44,8 +38,6 @@ const Delivery = () => {
       }
 
       const data = await response.json();
-      
-      // Update addresses - now handling direct array response
       const newAddresses = Array.isArray(data) ? data : [];
       setAddresses(prevAddresses => {
         if (JSON.stringify(prevAddresses) !== JSON.stringify(newAddresses)) {
@@ -61,49 +53,32 @@ const Delivery = () => {
   }, [userId]);
 
   useEffect(() => {
-    fetchAddresses(); // Initial fetch
-
-    // Set up polling
+    fetchAddresses();
     const intervalId = setInterval(fetchAddresses, POLLING_INTERVAL);
-
-    // Cleanup on unmount
     return () => clearInterval(intervalId);
   }, [fetchAddresses]);
 
   const handleEdit = (address) => {
-    console.log('Editing address:', address); // For debugging
     setEditingAddress({
       delivery_address_id: address.delivery_address_id,
       matx_name: address.matx_name,
+      matx_id: address.matx_id,
       street: address.street,
       apartment: address.apartment,
       house_number: address.house_number,
-      general_location: address.general_location
+      general_location: address.general_location,
+      general_location_id: address.general_location_id
     });
     setIsEditing(true);
   };
-  
-const handleUpdate = async () => {
+
+  const handleUpdate = async () => {
     await fetchAddresses();
     setIsEditing(false);
     setEditingAddress(null);
   };
 
-// In your return statement, replace the EditDeliveryAddress with:
-{isEditing && editingAddress && (
-    <NewDeliveryAddress 
-        isEditing={true}
-        editingAddress={editingAddress}
-        onClose={() => {
-            setIsgetItem('user_id');ing(false);
-            setgetItem('user_id');ingAddress(null);
-        }}
-        onUpdate={handleUpdate}
-    />
-)}
-
-
-const handleDelete = async (addressId) => {
+  const handleDelete = async (addressId) => {
     try {
       const response = await fetch(`${BASE_URL}/delete_delivery_address/${addressId}`, {
         method: 'DELETE',
@@ -129,6 +104,17 @@ const handleDelete = async (addressId) => {
     }
   };
 
+  const handleAddAddress = () => {
+    setShowNewDeliveryAddress(true);
+    setIsEditing(false);
+    setEditingAddress(null);
+  };
+
+  const handleCloseNewAddress = () => {
+    setShowNewDeliveryAddress(false);
+    fetchAddresses();
+  };
+
   if (showDeleteDeliveryAddress) {
     return (
       <DeleteDeliveryAddress 
@@ -142,33 +128,28 @@ const handleDelete = async (addressId) => {
     );
   }
 
-  
-  
-  const handleAddAddress = () => {
-    setIsEditing(false);
-    setEditingAddress(null);
-  };
-
   return (
     <div className="delivery-container">
       <header className="delivery-header">
         <button className="back-button" onClick={() => window.history.back()}>
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M7.81404 6.84991C8.08234 7.11821 8.08234 7.5532 7.81404 7.8215L5.32274 10.3128H18.7786C19.1581 10.3128 19.4656 10.6204 19.4656 10.9998C19.4656 11.3793 19.1581 11.6868 18.7786 11.6868H5.32274L7.81404 14.1781C8.08234 14.4464 8.08234 14.8814 7.81404 15.1497C7.54574 15.418 7.11075 15.418 6.84245 15.1497L3.17832 11.4856C2.91002 11.2173 2.91002 10.7823 3.17832 10.514L6.84245 6.84991C7.11075 6.58161 7.54574 6.58161 7.81404 6.84991Z" fill="#292927"/>
-</svg>
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" clipRule="evenodd" d="M7.81404 6.84991C8.08234 7.11821 8.08234 7.5532 7.81404 7.8215L5.32274 10.3128H18.7786C19.1581 10.3128 19.4656 10.6204 19.4656 10.9998C19.4656 11.3793 19.1581 11.6868 18.7786 11.6868H5.32274L7.81404 14.1781C8.08234 14.4464 8.08234 14.8814 7.81404 15.1497C7.54574 15.418 7.11075 15.418 6.84245 15.1497L3.17832 11.4856C2.91002 11.2173 2.91002 10.7823 3.17832 10.514L6.84245 6.84991C7.11075 6.58161 7.54574 6.58161 7.81404 6.84991Z" fill="#292927"/>
+          </svg>
         </button>
         <span>Delivery Addresses</span>
       </header>
 
-<div className="delivery-content">
-  {isLoading && addresses.length === 0 ? (
-    <div className="loading-indicator">Loading addresses...</div>
-  ) : addresses.length === 0 ? (
-    <NewDeliveryAddress /> // Replace no-addresses div with AddressForm
-  ) : (
-    <>
-
-        {isEditing && editingAddress ? (
+      <div className="delivery-content">
+        {isLoading && addresses.length === 0 ? (
+          <div className="loading-indicator">Loading addresses...</div>
+        ) : showNewDeliveryAddress || addresses.length === 0 ? (
+          <NewDeliveryAddress 
+            onClose={handleCloseNewAddress}
+            onUpdate={fetchAddresses}
+          />
+        ) : (
+          <>
+            {isEditing && editingAddress ? (
               <NewDeliveryAddress 
                 isEditing={true}
                 editingAddress={editingAddress}
@@ -181,64 +162,57 @@ const handleDelete = async (addressId) => {
             ) : (
               <>
                 {addresses.map((address) => (
-             <div key={address.delivery_address_id} className="address-card">
-          <h2 className="address-type">{address.matx_name}</h2>
-          <p className="address-details">
-            {address.street}, {address.apartment}, Hse No: {address.house_number}
-          </p>
-          <div className="location">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.75C7.99594 2.75 4.75 5.99594 4.75 10C4.75 10.9073 5.17155 12.0709 5.90354 13.371C6.6242 14.651 7.59493 15.9758 8.58078 17.1823C9.56431 18.386 10.5499 19.4563 11.2906 20.2264C11.5656 20.5124 11.8063 20.7564 12 20.9499C12.1937 20.7564 12.4344 20.5124 12.7094 20.2264C13.4501 19.4563 14.4357 18.386 15.4192 17.1823C16.4051 15.9758 17.3758 14.651 18.0965 13.371C18.8284 12.0709 19.25 10.9073 19.25 10C19.25 5.99594 16.0041 2.75 12 2.75ZM11.4838 22.5441C11.484 22.5443 11.4841 22.5444 12 22L11.4838 22.5441ZM12.5166 22.5437L12.518 22.5424L12.523 22.5377L12.5414 22.5201L12.611 22.4532C12.6714 22.3948 12.7592 22.3093 12.8706 22.1993C13.0934 21.9794 13.4105 21.6614 13.7906 21.2662C14.5499 20.4767 15.5643 19.3754 16.5808 18.1314C17.5949 16.8902 18.6242 15.4911 19.4035 14.1069C20.1716 12.7428 20.75 11.3018 20.75 10C20.75 5.16751 16.8325 1.25 12 1.25C7.16751 1.25 3.25 5.16751 3.25 10C3.25 11.3018 3.82845 12.7428 4.59646 14.1069C5.3758 15.4911 6.40507 16.8902 7.41922 18.1314C8.43569 19.3754 9.45014 20.4767 10.2094 21.2662C10.5895 21.6614 10.9066 21.9794 11.1294 22.1993C11.2408 22.3093 11.3286 22.3948 11.389 22.4532L11.4586 22.5201L11.477 22.5377L11.4838 22.5441L12 23.0333L12.5166 22.5437ZM12 22L12.5166 22.5437C12.5164 22.5439 12.5159 22.5444 12 22ZM12 8.25C11.0335 8.25 10.25 9.0335 10.25 10C10.25 10.9665 11.0335 11.75 12 11.75C12.9665 11.75 13.75 10.9665 13.75 10C13.75 9.0335 12.9665 8.25 12 8.25Z" fill="#292927"/>
-            </svg>
-            <span>{address.general_location}</span>
-          </div>
-          <div className="action-buttons">
-          <button 
-                className="edit-button"
-                onClick={() => handleEdit(address)}
+                  <div key={address.delivery_address_id} className="address-card">
+                    <h2 className="address-type">{address.matx_name}</h2>
+                    <p className="address-details">
+                      {address.street}, {address.apartment}, Hse No: {address.house_number}
+                    </p>
+                    <div className="location">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M12 2.75C7.99594 2.75 4.75 5.99594 4.75 10C4.75 10.9073 5.17155 12.0709 5.90354 13.371C6.6242 14.651 7.59493 15.9758 8.58078 17.1823C9.56431 18.386 10.5499 19.4563 11.2906 20.2264C11.5656 20.5124 11.8063 20.7564 12 20.9499C12.1937 20.7564 12.4344 20.5124 12.7094 20.2264C13.4501 19.4563 14.4357 18.386 15.4192 17.1823C16.4051 15.9758 17.3758 14.651 18.0965 13.371C18.8284 12.0709 19.25 10.9073 19.25 10C19.25 5.99594 16.0041 2.75 12 2.75ZM11.4838 22.5441C11.484 22.5443 11.4841 22.5444 12 22L11.4838 22.5441Z" fill="#292927"/>
+                      </svg>
+                      <span>{address.general_location}</span>
+                    </div>
+                    <div className="action-buttons">
+                      <button className="edit-button" onClick={() => handleEdit(address)}>
+                      Edit
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.6161 8.94454C21.6901 7.8706 21.6901 6.1294 20.6161 5.05546L19.2019 3.64124C18.128 2.5673 16.3868 2.5673 15.3128 3.64124L4.21716 14.7369C3.76056 15.1935 3.4792 15.7962 3.42238 16.4394L3.18029 19.1799C3.08444 20.2649 3.99247 21.1729 5.0775 21.0771L7.81791 20.835C8.46114 20.7782 9.06386 20.4968 9.52047 20.0402L20.6161 8.94454ZM19.5555 6.11612C20.0436 6.60427 20.0436 7.39573 19.5555 7.88388L18.6058 8.83354L15.4238 5.65156L16.3735 4.7019C16.8616 4.21375 17.6531 4.21375 18.1412 4.7019L19.5555 6.11612ZM14.3632 6.71222L17.5451 9.8942L8.45981 18.9795C8.25226 19.1871 7.9783 19.315 7.68592 19.3408L4.9455 19.5829C4.7905 19.5966 4.66078 19.4669 4.67447 19.3119L4.91656 16.5714C4.94239 16.2791 5.07028 16.0051 5.27783 15.7976L14.3632 6.71222Z" fill="#FAFAF9"/>
+                        </svg>
+
+                        
+                      </button>
+                      <button 
+                        onClick={() => {
+                          setSelectedAddress(address);
+                          setShowDeleteDeliveryAddress(true);
+                        }}
+                        className="delete-button"
+                      >
+                      Delete
+
+                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.375 4C9.375 3.30964 9.93464 2.75 10.625 2.75H13.375C14.0654 2.75 14.625 3.30964 14.625 4V5.25H9.375V4ZM7.875 4V5.25H3C2.58579 5.25 2.25 5.58579 2.25 6C2.25 6.41421 2.58579 6.75 3 6.75H21C21.4142 6.75 21.75 6.41421 21.75 6C21.75 5.58579 21.4142 5.25 21 5.25H16.125V4C16.125 2.48122 14.8938 1.25 13.375 1.25H10.625C9.10622 1.25 7.875 2.48122 7.875 4ZM20.7387 9.13C20.8104 8.72205 20.5378 8.33319 20.1299 8.26146C19.7219 8.18973 19.3331 8.46229 19.2613 8.87025L17.2663 20.2165L17.2663 20.2166C17.1613 20.8143 16.6421 21.2501 16.0353 21.2501H7.96474C7.35792 21.2501 6.83872 20.8143 6.73363 20.2165L4.73867 8.87025C4.66694 8.46229 4.27808 8.18973 3.87013 8.26146C3.46217 8.33318 3.1896 8.72205 3.26133 9.13L5.25629 20.4763C5.48748 21.7912 6.62967 22.7501 7.96474 22.7501H16.0353C17.3703 22.7501 18.5125 21.7912 18.7437 20.4763L18.7437 20.4763L20.7387 9.13Z" fill="#FAFAF9"/>
+                        </svg>
+
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                <button 
+                  className="add-address-button"
+                  onClick={handleAddAddress}
                 >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.6161 8.94454C21.6901 7.8706 21.6901 6.1294 20.6161 5.05546L19.2019 3.64124C18.128 2.5673 16.3868 2.5673 15.3128 3.64124L4.21716 14.7369C3.76056 15.1935 3.4792 15.7962 3.42238 16.4394L3.18029 19.1799C3.08444 20.2649 3.99247 21.1729 5.0775 21.0771L7.81791 20.835C8.46114 20.7782 9.06386 20.4968 9.52047 20.0402L20.6161 8.94454ZM19.5555 6.11612C20.0436 6.60427 20.0436 7.39573 19.5555 7.88388L18.6058 8.83354L15.4238 5.65156L16.3735 4.7019C16.8616 4.21375 17.6531 4.21375 18.1412 4.7019L19.5555 6.11612ZM14.3632 6.71222L17.5451 9.8942L8.45981 18.9795C8.25226 19.1871 7.9783 19.315 7.68592 19.3408L4.9455 19.5829C4.7905 19.5966 4.66078 19.4669 4.67447 19.3119L4.91656 16.5714C4.94239 16.2791 5.07028 16.0051 5.27783 15.7976L14.3632 6.71222Z" fill="#FAFAF9"/>
-                </svg>
-                Edit
-            </button>
-
-
-
-
-
-             <button 
-                onClick={() => {
-                    setSelectedAddress(address);
-                    setShowDeleteDeliveryAddress(true);
-                }}
-                className="delete-button"
-                >
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.375 4C9.375 3.30964 9.93464 2.75 10.625 2.75H13.375C14.0654 2.75 14.625 3.30964 14.625 4V5.25H9.375V4ZM7.875 4V5.25H3C2.58579 5.25 2.25 5.58579 2.25 6C2.25 6.41421 2.58579 6.75 3 6.75H21C21.4142 6.75 21.75 6.41421 21.75 6C21.75 5.58579 21.4142 5.25 21 5.25H16.125V4C16.125 2.48122 14.8938 1.25 13.375 1.25H10.625C9.10622 1.25 7.875 2.48122 7.875 4ZM20.7387 9.13C20.8104 8.72205 20.5378 8.33319 20.1299 8.26146C19.7219 8.18973 19.3331 8.46229 19.2613 8.87025L17.2663 20.2165L17.2663 20.2166C17.1613 20.8143 16.6421 21.2501 16.0353 21.2501H7.96474C7.35792 21.2501 6.83872 20.8143 6.73363 20.2165L4.73867 8.87025C4.66694 8.46229 4.27808 8.18973 3.87013 8.26146C3.46217 8.33318 3.1896 8.72205 3.26133 9.13L5.25629 20.4763C5.48748 21.7912 6.62967 22.7501 7.96474 22.7501H16.0353C17.3703 22.7501 18.5125 21.7912 18.7437 20.4763L18.7437 20.4763L20.7387 9.13Z" fill="#FAFAF9"/>
-                            </svg>                Delete
-            </button>
-
-
-
-
-          </div>
-        </div>
-      ))}
-      <button 
-        className="add-address-button"
-        onClick={handleAddAddress}
-        >
-        Add Delivery Address
-      </button>
+                  Add Delivery Address
+                </button>
               </>
             )}
           </>
         )}
       </div>
 
-      {/* Bottom Navigation */}
-      <div className="bottom-nav">
+          {/* Bottom Navigation */}
+          <div className="bottom-nav">
         <div className="navigation-profile">
           <div className={`nav-item ${activeNav === '/' ? 'active' : ''}`} onClick={() => handleNavigate('/')}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -284,7 +258,6 @@ const handleDelete = async (addressId) => {
           </div>
         </div>
       </div>
-      
     </div>
   );
 };
