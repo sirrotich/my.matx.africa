@@ -18,6 +18,7 @@ import Help from "../pages/Help";
 import Alerts from "../pages/Alerts";
 import PowerMonthly from "../pages/PowerMonthly";
 import InternetMonthly from "../pages/InternetMonthly";
+import Delivery from "../pages/Delivery";
 const AppRouter = () => {
   return (
     <Router>
@@ -89,14 +90,24 @@ const AppRouter = () => {
           }
         />
 
-<Route
-          path="/about"
-          element={
-            <ProtectedRoute>
-              <About />
-            </ProtectedRoute>
-          }
-        />
+        <Route
+                  path="/about"
+                  element={
+                    <ProtectedRoute>
+                      <About />
+                    </ProtectedRoute>
+                  }
+                />
+
+
+      <Route
+                path="/delivery"
+                element={
+                  <ProtectedRoute>
+                    <Delivery />
+                  </ProtectedRoute>
+                }
+              />
 
 
       <Route
