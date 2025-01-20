@@ -9,30 +9,20 @@ const DynamicGasDropdown = () => {
   const { locations, selectedLocation, setSelectedLocation } = useGas();
   const location = useLocation();
 
-
-  // Return null if there's no data
-  if (!locations?.length || !selectedLocation) {
-    return null;
-  }
-  
   const isAnalyticsPage = location.pathname === '/analytics';
   const isMonthlyPage = location.pathname.includes('/months/');
   const isPowerPage = location.pathname.includes('/power/');
   const isInternetPage = location.pathname.includes('/internet/');
   const isHomePage = location.pathname.includes('/');
 
-
-
-
   useEffect(() => {
     if (buttonRef.current) {
-      // Get the width of the button including padding
       setDropdownWidth(Math.max(buttonRef.current.offsetWidth, 92));
     }
   }, [selectedLocation]);
 
   const toggleDropdown = () => {
-    if (locations.length > 1) {
+    if (locations?.length > 1) {
       setIsOpen(!isOpen);
     }
   };
@@ -41,8 +31,6 @@ const DynamicGasDropdown = () => {
     setSelectedLocation(location);
     setIsOpen(false);
   };
-
-  const dropdownLocations = locations.filter(loc => loc.matx_id !== selectedLocation?.matx_id);
 
   const getStyles = () => {
     const baseButtonStyles = {
@@ -55,7 +43,7 @@ const DynamicGasDropdown = () => {
       gap: '8px',
       minWidth: '92px',
       width: 'fit-content',
-      cursor: locations.length > 1 ? 'pointer' : 'default',
+      cursor: locations?.length > 1 ? 'pointer' : 'default',
       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
       fontSize: '11px',
       fontFamily: 'Bai Jamjuree',
@@ -158,8 +146,13 @@ const DynamicGasDropdown = () => {
     };
   };
 
-  const styles = getStyles();
+  // Early return if no data
+  if (!locations?.length || !selectedLocation) {
+    return null;
+  }
 
+  const styles = getStyles();
+  const dropdownLocations = locations.filter(loc => loc.matx_id !== selectedLocation?.matx_id);
   const showDropdownButton = dropdownLocations.length > 0;
 
   return (
