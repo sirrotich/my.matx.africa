@@ -109,7 +109,7 @@ const EditMobile = ({ onClose, onUpdate, currentUserInfo }) => {
     try {
       const userId = getUserId();
       const response = await fetch('https://apis.gasmat.africa/users/delete-phone', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
