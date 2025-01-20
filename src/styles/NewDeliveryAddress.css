@@ -1,0 +1,150 @@
+.address-container {
+    position: fixed;
+    inset: 0;
+    background: #EBEBE6;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+  }
+  
+  .address-form {
+    background: #EBEBE6;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 420px;
+    height: calc(100% - 80px); /* Adjust for bottom navigation */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .input-group {
+    background: #FAFAF9;
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+  }
+  
+  .input-group label {
+    font-family: 'Bai Jamjuree';
+    font-size: 12.66px;
+    font-weight: 500;
+    color: #292927;
+    line-height: 16px;
+  }
+  
+  .input-group input,
+  .select-input {
+    font-family: 'Bai Jamjuree';
+    font-size: 14px;
+    font-weight: 500;
+    color: #292927;
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 100%;
+    outline: none;
+  }
+  
+  .input-group input::placeholder {
+    color: #292927;
+  }
+  
+  
+  .select-content {
+    position: relative;
+    
+  }
+  
+  .select-display {
+   
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-family: 'Bai Jamjuree';
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    letter-spacing: -0.025em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    padding-left: -100px;
+  }
+  
+  .select-icon {
+    color: #A3A29E;
+  }
+  
+  .select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 4px;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .select-dropdown .search-input {
+    width: 100%;
+    padding: 10px 16px;
+    border: none;
+    outline: none;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 14px;
+    border-bottom: 1px solid #D9D9D6;
+  }
+  
+  .options-list {
+    max-height: 150px;
+    overflow-y: auto;
+  }
+  
+  .option {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 14px;
+    color: #292927;
+    transition: background 0.2s ease;
+  }
+  
+  .option:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  .save-button {
+    background: #004A4C;
+    color: #FAFAF9;
+    border: none;
+    border-radius: 32px;
+    height: 50px;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: auto;
+    transition: background-color 0.2s ease;
+  }
+  
+  .save-button:disabled {
+    background: #E2E1DA;
+    color: #A3A29E;
+    cursor: not-allowed;
+  }
+  
+
+  
