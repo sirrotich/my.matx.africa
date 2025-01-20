@@ -89,7 +89,7 @@ const EditEmail = ({ onClose, onUpdate, currentUserInfo }) => {
     try {
       const userId = getUserId();
       const response = await fetch('https://apis.gasmat.africa/users/delete-email', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
